@@ -34,6 +34,7 @@
 // }
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ActionListener;
@@ -49,15 +50,22 @@ public class fileApp {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-
+        frame.setMinimumSize(new Dimension(100, 100));
         ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");
         ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
+        Image image = fileIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        fileIcon= new ImageIcon(newimg);
+        image = folderIcon.getImage(); // transform it
+        newimg = image.getScaledInstance(50,50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        folderIcon = new ImageIcon(newimg);
         int folWidth  = folderIcon.getImage().getWidth(null);
         int folHeight = folderIcon.getImage().getHeight(null);
         int filWidth  = fileIcon.getImage().getWidth(null);
         int filHeight = fileIcon.getImage().getHeight(null);
+        int maxWidth= (folWidth>filWidth?folWidth:filWidth);
         // File f = new File(args[0]);
-        String dirpath= "/home/pijus/Desktop";
+        String dirpath= "/home/pijus";
         File f = new File(dirpath);
         if(f.exists()){
             list=f.list();
@@ -67,6 +75,7 @@ public class fileApp {
                 File f1= new File(dirpath+"/"+list[i]);
                 if(f1.isFile()){
                     buttons[i]=new JButton(fileIcon);
+
                     frame.add(buttons[i]);
                 }
                 else if(f1.isDirectory()){
@@ -80,7 +89,12 @@ public class fileApp {
                     int space=10;
                     // b.setBounds(componentEvent.getComponent().getSize().width/2,componentEvent.getComponent().getSize().height/2,95,30);
                     int x = componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
-                    int y = componentEvent.getComponent().getSize().height/space;
+                    // int y = componentEvent.getComponent().getSize().height/space;
+                    int y=75;
+                    while(2*x<3*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
+                        space--;
+                        x=componentEvent.getComponent().getSize().width/space;
+                    }
                     int countx=0;
                     int county=0;
                     for(int i=0;i<n;i++){
