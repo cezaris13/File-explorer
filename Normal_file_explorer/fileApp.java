@@ -21,7 +21,10 @@ public class fileApp {
     static ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
     static JPanel fileContainer;
     static JFrame frame;
+    DefaultMutableTreeNode head;
     public fileApp(){
+        int leftMenux=200;
+        int leftMenuy=600;
         frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -29,7 +32,7 @@ public class fileApp {
 
         fileContainer=new JPanel();//file panel
         // fileContainer.setBounds(80,0,420,500);
-        fileContainer.setLocation(80,0);
+        fileContainer.setLocation(leftMenux,0);
         fileContainer.setPreferredSize(new Dimension(420,500));
         fileContainer.setLayout(null);
         fileContainer.setBackground(Color.gray);
@@ -49,19 +52,12 @@ public class fileApp {
         String dirpath="/home/pijus/Desktop";
         updateFiles(dirpath);
 
-        DefaultMutableTreeNode style=new DefaultMutableTreeNode("Style");  //padaryti su folderiais
-        DefaultMutableTreeNode color=new DefaultMutableTreeNode("color");  
-        DefaultMutableTreeNode font=new DefaultMutableTreeNode("font");  
-        style.add(color);  
-        style.add(font);  
-        DefaultMutableTreeNode red=new DefaultMutableTreeNode("red");  
-        DefaultMutableTreeNode blue=new DefaultMutableTreeNode("blue");  
-        DefaultMutableTreeNode black=new DefaultMutableTreeNode("black");  
-        DefaultMutableTreeNode green=new DefaultMutableTreeNode("green");  
-        color.add(red); color.add(blue); color.add(black); color.add(green);      
-        JTree jt=new JTree(style);  
+
+        head=new DefaultMutableTreeNode(dirpath);
+        recursiveFiles(dirpath,"",head);
+        JTree jt=new JTree(head);
         JPanel leftMenu=new JPanel();//left panel (todo later)
-        leftMenu.setBounds(0,0,80,600);
+        leftMenu.setBounds(0,0,leftMenux,leftMenuy);
         leftMenu.setLayout(new BorderLayout());
 
         leftMenu.setBackground(Color.yellow);
@@ -85,7 +81,7 @@ public class fileApp {
                     int x = componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    leftMenu.setSize(80,yy);
+                    leftMenu.setSize(leftMenux,yy);
                     int y=75;
                     while(2*x<3*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
                         space--;
@@ -108,7 +104,7 @@ public class fileApp {
                         countx++;
                     }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
-                    fileContainer.setSize(xx-80-20,(newY>yy?newY:yy));
+                    fileContainer.setSize(xx-leftMenux-20,(newY>yy?newY:yy));
                     // fileContainer.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
                     // fileContainer.repaint();
                     // fileContainer.revalidate();
@@ -156,7 +152,40 @@ public class fileApp {
     public static void main(String[] args) {
      fileApp GUI= new fileApp();
     }
-
+    public static void recursiveFiles(String dirpath,String ex,DefaultMutableTreeNode head){
+        File f = new File(dirpath);
+        if(f.exists()){
+            String list1[]=f.list();
+            int n=list1.length;
+            for(int i=0;i<n;i++){
+                File f1= new File(dirpath+"/"+list1[i]);
+                DefaultMutableTreeNode temp=new DefaultMutableTreeNode(list1[i]);
+                head.add(temp);
+                // if(f1.isFile()){
+                //     String extension = "";
+                //     int j = f1.getName().lastIndexOf('.');
+                //     if (j >= 0) {
+                //         extension = f1.getName().substring(j+1);//something.txt -> txt
+                //     }
+                //     if(extension.equals(ex) || ex.equals("")){
+                //         System.out.print(space+list[i]);
+                //         System.out.println(ANSI_RED+":this is a file"+ANSI_RESET);
+                //     }
+                // }
+                if(f1.isDirectory()){
+                    // System.out.print(space+dirpath+"/"+list[i]);
+                    // System.out.println(ANSI_PURPLE+":this is a directory"+ANSI_RESET);
+                    recursiveFiles(dirpath+"/"+list1[i],ex,temp);
+                }
+            }
+            // if(n==0){
+            //     System.out.println(space+"no entries in this directory");
+            // }
+        }
+        else{
+            System.out.println("Directory not found");
+        }
+    }
     // @Override
     // public void actionPerformed(ActionEvent arg0) {
     //     // TODO Auto-generated method stub
