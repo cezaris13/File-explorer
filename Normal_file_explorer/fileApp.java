@@ -9,30 +9,32 @@ import java.io.File;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.GridLayout;
+import javax.swing.tree.DefaultMutableTreeNode;  
+import java.awt.BorderLayout;
+
 public class fileApp {
 
     static int n=1;
-    static String list[];
+    static String[] list;
     static JButton[] buttons;
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("my file explorer");//frame
+    static ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
+    static ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
+    static JPanel fileContainer;
+    static JFrame frame;
+    public fileApp(){
+        frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(200, 500));
 
-        JPanel fileContainer=new JPanel();//file panel
+        fileContainer=new JPanel();//file panel
         // fileContainer.setBounds(80,0,420,500);
         fileContainer.setLocation(80,0);
         fileContainer.setPreferredSize(new Dimension(420,500));
         fileContainer.setLayout(null);
         fileContainer.setBackground(Color.gray);
-        JPanel leftMenu=new JPanel();//left panel (todo later)
-        leftMenu.setBounds(0,0,80,600);
-        leftMenu.setLayout(null);
-        leftMenu.setBackground(Color.yellow);
-
-        ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
-        ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
+       
+      
         Image image = fileIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         fileIcon= new ImageIcon(newimg);
@@ -44,26 +46,29 @@ public class fileApp {
         int filWidth  = fileIcon.getImage().getWidth(null);
         int filHeight = fileIcon.getImage().getHeight(null);
         int maxWidth= (folWidth>filWidth?folWidth:filWidth);
+        String dirpath="/home/pijus/Desktop";
+        updateFiles(dirpath);
 
-        String dirpath= "/home/pijus/Desktop";//buttons
-        File f = new File(dirpath);
-        if(f.exists()){
-            list=f.list();
-            n=list.length;
-            buttons = new JButton[n];
-            for(int i=0;i<n;i++){
-                File f1= new File(dirpath+"/"+list[i]);
-                if(f1.isFile()){
-                    buttons[i]=new JButton(fileIcon);
+        DefaultMutableTreeNode style=new DefaultMutableTreeNode("Style");  //padaryti su folderiais
+        DefaultMutableTreeNode color=new DefaultMutableTreeNode("color");  
+        DefaultMutableTreeNode font=new DefaultMutableTreeNode("font");  
+        style.add(color);  
+        style.add(font);  
+        DefaultMutableTreeNode red=new DefaultMutableTreeNode("red");  
+        DefaultMutableTreeNode blue=new DefaultMutableTreeNode("blue");  
+        DefaultMutableTreeNode black=new DefaultMutableTreeNode("black");  
+        DefaultMutableTreeNode green=new DefaultMutableTreeNode("green");  
+        color.add(red); color.add(blue); color.add(black); color.add(green);      
+        JTree jt=new JTree(style);  
+        JPanel leftMenu=new JPanel();//left panel (todo later)
+        leftMenu.setBounds(0,0,80,600);
+        leftMenu.setLayout(new BorderLayout());
 
-                    fileContainer.add(buttons[i]);
-                }
-                else if(f1.isDirectory()){
-                    buttons[i]=new JButton(folderIcon);
-                    fileContainer.add(buttons[i]);
-                }
-            }
-        }
+        leftMenu.setBackground(Color.yellow);
+        JScrollPane sp = new JScrollPane(jt);
+        leftMenu.add(BorderLayout.CENTER, sp);
+        leftMenu.add(jt);
+        // frame.add(jt);
 
         JScrollPane scrollbar = new JScrollPane(fileContainer);//add scrollbar
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -74,7 +79,6 @@ public class fileApp {
 
         fileContainer.setSize(420,500);
         frame.getContentPane().add(scrollbar);
-
         frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
                     int space=20;
@@ -115,4 +119,49 @@ public class fileApp {
         frame.setSize(500,500);
         frame.setVisible(true);
     }
+    public static void updateFiles(String dirpath){
+        // String dirpath= "/home/pijus/Desktop";//buttons
+        File f = new File(dirpath);
+        if(f.exists()){
+            list=f.list();
+            n=list.length;
+            buttons = new JButton[n];
+            int i;
+            for(i=0;i<n;i++){
+                File f1= new File(dirpath+"/"+list[i]);
+                final Integer innerMi = new Integer(i);
+                if(f1.isFile()){
+                    buttons[i]=new JButton(fileIcon);
+                    fileContainer.add(buttons[i]);
+                    buttons[i].addActionListener(new ActionListener(){  
+                        public void actionPerformed(ActionEvent e){  
+                                System.out.println("this is file. Nothing to do for now file: "+list[innerMi]); 
+                        }  
+                        });
+                }
+                else if(f1.isDirectory()){
+                    buttons[i]=new JButton(folderIcon);
+                    fileContainer.add(buttons[i]);
+                    buttons[i].addActionListener(new ActionListener(){  
+                        public void actionPerformed(ActionEvent e){  
+                                System.out.println("this is directory "+list[innerMi]); 
+                                // updateFiles(dirpath+"/"+list[innerMi]);
+                        }  
+                        });
+                }
+            }
+        }
+        // frame.add(fileContainer);//add panels
+    }
+    public static void main(String[] args) {
+     fileApp GUI= new fileApp();
+    }
+
+    // @Override
+    // public void actionPerformed(ActionEvent arg0) {
+    //     // TODO Auto-generated method stub
+
+    // }
+
+    //Add my recursive file search
 }
