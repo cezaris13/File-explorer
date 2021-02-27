@@ -21,7 +21,9 @@ public class fileApp {
         frame.setMinimumSize(new Dimension(200, 500));
 
         JPanel fileContainer=new JPanel();//file panel
-        fileContainer.setBounds(80,0,420,500);
+        // fileContainer.setBounds(80,0,420,500);
+        fileContainer.setLocation(80,0);
+        fileContainer.setPreferredSize(new Dimension(420,500));
         fileContainer.setLayout(null);
         fileContainer.setBackground(Color.gray);
         JPanel leftMenu=new JPanel();//left panel (todo later)
@@ -70,6 +72,7 @@ public class fileApp {
         frame.add(fileContainer);//add panels
         frame.add(leftMenu);
 
+        fileContainer.setSize(420,500);
         frame.getContentPane().add(scrollbar);
 
         frame.addComponentListener(new ComponentAdapter() {
@@ -102,6 +105,11 @@ public class fileApp {
                     }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
                     fileContainer.setSize(xx-80-20,(newY>yy?newY:yy));
+                    // fileContainer.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
+                    // fileContainer.repaint();
+                    // fileContainer.revalidate();
+                    // scrollbar.revalidate();
+                    // scrollbar.repaint();
                 }
             });
         frame.setSize(500,500);
