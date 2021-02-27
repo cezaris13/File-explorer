@@ -1,37 +1,3 @@
-// import java.awt.event.*;
-// import javax.swing.*;
-
-// public class fileApp{
-//         static int currx=500;
-//         static int curry=600;
-//         public static void main(String[] args) {
-//                 JFrame f=new JFrame("Button Example");
-//                 final JTextField tf=new JTextField();
-//                 tf.setBounds(50,50, 150,20);
-//                 JButton b=new JButton("Click Here");
-//                 b.setBounds(50,100,95,30);
-//                 b.addActionListener(new ActionListener(){
-//                                 public void actionPerformed(ActionEvent e){
-//                                         tf.setText("Welcome to Javatpoint.");
-//                                         b.setBounds(900,100,95,30);
-//                                 }
-//                         });
-//                 b.addComponentListener(new ComponentAdapter() {
-//                                 @Override
-//                                 public void componentResized(ComponentEvent e) {
-//                                         System.out.println("Resized to " + e.getComponent().getSize());
-//                                 }
-//                                 @Override
-//                                 public void componentMoved(ComponentEvent e) {
-//                                         System.out.println("Moved to " + e.getComponent().getLocation());
-//                                 }
-//                         });
-//                 f.add(b);f.add(tf);
-//                 f.setSize(currx,curry);
-//                 f.setLayout(null);
-//                 f.setVisible(true);
-//         }
-// }
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -41,17 +7,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.*;
-
+import java.awt.Color;
+import java.awt.GridLayout;
 public class fileApp {
+
     static int n=1;
-    static String list[]=new String[100];
-    static JButton[] buttons=new JButton[100];
+    static String list[];
+    static JButton[] buttons;
     public static void main(String[] args) {
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setMinimumSize(new Dimension(100, 100));
-        ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");
+        frame.setMinimumSize(new Dimension(200, 500));
+
+        JPanel fileContainer=new JPanel();//file panel
+        fileContainer.setBounds(80,0,420,500);
+        fileContainer.setLayout(null);
+        fileContainer.setBackground(Color.gray);
+        JPanel leftMenu=new JPanel();//left panel (todo later)
+        leftMenu.setBounds(0,0,80,600);
+        leftMenu.setLayout(null);
+        leftMenu.setBackground(Color.yellow);
+
+        ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
         ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
         Image image = fileIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
@@ -64,8 +42,8 @@ public class fileApp {
         int filWidth  = fileIcon.getImage().getWidth(null);
         int filHeight = fileIcon.getImage().getHeight(null);
         int maxWidth= (folWidth>filWidth?folWidth:filWidth);
-        // File f = new File(args[0]);
-        String dirpath= "/home/pijus";
+
+        String dirpath= "/home/pijus/Desktop";//buttons
         File f = new File(dirpath);
         if(f.exists()){
             list=f.list();
@@ -76,20 +54,31 @@ public class fileApp {
                 if(f1.isFile()){
                     buttons[i]=new JButton(fileIcon);
 
-                    frame.add(buttons[i]);
+                    fileContainer.add(buttons[i]);
                 }
                 else if(f1.isDirectory()){
                     buttons[i]=new JButton(folderIcon);
-                    frame.add(buttons[i]);
+                    fileContainer.add(buttons[i]);
                 }
             }
         }
+
+        JScrollPane scrollbar = new JScrollPane(fileContainer);//add scrollbar
+        scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+        frame.add(fileContainer);//add panels
+        frame.add(leftMenu);
+
+        frame.getContentPane().add(scrollbar);
+
         frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
-                    int space=10;
-                    // b.setBounds(componentEvent.getComponent().getSize().width/2,componentEvent.getComponent().getSize().height/2,95,30);
+                    int space=20;
                     int x = componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
-                    // int y = componentEvent.getComponent().getSize().height/space;
+                    int xx=componentEvent.getComponent().getSize().width;
+                    int yy=componentEvent.getComponent().getSize().height;
+                    leftMenu.setSize(80,yy);
                     int y=75;
                     while(2*x<3*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
                         space--;
@@ -98,7 +87,7 @@ public class fileApp {
                     int countx=0;
                     int county=0;
                     for(int i=0;i<n;i++){
-                        if(x*countx>x*(space-1)){
+                        if(x*countx>x*(space-2)){
                             county++;
                             countx=0;
                         }
@@ -111,6 +100,8 @@ public class fileApp {
                         }
                         countx++;
                     }
+                    int newY=county*(folHeight>filHeight?folHeight:filHeight);
+                    fileContainer.setSize(xx-80-20,(newY>yy?newY:yy));
                 }
             });
         frame.setSize(500,500);
