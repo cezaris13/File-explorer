@@ -41,11 +41,24 @@ public class fileExplorer {
         }
     }    
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); 
-        System.out.println("Enter dirpath:"); 
-        String dirpath = br.readLine(); 
-        System.out.println("Enter filetype:"); 
-        String ex = br.readLine();
+        String dirpath = new String();
+        String ex= new String();
+        if(args.length==1){
+            dirpath=args[0];
+            ex="";
+        }
+        else if( args.length>1){
+            dirpath=args[0];
+            ex=args[1];
+        }
+        else{
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Enter dirpath:");
+            dirpath = br.readLine();
+            System.out.println("Enter filetype:");
+            ex = br.readLine();
+        }
+        System.out.println(dirpath);
         recursiveFiles(dirpath,0,ex);
     }
 }
