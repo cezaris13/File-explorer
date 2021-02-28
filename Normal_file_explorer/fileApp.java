@@ -39,7 +39,7 @@ public class fileApp {
         // fileContainer.setBounds(80,0,420,500);
         fileContainer.setLocation(leftMenux,0);
         fileContainer.setPreferredSize(new Dimension(420,500));
-        fileContainer.setLayout(null);
+        fileContainer.setLayout(new GridLayout(5,5,20,20));
         fileContainer.setBackground(Color.gray);
        
       
@@ -112,6 +112,7 @@ public class fileApp {
 
         fileContainer.setSize(420,500);
         frame.getContentPane().add(scrollbar);
+        // fileContainer.add(scrollbar);
         frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
                     int space=20;
@@ -127,22 +128,23 @@ public class fileApp {
                     int countx=0;
                     int county=0;
                     int initSpace=10;
-                    for(int i=0;i<n;i++){
-                        if(x*(countx+1)>x*(space-3)){
-                            county++;
-                            countx=0;
-                        }
-                        File f1= new File(dirpath+"/"+list[i]);
-                        if(f1.isFile()){
-                            buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,filWidth,filHeight);
-                        }
-                        else if(f1.isDirectory()){
-                            buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,folWidth,folHeight);
-                        }
-                        countx++;
-                    }
+                    fileContainer.setLayout(new GridLayout(5,5,20,20));
+                    // for(int i=0;i<n;i++){
+                    //     if(x*(countx+1)>x*(space-3)){
+                    //         county++;
+                    //         countx=0;
+                    //     }
+                    //     File f1= new File(dirpath+"/"+list[i]);
+                    //     if(f1.isFile()){
+                    //         buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,filWidth,filHeight);
+                    //     }
+                    //     else if(f1.isDirectory()){
+                    //         buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,folWidth,folHeight);
+                    //     }
+                    //     countx++;
+                    // }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
-                    fileContainer.setSize(xx-leftMenux,(newY>yy?newY:yy));
+                    fileContainer.setSize(xx-leftMenux-20,(newY>yy?newY:yy));
                     // fileContainer.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
                     // fileContainer.repaint();
                     // fileContainer.revalidate();
