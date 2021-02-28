@@ -168,8 +168,15 @@ public class fileApp {
                     buttons[i]=new JButton(fileIcon);
                     fileContainer.add(buttons[i]);
                     buttons[i].addActionListener(new ActionListener(){  
-                        public void actionPerformed(ActionEvent e){  
-                                System.out.println("this is file. Nothing to do for now file: "+list[innerMi]); 
+                        public void actionPerformed(ActionEvent e){
+                            try{
+                                String path=list[innerMi];
+                                Process proc = Runtime.getRuntime().exec("kate "+dirpath+"/"+path);
+                            }
+                            catch(IOException ex){
+                                System.out.println("something went wrong");
+                            }
+                            System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
                         }  
                         });
                 }
