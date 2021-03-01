@@ -26,6 +26,7 @@ public class fileApp {
     static ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
     static ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
     static JPanel fileContainer;
+    static JPanel topPanel;
     static JFrame frame;
     static JTree fileTree;
     static JPanel leftMenu;
@@ -41,13 +42,12 @@ public class fileApp {
 
         fileContainer=new JPanel();//file panel
         // fileContainer.setBounds(80,0,420,500);
-        fileContainer.setLocation(leftMenux,0);
+        fileContainer.setLocation(leftMenux,30);
         fileContainer.setPreferredSize(new Dimension(420,500));
         fileContainer.setLayout(new GridLayout(5,5,20,20));
         // fileContainer.setLayout(null);
         fileContainer.setBackground(Color.gray);
        
-      
         Image image = fileIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         fileIcon= new ImageIcon(newimg);
@@ -67,7 +67,7 @@ public class fileApp {
         recursiveFiles(dirpath,"",head);
         fileTree=new JTree(head);
         leftMenu=new JPanel();//left panel (todo later)
-        leftMenu.setBounds(0,0,leftMenux,leftMenuy);
+        leftMenu.setBounds(0,30,leftMenux,leftMenuy);
         leftMenu.setLayout(new BorderLayout());
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
                 public void mouseClicked(MouseEvent e){
@@ -112,8 +112,22 @@ public class fileApp {
         scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         leftMenu.add(sp);
+        topPanel=new JPanel();
+        topPanel.setLayout(null);
+        topPanel.setPreferredSize(new Dimension(600,30));
+        topPanel.setLocation(0,0);
+        // topPanel.setBackground(Color.red);
+        JButton back=new JButton("go back");
+        back.setBounds(0,0,100,30);
+        back.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("back back back");//todo back
+                }
+            });
+        topPanel.add(back);
         frame.add(fileContainer);//add panels
         frame.add(leftMenu);
+        frame.add(topPanel);
 
         fileContainer.setSize(420,500);
         frame.getContentPane().add(scrollbar);
@@ -125,6 +139,7 @@ public class fileApp {
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
                     leftMenu.setSize(leftMenux,yy);
+                    topPanel.setSize(xx,30);
                     int y=75;
                     while(3*x<4*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
                         space--;
