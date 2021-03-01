@@ -16,15 +16,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.*;
+
 public class fileApp {
 
     static int n=1;
     static String[] list;
-    static JButton[] buttons;
+    static List<JLabel> buttons=new ArrayList<JLabel>();
     static ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
     static ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
     static JPanel fileContainer;
     static JFrame frame;
+    static JTree fileTree;
+    static JPanel leftMenu;
     DefaultMutableTreeNode head;
     String fullPath="";
     public fileApp(){
@@ -40,6 +44,7 @@ public class fileApp {
         fileContainer.setLocation(leftMenux,0);
         fileContainer.setPreferredSize(new Dimension(420,500));
         fileContainer.setLayout(new GridLayout(5,5,20,20));
+        // fileContainer.setLayout(null);
         fileContainer.setBackground(Color.gray);
        
       
@@ -60,8 +65,8 @@ public class fileApp {
 
         head=new DefaultMutableTreeNode(dirpath);
         recursiveFiles(dirpath,"",head);
-        JTree fileTree=new JTree(head);
-        JPanel leftMenu=new JPanel();//left panel (todo later)
+        fileTree=new JTree(head);
+        leftMenu=new JPanel();//left panel (todo later)
         leftMenu.setBounds(0,0,leftMenux,leftMenuy);
         leftMenu.setLayout(new BorderLayout());
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
@@ -129,6 +134,7 @@ public class fileApp {
                     int county=0;
                     int initSpace=10;
                     fileContainer.setLayout(new GridLayout(5,5,20,20));
+                    // fileContainer.setLayout(null);
                     // for(int i=0;i<n;i++){
                     //     if(x*(countx+1)>x*(space-3)){
                     //         county++;
@@ -136,10 +142,10 @@ public class fileApp {
                     //     }
                     //     File f1= new File(dirpath+"/"+list[i]);
                     //     if(f1.isFile()){
-                    //         buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,filWidth,filHeight);
+                    //         buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,filWidth+20,filHeight+20);
                     //     }
                     //     else if(f1.isDirectory()){
-                    //         buttons[i].setBounds(countx*x+initSpace,county*y+initSpace,folWidth,folHeight);
+                    //         buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,folWidth+20,folHeight+20);
                     //     }
                     //     countx++;
                     // }
@@ -156,21 +162,24 @@ public class fileApp {
         frame.setVisible(true);
     }
     public static void updateFiles(String dirpath){
-        // String dirpath= "/home/pijus/Desktop";//buttons
+        fileContainer.removeAll();
+        buttons.clear();
         File f = new File(dirpath);
         if(f.exists()){
             list=f.list();
             n=list.length;
-            buttons = new JButton[n];
-            int i;
-            for(i=0;i<n;i++){
+            System.out.println("n is:"+n);
+            for(int i=0;i<n;i++){
                 File f1= new File(dirpath+"/"+list[i]);
                 final Integer innerMi = new Integer(i);
                 if(f1.isFile()){
-                    buttons[i]=new JButton(fileIcon);
-                    fileContainer.add(buttons[i]);
-                    buttons[i].addActionListener(new ActionListener(){  
-                        public void actionPerformed(ActionEvent e){
+                    JLabel temp=new JLabel(list[i],fileIcon,JLabel.CENTER);
+                    temp.setVerticalTextPosition(JLabel.BOTTOM);
+                    temp.setHorizontalTextPosition(JLabel.CENTER);
+                    buttons.add(temp);
+                    fileContainer.add(temp);
+                    buttons.get(i).addMouseListener(new MouseAdapter(){
+                        public void mouseClicked(MouseEvent e){
                             try{
                                 String path=list[innerMi];
                                 Process proc = Runtime.getRuntime().exec("kate "+dirpath+"/"+path);
@@ -179,21 +188,32 @@ public class fileApp {
                                 System.out.println("something went wrong");
                             }
                             System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
-                        }  
+                        }
                         });
                 }
                 else if(f1.isDirectory()){
-                    buttons[i]=new JButton(folderIcon);
-                    fileContainer.add(buttons[i]);
-                    buttons[i].addActionListener(new ActionListener(){  
-                        public void actionPerformed(ActionEvent e){  
-                                System.out.println("this is directory "+list[innerMi]); 
-                                // updateFiles(dirpath+"/"+list[innerMi]);
-                        }  
+                    JLabel temp=new JLabel(list[i],folderIcon,JLabel.CENTER);
+                    temp.setVerticalTextPosition(JLabel.BOTTOM);
+                    temp.setHorizontalTextPosition(JLabel.CENTER);
+                    buttons.add(temp);
+                    fileContainer.add(buttons.get(i));
+                    buttons.get(i).addMouseListener(new MouseAdapter(){
+                        public void mouseClicked(MouseEvent e){
+                                System.out.println("this is directory "+list[innerMi]);
+                                updateFiles(dirpath+"/"+list[innerMi]);
+                                // DefaultMutableTreeNode temp = new DefaultMutableTreeNode(dirpath+"/"+list[innerMi]);
+                                // recursiveFiles(dirpath+"/"+list[innerMi],"",temp);
+                                // JTree tempTree = new JTree(temp);
+                                // fileTree=tempTree;
+                        }
                         });
                 }
             }
         }
+        // leftMenu.revalidate();
+        // leftMenu.repaint();
+        fileContainer.revalidate();
+        fileContainer.repaint();
         // frame.add(fileContainer);//add panels
     }
     public static void main(String[] args) {
@@ -233,13 +253,6 @@ public class fileApp {
             System.out.println("Directory not found");
         }
     }
-    // @Override
-    // public void actionPerformed(ActionEvent arg0) {
-    //     // TODO Auto-generated method stub
-
-    // }
-
-    //Add my recursive file search
     // void getDir(DefaultMutableTreeNode temp){
     //     if(temp.getParent()!=null){
     //         fullPath="/"+temp.toString()+fullPath;
