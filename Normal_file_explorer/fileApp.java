@@ -145,25 +145,26 @@ public class fileApp {
                         space--;
                         x=componentEvent.getComponent().getSize().width/space;
                     }
+                    // System.out.println(fileContainer.getHgap());
                     int countx=0;
                     int county=0;
                     int initSpace=10;
-                    fileContainer.setLayout(new GridLayout(5,5,20,20));
+                    // // fileContainer.setLayout(new GridLayout(5,5,20,20));
                     // fileContainer.setLayout(null);
-                    // for(int i=0;i<n;i++){
-                    //     if(x*(countx+1)>x*(space-3)){
-                    //         county++;
-                    //         countx=0;
-                    //     }
-                    //     File f1= new File(dirpath+"/"+list[i]);
-                    //     if(f1.isFile()){
-                    //         buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,filWidth+20,filHeight+20);
-                    //     }
-                    //     else if(f1.isDirectory()){
-                    //         buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,folWidth+20,folHeight+20);
-                    //     }
-                    //     countx++;
-                    // }
+                    for(int i=0;i<n;i++){
+                        if(x*(countx+1)>x*(space-3)){
+                            county++;
+                            countx=0;
+                        }
+                        File f1= new File(dirpath+"/"+list[i]);
+                        if(f1.isFile()){
+                            buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,filWidth+20,filHeight+20);
+                        }
+                        else if(f1.isDirectory()){
+                            buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,folWidth+20,folHeight+20);
+                        }
+                        countx++;
+                    }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
                     fileContainer.setSize(xx-leftMenux-20,(newY>yy?newY:yy));
                     // fileContainer.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
