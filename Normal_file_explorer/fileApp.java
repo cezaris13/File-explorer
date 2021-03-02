@@ -20,66 +20,47 @@ import java.util.*;
 
 public class fileApp {
 
-    static int n=1;
-    static String[] list;
-    static List<JLabel> buttons=new ArrayList<JLabel>();
-    static ImageIcon fileIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
-    static ImageIcon folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
-    static JPanel fileContainer;
-    static JPanel topPanel;
-    static JFrame frame;
-    static JTree fileTree;
-    static JPanel leftMenu;
+    static int          n          = 1;
+    static String[]     list;
+    static List<JLabel> buttons    = new ArrayList<JLabel>();
+    static ImageIcon    fileIcon   = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
+    static ImageIcon    folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
+    static JPanel       filePanel;
+    static Panel topPanel;
+    static JFrame       frame;
+    static JTree        fileTree;
+    static Panel       leftMenu;
     DefaultMutableTreeNode head;
-    String fullPath="";
     public fileApp(){
-        int leftMenux=200;
-        int leftMenuy=600;
         frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
-
-        fileContainer=new JPanel();//file panel
-        // fileContainer.setBounds(80,0,420,500);
-        fileContainer.setLocation(leftMenux,30);
-        fileContainer.setPreferredSize(new Dimension(420,500));
-        fileContainer.setLayout(new GridLayout(5,5,20,20));
-        // fileContainer.setLayout(null);
-        fileContainer.setBackground(Color.gray);
-       
-        Image image = fileIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        fileIcon= new ImageIcon(newimg);
-        image = folderIcon.getImage(); // transform it
-        newimg = image.getScaledInstance(50,50,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        folderIcon = new ImageIcon(newimg);
-        int folWidth  = folderIcon.getImage().getWidth(null);
-        int folHeight = folderIcon.getImage().getHeight(null);
-        int filWidth  = fileIcon.getImage().getWidth(null);
-        int filHeight = fileIcon.getImage().getHeight(null);
-        int maxWidth= (folWidth>filWidth?folWidth:filWidth);
-        String dirpath="/home/pijus/Desktop";
-        updateFiles(dirpath);
-
-
+        topPanel=new Panel(0,0,600,30);
+        JButton back=new JButton("go back");
+        back.setBounds(0,0,100,30);
+        back.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("back back back");//todo back
+                }
+            });
+        topPanel.panel.add(back);
+        String dirpath    = "/home/pijus/Desktop";
         head=new DefaultMutableTreeNode(dirpath);
         recursiveFiles(dirpath,"",head);
         fileTree=new JTree(head);
-        leftMenu=new JPanel();//left panel (todo later)
-        leftMenu.setBounds(0,30,leftMenux,leftMenuy);
-        leftMenu.setLayout(new BorderLayout());
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
                 public void mouseClicked(MouseEvent e){
                     if (e.getClickCount() == 2) {
                         System.out.println("paspaude");
                         DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                             fileTree.getLastSelectedPathComponent();
-                        if (node == null) return;
+                        if (node == null){
+                            return;
+                        }
                         if(node.isLeaf()){
-                           try{//todo png images etc
+                            try{//todo png images etc
                                 String path=node.toString();
-                                fullPath="";
                                 DefaultMutableTreeNode tempNode=new DefaultMutableTreeNode(node);
 
                                 // getDir(node);
@@ -99,58 +80,59 @@ public class fileApp {
                                 System.out.println("something went wrong");
                             }
                         }
-                        Object nodeInfo = node.getUserObject();
-                        // Cast nodeInfo to your object and do whatever you want
                     }
                 }
             });
-        JScrollPane sp = new JScrollPane(fileTree);
-        sp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        JScrollPane scrollbar = new JScrollPane(fileContainer);//add scrollbar
+        Panel leftMenu=new Panel(0,30,200,600,fileTree);//change later
+
+        filePanel=new JPanel();//file panel
+        // filePanel.setBounds(80,0,420,500);
+        filePanel.setLocation(leftMenu.xSize,30);
+        filePanel.setPreferredSize(new Dimension(420,500));
+        filePanel.setLayout(new GridLayout(5,5,20,20));
+        // filePanel.setLayout(null);
+        filePanel.setBackground(Color.gray);
+       
+        fileIcon = new ImageIcon(fileIcon.getImage().getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH));
+        folderIcon = new ImageIcon(folderIcon.getImage().getScaledInstance(50,50,  java.awt.Image.SCALE_SMOOTH));
+        int    folWidth   = folderIcon.getImage().getWidth(null);
+        int    folHeight  = folderIcon.getImage().getHeight(null);
+        int    filWidth   = fileIcon.getImage().getWidth(null);
+        int    filHeight  = fileIcon.getImage().getHeight(null);
+        int    maxWidth   = (folWidth>filWidth?folWidth:filWidth);
+        updateFiles(dirpath);
+
+        JScrollPane scrollbar = new JScrollPane(filePanel);//add scrollbar
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        leftMenu.add(sp);
-        topPanel=new JPanel();
-        topPanel.setLayout(null);
-        topPanel.setPreferredSize(new Dimension(600,30));
-        topPanel.setLocation(0,0);
-        // topPanel.setBackground(Color.red);
-        JButton back=new JButton("go back");
-        back.setBounds(0,0,100,30);
-        back.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    System.out.println("back back back");//todo back
-                }
-            });
-        topPanel.add(back);
-        frame.add(fileContainer);//add panels
-        frame.add(leftMenu);
-        frame.add(topPanel);
 
-        fileContainer.setSize(420,500);
+        frame.add(filePanel);//add panels
+        frame.add(leftMenu.panel);
+        frame.add(topPanel.panel);
+
+        filePanel.setSize(420,500);
         frame.getContentPane().add(scrollbar);
-        // fileContainer.add(scrollbar);
+        // filePanel.add(scrollbar);
         frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
                     int space=20;
                     int x = componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    leftMenu.setSize(leftMenux,yy);
-                    topPanel.setSize(xx,30);
+                    leftMenu.setSize(leftMenu.xSize,yy);
+                    topPanel.setSize(xx, 30);
                     int y=75;
                     while(3*x<4*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
                         space--;
                         x=componentEvent.getComponent().getSize().width/space;
                     }
-                    // System.out.println(fileContainer.getHgap());
+                    // System.out.println(filePanel.getHgap());
                     int countx=0;
                     int county=0;
                     int initSpace=10;
-                    // // fileContainer.setLayout(new GridLayout(5,5,20,20));
-                    // fileContainer.setLayout(null);
+                    filePanel.setLayout(new GridLayout(5,5,20,20));
+                    // filePanel.setLayout(null);
                     for(int i=0;i<n;i++){
                         if(x*(countx+1)>x*(space-3)){
                             county++;
@@ -166,10 +148,10 @@ public class fileApp {
                         countx++;
                     }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
-                    fileContainer.setSize(xx-leftMenux-20,(newY>yy?newY:yy));
-                    // fileContainer.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
-                    // fileContainer.repaint();
-                    // fileContainer.revalidate();
+                    filePanel.setSize(xx-leftMenu.x-20,(newY>yy?newY:yy));
+                    // filePanel.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
+                    // filePanel.repaint();
+                    // filePanel.revalidate();
                     // scrollbar.revalidate();
                     // scrollbar.repaint();
                 }
@@ -178,7 +160,7 @@ public class fileApp {
         frame.setVisible(true);
     }
     public static void updateFiles(String dirpath){
-        fileContainer.removeAll();
+        filePanel.removeAll();
         buttons.clear();
         File f = new File(dirpath);
         if(f.exists()){
@@ -193,18 +175,18 @@ public class fileApp {
                     temp.setVerticalTextPosition(JLabel.BOTTOM);
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     buttons.add(temp);
-                    fileContainer.add(temp);
+                    filePanel.add(temp);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
-                        public void mouseClicked(MouseEvent e){
-                            try{
-                                String path=list[innerMi];
-                                Process proc = Runtime.getRuntime().exec("kate "+dirpath+"/"+path);
+                            public void mouseClicked(MouseEvent e){
+                                try{
+                                    String path=list[innerMi];
+                                    Process proc = Runtime.getRuntime().exec("kate "+dirpath+"/"+path);
+                                }
+                                catch(IOException ex){
+                                    System.out.println("something went wrong");
+                                }
+                                System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
                             }
-                            catch(IOException ex){
-                                System.out.println("something went wrong");
-                            }
-                            System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
-                        }
                         });
                 }
                 else if(f1.isDirectory()){
@@ -212,28 +194,28 @@ public class fileApp {
                     temp.setVerticalTextPosition(JLabel.BOTTOM);
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     buttons.add(temp);
-                    fileContainer.add(buttons.get(i));
+                    filePanel.add(buttons.get(i));
                     buttons.get(i).addMouseListener(new MouseAdapter(){
-                        public void mouseClicked(MouseEvent e){
+                            public void mouseClicked(MouseEvent e){
                                 System.out.println("this is directory "+list[innerMi]);
                                 updateFiles(dirpath+"/"+list[innerMi]);
                                 // DefaultMutableTreeNode temp = new DefaultMutableTreeNode(dirpath+"/"+list[innerMi]);
                                 // recursiveFiles(dirpath+"/"+list[innerMi],"",temp);
                                 // JTree tempTree = new JTree(temp);
                                 // fileTree=tempTree;
-                        }
+                            }
                         });
                 }
             }
         }
         // leftMenu.revalidate();
         // leftMenu.repaint();
-        fileContainer.revalidate();
-        fileContainer.repaint();
-        // frame.add(fileContainer);//add panels
+        filePanel.revalidate();
+        filePanel.repaint();
+        // frame.add(filePanel);//add panels
     }
     public static void main(String[] args) {
-     fileApp GUI= new fileApp();
+        fileApp GUI= new fileApp();
     }
     public static void recursiveFiles(String dirpath,String ex,DefaultMutableTreeNode head){
         File f = new File(dirpath);
