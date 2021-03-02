@@ -26,12 +26,13 @@ public class fileApp {
     static ImageIcon    fileIcon   = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png");//folder + directory icons
     static ImageIcon    folderIcon = new ImageIcon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png");
     static JPanel       filePanel;
-    static Panel topPanel;
+    static Panel        topPanel;
     static JFrame       frame;
     static JTree        fileTree;
-    static Panel       leftMenu;
+    static Panel        leftMenu;
     DefaultMutableTreeNode head;
     public fileApp(){
+        String dirpath    = "/home/pijus/Desktop";
         frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -45,7 +46,6 @@ public class fileApp {
                 }
             });
         topPanel.panel.add(back);
-        String dirpath    = "/home/pijus/Desktop";
         head=new DefaultMutableTreeNode(dirpath);
         recursiveFiles(dirpath,"",head);
         fileTree=new JTree(head);
@@ -84,10 +84,9 @@ public class fileApp {
                 }
             });
         Panel leftMenu=new Panel(0,30,200,600,fileTree);//change later
-
         filePanel=new JPanel();//file panel
         // filePanel.setBounds(80,0,420,500);
-        filePanel.setLocation(leftMenu.xSize,30);
+        filePanel.setLocation(200,30);//change to leftMenuxSize
         filePanel.setPreferredSize(new Dimension(420,500));
         filePanel.setLayout(new GridLayout(5,5,20,20));
         // filePanel.setLayout(null);
@@ -106,12 +105,12 @@ public class fileApp {
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        frame.add(leftMenu.panel);
 
         frame.add(filePanel);//add panels
-        frame.add(leftMenu.panel);
         frame.add(topPanel.panel);
 
-        filePanel.setSize(420,500);
+        filePanel.setSize(500,500);
         frame.getContentPane().add(scrollbar);
         // filePanel.add(scrollbar);
         frame.addComponentListener(new ComponentAdapter() {
@@ -120,7 +119,7 @@ public class fileApp {
                     int x = componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    leftMenu.setSize(leftMenu.xSize,yy);
+                    leftMenu.setSize(200,yy);
                     topPanel.setSize(xx, 30);
                     int y=75;
                     while(3*x<4*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
@@ -148,7 +147,7 @@ public class fileApp {
                         countx++;
                     }
                     int newY=county*(folHeight>filHeight?folHeight:filHeight);
-                    filePanel.setSize(xx-leftMenu.x-20,(newY>yy?newY:yy));
+                    filePanel.setSize(xx-200-20,(newY>yy?newY:yy));
                     // filePanel.setPreferredSize(new Dimension(xx-80-20,(newY>yy?newY:yy)));
                     // filePanel.repaint();
                     // filePanel.revalidate();
