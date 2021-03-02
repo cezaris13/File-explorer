@@ -17,7 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.*;
-
+import com.formdev.flatlaf.FlatLightLaf;
 public class fileApp {
 
     static List<JLabel> buttons    = new ArrayList<JLabel>();
@@ -31,6 +31,11 @@ public class fileApp {
     DefaultMutableTreeNode head;
     public fileApp(){
         String dirpath    = "/home/pijus/Desktop";
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
         frame = new JFrame("my file explorer");//frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -249,4 +254,5 @@ public class fileApp {
         }
         return "kate";
     }
+
 }
