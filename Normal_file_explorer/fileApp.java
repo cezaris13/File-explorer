@@ -20,8 +20,6 @@ import java.util.*;
 
 public class fileApp {
 
-    static int          n          = 1;
-    static String[]     list;
     static List<JLabel> buttons    = new ArrayList<JLabel>();
     static Icon         fileIcon   = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png",50,50);//folder + directory icons
     static Icon         folderIcon = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png",50,50);
@@ -39,7 +37,7 @@ public class fileApp {
         frame.setMinimumSize(new Dimension(600, 500));
         topPanel=new Panel(0,0,600,30);
         JButton back=new JButton("go back");
-        back.setBounds(0,0,100,30);
+        back.setBounds(0,0,100,topPanel.ySize);
         back.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("back back back");//todo back
@@ -74,7 +72,7 @@ public class fileApp {
                                 //     System.out.println(path);
                                 // }
                                 // System.out.println(node.getParent().toString());
-                                Process proc = Runtime.getRuntime().exec("kate "+path);
+                                Process proc = Runtime.getRuntime().exec(getEx(path)+" "+path);
                             }
                             catch(IOException ex){
                                 System.out.println("something went wrong");
@@ -85,12 +83,6 @@ public class fileApp {
             });
         Panel leftMenu=new Panel(0,topPanel.ySize,200,600,fileTree);//change later
         filePanel = new Panel(leftMenu.xSize,topPanel.ySize,new Dimension(420,500),new GridLayout(5,5,20,20));
-        // fileIcon = new ImageIcon(fileIcon.getImage().getScaledInstance(50, 50,  java.awt.Image.SCALE_SMOOTH));
-        // folderIcon = new ImageIcon(folderIcon.getImage().getScaledInstance(50,50,  java.awt.Image.SCALE_SMOOTH));
-        // int    folWidth   = folderIcon.getImage().getWidth(null);
-        // int    folHeight  = folderIcon.getImage().getHeight(null);
-        // int    filWidth   = fileIcon.getImage().getWidth(null);
-        // int    filHeight  = fileIcon.getImage().getHeight(null);
         int    maxWidth   = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);
         updateFiles(dirpath);
 
@@ -111,7 +103,7 @@ public class fileApp {
                     int x =componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    leftMenu.setSize(leftMenu.xSize,yy);
+                    leftMenu.setSize(leftMenu.xSize,yy-25);
                     topPanel.setSize(xx, 30);
                     int y=75;
                     while(3*x<4*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
@@ -123,12 +115,12 @@ public class fileApp {
                     int initSpace=10;
                     filePanel.panel.setLayout(new GridLayout(5,5,20,20));
                     // filePanel.panel.setLayout(null);
-                    for(int i=0;i<n;i++){
+                    for(int i=0;i<buttons.size();i++){// change to list length
                         if(x*(countx+1)>x*(space-3)){
                             county++;
                             countx=0;
                         }
-                        File f1= new File(dirpath+"/"+list[i]);
+                        File f1= new File(dirpath+"/"+buttons.get(i).getText());
                         if(f1.isFile()){
                             buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,fileIcon.width+20,fileIcon.height+20);
                         }
@@ -146,7 +138,7 @@ public class fileApp {
                     // scrollbar.repaint();
                 }
             });
-        frame.setSize(500,500);
+        frame.setSize(1050,650);
         frame.setVisible(true);
     }
     public static void updateFiles(String dirpath){
@@ -154,10 +146,9 @@ public class fileApp {
         buttons.clear();
         File f = new File(dirpath);
         if(f.exists()){
-            list=f.list();
-            n=list.length;
-            System.out.println("n is:"+n);
-            for(int i=0;i<n;i++){
+            String list[]=f.list();
+            System.out.println("n is:"+list.length);//cia
+            for(int i=0;i<list.length;i++){
                 File f1= new File(dirpath+"/"+list[i]);
                 final Integer innerMi = new Integer(i);
                 if(f1.isFile()){
@@ -170,7 +161,7 @@ public class fileApp {
                             public void mouseClicked(MouseEvent e){
                                 try{
                                     String path=list[innerMi];
-                                    Process proc = Runtime.getRuntime().exec("kate "+dirpath+"/"+path);
+                                    Process proc = Runtime.getRuntime().exec(getEx(path)+" "+dirpath+"/"+path);
                                 }
                                 catch(IOException ex){
                                     System.out.println("something went wrong");
@@ -216,26 +207,10 @@ public class fileApp {
                 File f1= new File(dirpath+"/"+list1[i]);
                 DefaultMutableTreeNode temp=new DefaultMutableTreeNode(dirpath+"/"+list1[i]);
                 head.add(temp);
-                // if(f1.isFile()){
-                //     String extension = "";
-                //     int j = f1.getName().lastIndexOf('.');
-                //     if (j >= 0) {
-                //         extension = f1.getName().substring(j+1);//something.txt -> txt
-                //     }
-                //     if(extension.equals(ex) || ex.equals("")){
-                //         System.out.print(space+list[i]);
-                //         System.out.println(ANSI_RED+":this is a file"+ANSI_RESET);
-                //     }
-                // }
                 if(f1.isDirectory()){
-                    // System.out.print(space+dirpath+"/"+list[i]);
-                    // System.out.println(ANSI_PURPLE+":this is a directory"+ANSI_RESET);
                     recursiveFiles(dirpath+"/"+list1[i],ex,temp);
                 }
             }
-            // if(n==0){
-            //     System.out.println(space+"no entries in this directory");
-            // }
         }
         else{
             System.out.println("Directory not found");
@@ -253,4 +228,25 @@ public class fileApp {
     //         // fullPath=dir;
     //     }
     // }
+    public static String getEx(String file){// it does not work with spaces : (
+                                            // add more extensions
+        String extension = "";
+        int j = file.lastIndexOf('.');
+        if (j >= 0) {
+            extension = file.substring(j+1);//something.txt -> txt
+        }
+        if(extension.equals("txt")){
+            return "kate";
+        }
+        if(extension.equals("png")||extension.equals("jpg")){
+            return "gwenview";
+        }
+        if(extension.equals("pdf")){
+            return "okular";
+        }
+        if(extension.equals("tex")){
+            return "kile";
+        }
+        return "kate";
+    }
 }
