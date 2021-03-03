@@ -165,9 +165,10 @@ public class fileApp {
                             public void mouseClicked(MouseEvent e){
                                 Rectangle r = frame.getBounds();
                                 int x = r.width;
-                                int y = r.height;
+                                int y = r.height+1;
                                 int cx=frame.getLocation().x;
-                                int cy=frame.getLocation().y+1;
+                                int cy=frame.getLocation().y;
+                                frame.setSize(x,y);
                                 frame.setSize(x,y-1);
                                 frame.setLocation(cx,cy);
                                 System.out.println("this is directory "+list[tmpi]);
