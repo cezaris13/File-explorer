@@ -36,7 +36,7 @@ public class Panel{
         panel.setPreferredSize(pref);
         panel.setLocation(x,y);
         setSize(xSize,ySize);
-        panel.setBackground(Color.gray);
+        // panel.setBackground(Color.gray);
         scrollbar=new JScrollPane(panel);
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
