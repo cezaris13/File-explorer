@@ -122,8 +122,8 @@ public class fileApp {
 
                 }
             });
-
         frame.setSize(1050,650);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
     public void updateFiles(String dirpath){
@@ -163,6 +163,13 @@ public class fileApp {
                     filePanel.panel.add(buttons.get(i));
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
+                                Rectangle r = frame.getBounds();
+                                int x = r.width;
+                                int y = r.height;
+                                int cx=frame.getLocation().x;
+                                int cy=frame.getLocation().y+1;
+                                frame.setSize(x,y-1);
+                                frame.setLocation(cx,cy);
                                 System.out.println("this is directory "+list[tmpi]);
                                 System.out.println(buttons.size());
                                 updateFiles(dirpath+"/"+list[tmpi]);
