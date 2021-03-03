@@ -30,7 +30,7 @@ public class fileApp {
     JFrame       frame;
     JTree        fileTree;
     Panel        leftMenu=new Panel();
-    int          maxWidth = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);;
+    int          maxWidth = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);
     DefaultMutableTreeNode head;
     public fileApp(){
         try {
@@ -64,7 +64,39 @@ public class fileApp {
                     // }
                 }
             });
+        JButton newFile=new JButton("new file");
+        newFile.setBounds(100,0,100,topPanel.ySize);
+        newFile.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("new File");//todo back
+                }
+            });
+        JButton delFile=new JButton("delete file");
+        delFile.setBounds(200,0,100,topPanel.ySize);
+        delFile.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("delete file");//todo back
+                }
+            });
+        JButton newDir=new JButton("new dir");
+        newDir.setBounds(300,0,100,topPanel.ySize);
+        newDir.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("new Dir");//todo back
+                }
+            });
+        JButton delDir=new JButton("delete dir");
+        delDir.setBounds(400,0,100,topPanel.ySize);
+        delDir.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    System.out.println("delete dir");//todo back
+                }
+            });
         topPanel.panel.add(back);
+        topPanel.panel.add(newFile);
+        topPanel.panel.add(delFile);
+        topPanel.panel.add(newDir);
+        topPanel.panel.add(delDir);
         recursiveFiles(Panel.dirpath,"",head);
         fileTree=new JTree(head);
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
@@ -116,9 +148,9 @@ public class fileApp {
                 public void componentResized(ComponentEvent componentEvent) {
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
+                    customLayout(buttons);
                     leftMenu.setSize(leftMenu.xSize,yy-30);
                     topPanel.setSize(xx, 30);
-                    customLayout(buttons);
 
                 }
             });
@@ -127,6 +159,7 @@ public class fileApp {
         frame.setVisible(true);
     }
     public void updateFiles(String dirpath){
+        // filePanel.panel.setLayout(new GridLayout(1,2,3,4));
         File f = new File(dirpath);
         if(f.exists()){
             filePanel.panel.removeAll();
@@ -172,8 +205,12 @@ public class fileApp {
                                 frame.setSize(x,y-1);
                                 frame.setLocation(cx,cy);
                                 System.out.println("this is directory "+list[tmpi]);
-                                System.out.println(buttons.size());
                                 updateFiles(dirpath+"/"+list[tmpi]);
+                                // filePanel.panel.setVisible(false);
+                                // filePanel.panel.setVisible(true);
+                                // customLayout(buttons);
+                                // filePanel.panel.revalidate();
+                                // filePanel.panel.repaint();
                                 Panel.dirpath=dirpath+"/"+list[tmpi];
                             }
                         });
@@ -182,6 +219,7 @@ public class fileApp {
             customLayout(buttons);
             filePanel.panel.revalidate();
             filePanel.panel.repaint();
+
         }
     }
     public static void main(String[] args) {
