@@ -30,7 +30,6 @@ public class fileApp {
     static Panel        leftMenu;
     DefaultMutableTreeNode head;
     public fileApp(){
-        String dirpath    = "/home/pijus/Desktop";
         try {
             UIManager.setLookAndFeel( new FlatLightLaf() );
         } catch( Exception ex ) {
@@ -41,16 +40,26 @@ public class fileApp {
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
         topPanel=new Panel(0,0,600,30);
+        topPanel.dirpath="/home/pijus/Desktop";
+        head=new DefaultMutableTreeNode(topPanel.dirpath);
         JButton back=new JButton("go back");
         back.setBounds(0,0,100,topPanel.ySize);
         back.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("back back back");//todo back
+                    int lastIndxDot = topPanel.dirpath.lastIndexOf('/');
+                    topPanel.dirpath=topPanel.dirpath.substring(0, lastIndxDot);
+                    updateFiles(filePanel.dirpath);
+                    recursiveFiles(topPanel.dirpath,"",head);
+                    if(leftMenu!=null){
+                        leftMenu.panel.removeAll();
+                        leftMenu.scrollbar=new JScrollPane(fileTree);
+                        leftMenu.panel.add(leftMenu.scrollbar);
+                    }
                 }
             });
         topPanel.panel.add(back);
-        head=new DefaultMutableTreeNode(dirpath);
-        recursiveFiles(dirpath,"",head);
+        recursiveFiles(topPanel.dirpath,"",head);
         fileTree=new JTree(head);
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
                 public void mouseClicked(MouseEvent e){
@@ -87,9 +96,9 @@ public class fileApp {
                 }
             });
         Panel leftMenu=new Panel(0,topPanel.ySize,200,600,fileTree);//change later
-        filePanel = new Panel(leftMenu.xSize,topPanel.ySize,new Dimension(420,500),new GridLayout(5,5,20,20));
+        filePanel = new Panel(leftMenu.xSize,topPanel.ySize,new Dimension(420,500));
         int    maxWidth   = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);
-        updateFiles(dirpath);
+        updateFiles(filePanel.dirpath);
 
         // JScrollPane scrollbar = new JScrollPane(filePanel);//add scrollbar
         // scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -105,10 +114,11 @@ public class fileApp {
         frame.addComponentListener(new ComponentAdapter() {
                 public void componentResized(ComponentEvent componentEvent) {
                     int space=20;
+                    System.out.println(filePanel.dirpath);
                     int x =componentEvent.getComponent().getSize().width/space;//tarpo ir aukscio konstantas kazkokias reik
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    leftMenu.setSize(leftMenu.xSize,yy-25);
+                    leftMenu.setSize(leftMenu.xSize,yy-30);
                     topPanel.setSize(xx, 30);
                     int y=75;
                     while(3*x<4*maxWidth && space>0){//if space size + icon size is 1.5 times bigger than Icon size
@@ -118,14 +128,14 @@ public class fileApp {
                     int countx=0;
                     int county=0;
                     int initSpace=10;
-                    filePanel.panel.setLayout(new GridLayout(5,5,20,20));
+                    // filePanel.panel.setLayout(new GridLayout(5,5,20,20));
                     // filePanel.panel.setLayout(null);
                     for(int i=0;i<buttons.size();i++){// change to list length
                         if(x*(countx+1)>x*(space-3)){
                             county++;
                             countx=0;
                         }
-                        File f1= new File(dirpath+"/"+buttons.get(i).getText());
+                        File f1= new File(filePanel.dirpath+"/"+buttons.get(i).getText());
                         if(f1.isFile()){
                             buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,fileIcon.width+20,fileIcon.height+20);
                         }
@@ -167,11 +177,11 @@ public class fileApp {
                                 try{
                                     String path=list[innerMi];
                                     Process proc = Runtime.getRuntime().exec(getEx(path)+" "+dirpath+"/"+path);
+                                    System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
                                 }
                                 catch(IOException ex){
                                     System.out.println("something went wrong");
                                 }
-                                System.out.println("this is file. Nothing to do for now file: "+list[innerMi]);
                             }
                         });
                 }
@@ -185,6 +195,7 @@ public class fileApp {
                             public void mouseClicked(MouseEvent e){
                                 System.out.println("this is directory "+list[innerMi]);
                                 updateFiles(dirpath+"/"+list[innerMi]);
+                                filePanel.dirpath=dirpath+"/"+list[innerMi];
                                 // DefaultMutableTreeNode temp = new DefaultMutableTreeNode(dirpath+"/"+list[innerMi]);
                                 // recursiveFiles(dirpath+"/"+list[innerMi],"",temp);
                                 // JTree tempTree = new JTree(temp);
@@ -193,9 +204,12 @@ public class fileApp {
                         });
                 }
             }
+            //add refresh to layout
         }
-        // leftMenu.panel.revalidate();
-        // leftMenu.panel.repaint();
+        // if(leftMenu!=null){
+        //     leftMenu.panel.revalidate();
+        //     leftMenu.panel.repaint();
+        // }
         filePanel.panel.revalidate();
         filePanel.panel.repaint();
         // frame.add(filePanel.panel);//add panels

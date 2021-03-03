@@ -1,6 +1,6 @@
 JC = javac
 FILES= *.java
-FLAGS=-cp
+FLAGS= -cp
 JAR=flatlaf-0.31.jar
 JV=java
 CLASS=fileApp

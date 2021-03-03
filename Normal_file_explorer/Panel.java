@@ -9,7 +9,7 @@ public class Panel{
     int xSize,ySize;
     JPanel panel;
     JScrollPane Scrollbar;
-
+    static String dirpath;
     public void setSize(int xSize,int ySize){
         this.xSize=xSize;
         this.ySize=ySize;
@@ -30,9 +30,9 @@ public class Panel{
         panel.setLocation(x,y);
         setSize(xSize,ySize);
     }
-    public Panel(int x,int y,Dimension pref,GridLayout layout){//topPanel
+    public Panel(int x,int y,Dimension pref){//topPanel
         panel=new JPanel();
-        panel.setLayout(layout);
+        panel.setLayout(null);
         panel.setPreferredSize(pref);
         panel.setLocation(x,y);
         setSize(xSize,ySize);
