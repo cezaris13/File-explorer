@@ -64,11 +64,16 @@ public class fileApp {
                     // }
                 }
             });
+        JTextField textBox= new JTextField("enter file or directory");
+        textBox.setBounds(500,0,300,topPanel.ySize);
         JButton newFile=new JButton("new file");
+        file_management files=new file_management();
         newFile.setBounds(100,0,100,topPanel.ySize);
         newFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("new File");//todo back
+                    files.createFile(textBox.getText(),Panel.dirpath);
+                    updateFiles(Panel.dirpath);
                 }
             });
         JButton delFile=new JButton("delete file");
@@ -76,13 +81,17 @@ public class fileApp {
         delFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("delete file");//todo back
+                    files.deleteFile(textBox.getText(),Panel.dirpath);
+                    updateFiles(Panel.dirpath);
                 }
             });
         JButton newDir=new JButton("new dir");
         newDir.setBounds(300,0,100,topPanel.ySize);
         newDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
+                    files.createDirectory(textBox.getText(),Panel.dirpath);
                     System.out.println("new Dir");//todo back
+                    updateFiles(Panel.dirpath);
                 }
             });
         JButton delDir=new JButton("delete dir");
@@ -90,6 +99,8 @@ public class fileApp {
         delDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("delete dir");//todo back
+                    files.deleteDirectory(textBox.getText(),Panel.dirpath);
+                    updateFiles(Panel.dirpath);
                 }
             });
         topPanel.panel.add(back);
@@ -97,6 +108,7 @@ public class fileApp {
         topPanel.panel.add(delFile);
         topPanel.panel.add(newDir);
         topPanel.panel.add(delDir);
+        topPanel.panel.add(textBox);
         recursiveFiles(Panel.dirpath,"",head);
         fileTree=new JTree(head);
         fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
@@ -149,8 +161,8 @@ public class fileApp {
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
                     customLayout(buttons);
-                    leftMenu.setSize(leftMenu.xSize,yy-30);
                     topPanel.setSize(xx, 30);
+                    leftMenu.setSize(leftMenu.xSize,yy-30);
 
                 }
             });
@@ -165,7 +177,6 @@ public class fileApp {
             filePanel.panel.removeAll();
             buttons.clear();
             String list[]=f.list();
-            System.out.println("n is:"+list.length);//cia
             for(int i=0;i<list.length;i++){
                 File f1= new File(dirpath+"/"+list[i]);
                 final int tmpi = i;
