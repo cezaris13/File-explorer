@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class file_management{
+public class fileManagement{
 
     static void createFile(String name,String location){
         try {

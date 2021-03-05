@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -21,7 +22,6 @@ import java.util.*;
 import java.awt.Component;
 import com.formdev.flatlaf.FlatDarkLaf;
 public class fileApp {
-
     List<JLabel> buttons    = new ArrayList<JLabel>();
     Icon         fileIcon   = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png",65,65);//folder + directory icons
     Icon         folderIcon = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png",65,65);
@@ -32,6 +32,9 @@ public class fileApp {
     Panel        leftMenu=new Panel();
     int          maxWidth = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);
     DefaultMutableTreeNode head;
+    final JPopupMenu popupMenu = new JPopupMenu("Edit");
+    final JPopupMenu rightFileMenu = new JPopupMenu("Edit file");
+    final JPopupMenu rightDirMenu = new JPopupMenu("Edir dir");
     public fileApp(){
         try {
             UIManager.setLookAndFeel( new FlatDarkLaf() );
@@ -43,10 +46,11 @@ public class fileApp {
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
         topPanel=new Panel(0,0,600,30);
+        topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         Panel.dirpath="/home/pijus/Desktop";
         head=new DefaultMutableTreeNode(Panel.dirpath);
         JButton back=new JButton("go back");
-        back.setBounds(0,0,100,topPanel.ySize);
+        // back.setBounds(0,0,100,topPanel.ySize);
         back.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("back back back");//todo back
@@ -64,11 +68,70 @@ public class fileApp {
                     // }
                 }
             });
+
+        JMenuItem newF = new JMenuItem("New file");
+        JMenuItem newD = new JMenuItem("New directory");
+        JMenuItem renameFile = new JMenuItem("rename file");
+        JMenuItem renameDirectory = new JMenuItem("rename directory");
+        JMenuItem deleteDir = new JMenuItem("deletedirectory");
+        JMenuItem deleteFile = new JMenuItem("delete file");
+
+        popupMenu.add(newF);
+        popupMenu.add(newD);
+        rightFileMenu.add(renameFile);
+        rightFileMenu.add(deleteFile);
+        rightDirMenu.add(renameDirectory);
+        rightDirMenu.add(deleteDir);
+        frame.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                        popupMenu.show(frame , e.getX(), e.getY());
+                    }
+                }
+            });
+        newF.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("new file");
+                    new Dialog(frame,"enter file name","new file",Panel.dirpath);
+                    updateFiles(Panel.dirpath);
+                }
+            });
+        newD.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("new Directory");
+                    new Dialog(frame,"enter directory name","new directory",Panel.dirpath);
+                    updateFiles(Panel.dirpath);
+                }
+            });
+        renameDirectory.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("rename Directory");
+                    updateFiles(Panel.dirpath);
+                }
+            });
+        renameFile.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("rename file");
+                    updateFiles(Panel.dirpath);
+                }
+            });
+        deleteFile.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("delete file");
+                    updateFiles(Panel.dirpath);
+                }
+            });
+        deleteDir.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("delete directory");
+                    updateFiles(Panel.dirpath);
+                }
+            });
         JTextField textBox= new JTextField("enter file or directory");
-        textBox.setBounds(500,0,300,topPanel.ySize);
+        // textBox.setBounds(500,0,300,topPanel.ySize);
         JButton newFile=new JButton("new file");
-        file_management files=new file_management();
-        newFile.setBounds(100,0,100,topPanel.ySize);
+        fileManagement files=new fileManagement();
+        // newFile.setBounds(100,0,100,topPanel.ySize);
         newFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("new File");//todo back
@@ -77,7 +140,7 @@ public class fileApp {
                 }
             });
         JButton delFile=new JButton("delete file");
-        delFile.setBounds(200,0,100,topPanel.ySize);
+        // delFile.setBounds(200,0,100,topPanel.ySize);
         delFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("delete file");//todo back
@@ -86,7 +149,7 @@ public class fileApp {
                 }
             });
         JButton newDir=new JButton("new dir");
-        newDir.setBounds(300,0,100,topPanel.ySize);
+        // newDir.setBounds(300,0,100,topPanel.ySize);
         newDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     files.createDirectory(textBox.getText(),Panel.dirpath);
@@ -95,7 +158,7 @@ public class fileApp {
                 }
             });
         JButton delDir=new JButton("delete dir");
-        delDir.setBounds(400,0,100,topPanel.ySize);
+        // delDir.setBounds(400,0,100,topPanel.ySize);
         delDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     System.out.println("delete dir");//todo back
@@ -103,6 +166,7 @@ public class fileApp {
                     updateFiles(Panel.dirpath);
                 }
             });
+        frame.add(popupMenu);
         topPanel.panel.add(back);
         topPanel.panel.add(newFile);
         topPanel.panel.add(delFile);
@@ -111,7 +175,7 @@ public class fileApp {
         topPanel.panel.add(textBox);
         recursiveFiles(Panel.dirpath,"",head);
         fileTree=new JTree(head);
-        fileTree.addMouseListener(new MouseAdapter() {//double click on node(todo)
+        fileTree.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e){
                     if (e.getClickCount() == 2) {
                         System.out.println("paspaude");
@@ -161,9 +225,8 @@ public class fileApp {
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
                     customLayout(buttons);
-                    topPanel.setSize(xx, 30);
                     leftMenu.setSize(leftMenu.xSize,yy-30);
-
+                    topPanel.setSize(xx, 30);
                 }
             });
         frame.setSize(1050,650);
@@ -188,13 +251,19 @@ public class fileApp {
                     filePanel.panel.add(temp);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
-                                try{
-                                    String path=list[tmpi];
-                                    Process proc = Runtime.getRuntime().exec(getEx(path)+" "+dirpath+"/"+path);
-                                    System.out.println("this is file. Nothing to do for now file: "+list[tmpi]);
+                                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
+                                    try{
+                                        String path=list[tmpi];
+                                        Process proc = Runtime.getRuntime().exec(getEx(path)+" "+dirpath+"/"+path);
+                                        System.out.println("this is file. Nothing to do for now file: "+list[tmpi]);
+                                    }
+                                    catch(IOException ex){
+                                        System.out.println("something went wrong");
+                                    }
                                 }
-                                catch(IOException ex){
-                                    System.out.println("something went wrong");
+                                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                    System.out.println("right click menu File");
+                                    rightFileMenu.show(frame , e.getX(), e.getY());
                                 }
                             }
                         });
@@ -207,22 +276,23 @@ public class fileApp {
                     filePanel.panel.add(buttons.get(i));
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
-                                Rectangle r = frame.getBounds();
-                                int x = r.width;
-                                int y = r.height+1;
-                                int cx=frame.getLocation().x;
-                                int cy=frame.getLocation().y;
-                                frame.setSize(x,y);
-                                frame.setSize(x,y-1);
-                                frame.setLocation(cx,cy);
-                                System.out.println("this is directory "+list[tmpi]);
-                                updateFiles(dirpath+"/"+list[tmpi]);
-                                // filePanel.panel.setVisible(false);
-                                // filePanel.panel.setVisible(true);
-                                // customLayout(buttons);
-                                // filePanel.panel.revalidate();
-                                // filePanel.panel.repaint();
-                                Panel.dirpath=dirpath+"/"+list[tmpi];
+                                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
+                                    Rectangle r = frame.getBounds();
+                                    int x = r.width;
+                                    int y = r.height+1;
+                                    int cx=frame.getLocation().x;
+                                    int cy=frame.getLocation().y;
+                                    frame.setSize(x,y);
+                                    frame.setSize(x,y-1);
+                                    frame.setLocation(cx,cy);
+                                    System.out.println("this is directory "+list[tmpi]);
+                                    updateFiles(dirpath+"/"+list[tmpi]);
+                                    Panel.dirpath=dirpath+"/"+list[tmpi];
+                                }
+                                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                    System.out.println("right click menu ");
+                                    rightDirMenu.show(frame , e.getX(), e.getY());
+                                }
                             }
                         });
                 }
@@ -230,7 +300,6 @@ public class fileApp {
             customLayout(buttons);
             filePanel.panel.revalidate();
             filePanel.panel.repaint();
-
         }
     }
     public static void main(String[] args) {
