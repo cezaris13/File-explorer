@@ -31,6 +31,7 @@ public class fileApp {
     JTree        fileTree;
     Panel        leftMenu=new Panel();
     int          maxWidth = (folderIcon.width>fileIcon.width?folderIcon.width:fileIcon.width);
+    String curSelected="";
     DefaultMutableTreeNode head;
     final JPopupMenu popupMenu = new JPopupMenu("Edit");
     final JPopupMenu rightFileMenu = new JPopupMenu("Edit file");
@@ -84,6 +85,7 @@ public class fileApp {
         rightDirMenu.add(deleteDir);
         frame.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
+                    curSelected="";
                     if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
                         popupMenu.show(frame , e.getX(), e.getY());
                     }
@@ -106,28 +108,28 @@ public class fileApp {
         renameDirectory.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("rename Directory");
-                    // new Dialog(frame,"rename directory","rename directory",Panel.dirpath,....);
+                    new Dialog(frame,"rename directory","rename directory",Panel.dirpath,curSelected);
                     updateFiles(Panel.dirpath);
                 }
             });
         renameFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("rename file");
-                    // new Dialog(frame,"rename file","rename file",Panel.dirpath,....);
+                    new Dialog(frame,"rename file","rename file",Panel.dirpath,curSelected);
                     updateFiles(Panel.dirpath);
                 }
             });
         deleteFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("delete file");
-                    // new Dialog(frame,"delete file","delete file",Panel.dirpath,....);
+                    new Dialog(frame,"delete file","delete file",Panel.dirpath,curSelected);
                     updateFiles(Panel.dirpath);
                 }
             });
         deleteDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("delete directory");
-                    // new Dialog(frame,"delete directory","delete directory",Panel.dirpath,....);
+                    new Dialog(frame,"delete directory","delete directory",Panel.dirpath,curSelected);
                     updateFiles(Panel.dirpath);
                 }
             });
@@ -269,6 +271,7 @@ public class fileApp {
                                     }
                                 }
                                 if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                    curSelected=list[tmpi];
                                     System.out.println("right click menu File");
                                     rightFileMenu.show(tempButton , e.getX(), e.getY());
                                 }
@@ -298,6 +301,7 @@ public class fileApp {
                                     Panel.dirpath=dirpath+"/"+list[tmpi];
                                 }
                                 if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                    curSelected=list[tmpi];
                                     System.out.println("right click menu ");
                                     System.out.println(e.getX()+" "+e.getY());
                                     rightDirMenu.show(tempButton , e.getX(), e.getY());
