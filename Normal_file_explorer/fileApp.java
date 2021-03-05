@@ -73,7 +73,7 @@ public class fileApp {
         JMenuItem newD = new JMenuItem("New directory");
         JMenuItem renameFile = new JMenuItem("rename file");
         JMenuItem renameDirectory = new JMenuItem("rename directory");
-        JMenuItem deleteDir = new JMenuItem("deletedirectory");
+        JMenuItem deleteDir = new JMenuItem("delete directory");
         JMenuItem deleteFile = new JMenuItem("delete file");
 
         popupMenu.add(newF);
@@ -106,24 +106,28 @@ public class fileApp {
         renameDirectory.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("rename Directory");
+                    // new Dialog(frame,"rename directory","rename directory",Panel.dirpath,....);
                     updateFiles(Panel.dirpath);
                 }
             });
         renameFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("rename file");
+                    // new Dialog(frame,"rename file","rename file",Panel.dirpath,....);
                     updateFiles(Panel.dirpath);
                 }
             });
         deleteFile.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("delete file");
+                    // new Dialog(frame,"delete file","delete file",Panel.dirpath,....);
                     updateFiles(Panel.dirpath);
                 }
             });
         deleteDir.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("delete directory");
+                    // new Dialog(frame,"delete directory","delete directory",Panel.dirpath,....);
                     updateFiles(Panel.dirpath);
                 }
             });
@@ -211,6 +215,8 @@ public class fileApp {
         Panel leftMenu=new Panel(0,topPanel.ySize,200,600,fileTree);//change later
         filePanel = new Panel(leftMenu.xSize,topPanel.ySize,new Dimension(420,500));
         updateFiles(Panel.dirpath);
+        frame.add(rightFileMenu);
+        frame.add(rightDirMenu);
         // JScrollPane scrollbar = new JScrollPane(filePanel);//add scrollbar
         // scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         // scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -249,6 +255,7 @@ public class fileApp {
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     buttons.add(temp);
                     filePanel.panel.add(temp);
+                    final JLabel tempButton=buttons.get(i);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
                                 if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
@@ -263,7 +270,7 @@ public class fileApp {
                                 }
                                 if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
                                     System.out.println("right click menu File");
-                                    rightFileMenu.show(frame , e.getX(), e.getY());
+                                    rightFileMenu.show(tempButton , e.getX(), e.getY());
                                 }
                             }
                         });
@@ -274,6 +281,7 @@ public class fileApp {
                     temp.setHorizontalTextPosition(JLabel.CENTER);
                     buttons.add(temp);
                     filePanel.panel.add(buttons.get(i));
+                    final JLabel tempButton=buttons.get(i);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
                                 if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
@@ -291,7 +299,8 @@ public class fileApp {
                                 }
                                 if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
                                     System.out.println("right click menu ");
-                                    rightDirMenu.show(frame , e.getX(), e.getY());
+                                    System.out.println(e.getX()+" "+e.getY());
+                                    rightDirMenu.show(tempButton , e.getX(), e.getY());
                                 }
                             }
                         });
