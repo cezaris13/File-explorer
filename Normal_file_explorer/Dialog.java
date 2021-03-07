@@ -3,16 +3,15 @@ import java.awt.*;
 import java.awt.event.*;
 public class Dialog {
     private static JDialog d;
-    Dialog(JFrame frame,String title,String DialogTitle,String dir){
-        JFrame f= frame;
-        d = new JDialog(f , DialogTitle, true);//Change title
-        // d.setLayout(new FlowLayout());
+    Dialog(JFrame frame,String title,String DialogTitle,String dirPath){
+        JFrame f = frame;
+        d = new JDialog(f,DialogTitle,true);
         d.setLayout(null);
         JButton ok = new JButton("OK");
         ok.setBounds(40,70,100,20);
         JButton cancel = new JButton("Cancel");
         cancel.setBounds(150,70,100,20);
-        JTextField textBox=new JTextField("");
+        JTextField textBox = new JTextField("");
         textBox.setBounds(50,40,200,20);
         cancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -21,24 +20,17 @@ public class Dialog {
         });
         ok.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                fileManagement tmp=new fileManagement();
+                fileManagement tmp = new fileManagement();
                 if(DialogTitle=="new file"){
-                    tmp.createFile(textBox.getText(),dir);
+                    tmp.createFile(textBox.getText(),dirPath);
                 }
                 if(DialogTitle=="new directory"){
-                    tmp.createDirectory(textBox.getText(),dir);
+                    tmp.createDirectory(textBox.getText(),dirPath);
                 }
-                // if(DialogTitle=="delete file"){
-                //     tmp.createFile(textBox.getText(),dir);
-                // }
-                // if(DialogTitle=="delete directory"){ m
-                //     tmp.createDirectory(textBox.getText(),dir);
-                // }
                 Dialog.d.setVisible(false);
             }
         });
-
-        JLabel Jtitle=new JLabel(title,SwingConstants.CENTER);
+        JLabel Jtitle = new JLabel(title,SwingConstants.CENTER);
         Jtitle.setBounds(0,10,300,20);
         d.add(Jtitle);
         d.add(cancel);
@@ -49,16 +41,15 @@ public class Dialog {
         d.setLocationRelativeTo(f);
         d.setVisible(true);
     }
-    Dialog(JFrame frame,String title,String DialogTitle,String dir,String name){
-        JFrame f= frame;
-        d = new JDialog(f , DialogTitle, true);//Change title
-        // d.setLayout(new FlowLayout());
+    Dialog(JFrame frame,String title,String DialogTitle,String dirPath,String name){
+        JFrame f = frame;
+        d = new JDialog(f,DialogTitle,true);
         d.setLayout(null);
         JButton ok = new JButton("OK");
         ok.setBounds(40,70,100,20);
         JButton cancel = new JButton("Cancel");
         cancel.setBounds(150,70,100,20);
-        JTextField textBox=new JTextField("");
+        JTextField textBox = new JTextField("");
         textBox.setBounds(50,40,200,20);
         cancel.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
@@ -69,22 +60,21 @@ public class Dialog {
             public void actionPerformed(ActionEvent e){
                 fileManagement tmp=new fileManagement();
                 if(DialogTitle=="rename file"){
-                    tmp.renameFile(name,textBox.getText(),dir);
+                    tmp.renameFile(name,textBox.getText(),dirPath);
                 }
                 if(DialogTitle=="rename directory"){
-                    tmp.renameDirectory(name,textBox.getText(),dir);
+                    tmp.renameDirectory(name,textBox.getText(),dirPath);
                 }
                 if(DialogTitle=="delete file"){
-                    tmp.deleteFile(name,dir);
+                    tmp.deleteFile(name,dirPath);
                 }
                 if(DialogTitle=="delete directory"){
-                    tmp.deleteDirectory(name,dir);
+                    tmp.deleteDirectory(name,dirPath);
                 }
                 Dialog.d.setVisible(false);
             }
         });
-
-        JLabel Jtitle=new JLabel(title,SwingConstants.CENTER);
+        JLabel Jtitle = new JLabel(title,SwingConstants.CENTER);
         Jtitle.setBounds(0,10,300,20);
         d.add(Jtitle);
         d.add(cancel);

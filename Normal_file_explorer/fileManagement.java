@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 public class fileManagement{
-
-    static void createFile(String name,String location){
+    void createFile(String name,String dirPath){
         try {
-            File file = new File(location+"/"+name);
+            File file = new File(dirPath+"/"+name);
             if (file.createNewFile()) {
-                System.out.println("File created: " + file.getName());
-            } else {
+                System.out.println("File created: " + name);
+            }
+            else {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
@@ -18,8 +18,18 @@ public class fileManagement{
             e.printStackTrace();
         }
     }
-    static void deleteFile(String name,String location){
-        File file = new File(location+"/"+name);
+    void createDirectory(String name,String dirPath){
+        File dir = new File(dirPath+"/"+name);
+        boolean create = dir.mkdir();
+        if(create){
+            System.out.println("created directory "+name);
+        }
+        else{
+            System.out.println("failed to create directory");
+        }
+    }
+    void deleteFile(String name,String dirPath){
+        File file = new File(dirPath+"/"+name);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
         }
@@ -27,9 +37,26 @@ public class fileManagement{
             System.out.println("Failed to delete the file.");
         }
     }
-    static void renameFile(String name,String newName, String location){
-        File oldFile = new File(location+"/"+name);
-        File newFile = new File(location+"/"+newName);
+    void deleteDirectory(String name,String dirPath) {
+        File dir = new File(dirPath+"/"+name);
+        if(dir.length()>0){
+            System.out.println("There are files in this directory. Do you want to delete this directory? y/n");//todo with multiple files in directory
+            // String ans = br.readLine();
+            // if(ans.equals("y")){
+
+            // }
+        }
+        boolean del = dir.delete();
+        if(del){
+            System.out.println("deleted directory: "+name);
+        }
+        else{
+            System.out.println("failed to create directory");
+        }
+    }
+    void renameFile(String name,String newName, String dirPath){
+        File oldFile = new File(dirPath+"/"+name);
+        File newFile = new File(dirPath+"/"+newName);
         if (newFile.exists()){
             System.out.println("file exists");
             return;
@@ -39,37 +66,9 @@ public class fileManagement{
             System.out.println("failed to rename file");
         }
     }
-    static void createDirectory(String name,String location){
-        File dir = new File(location+"/"+name);
-        boolean create=dir.mkdir();
-        if(create){
-            System.out.println("created directory");
-        }
-        else{
-            System.out.println("failed to create directory");
-        }
-    }
-    static void deleteDirectory(String name,String location) {
-        File dir = new File(location+"/"+name);
-        if(dir.length()>0){
-            // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("There are files in this directory. Do you want to delete this directory? y/n");
-            // String ans = br.readLine();
-            // if(ans.equals("y")){
-
-            // }
-        }
-        boolean del=dir.delete();
-        if(del){
-            System.out.println("deleted directory");
-        }
-        else{
-            System.out.println("failed to create directory");
-        }
-    }
-    static void renameDirectory(String name,String newName,String location){
-        File oldDir = new File(location+"/"+name);
-        File newDir = new File(location+"/"+newName);
+    void renameDirectory(String name,String newName,String dirPath){
+        File oldDir = new File(dirPath+"/"+name);
+        File newDir = new File(dirPath+"/"+newName);
         if (newDir.exists()){
             System.out.println("directory exists");
             return;
@@ -82,8 +81,6 @@ public class fileManagement{
     //copy file && copy directory+ delete directory if something is in there
 
     // public static void main(String args[]){
-
-    //     System.out.println("hellp");
     //     // createFile("kazkas.txt","/home/pijus/Desktop/empty");
     //     // createDirectory("kazkas.txt","/home/pijus/Desktop/empty");
     //     // deleteFile("kazkas.txt","/home/pijus/Desktop/empty");
