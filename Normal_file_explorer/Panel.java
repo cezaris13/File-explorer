@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 public class Panel{
     private int x,y;
+    //kazkur final panaudoti reikia : (
     JScrollPane scrollbar;
     private int xSize,ySize;
     JPanel panel;
@@ -15,6 +16,12 @@ public class Panel{
         this.xSize=xSize;
         this.ySize=ySize;
         panel.setSize(xSize,ySize);
+    }
+    public void setSize(Dimension dimensions){
+        xSize=(int)dimensions.getWidth();
+        ySize=(int)dimensions.getHeight();
+        panel.setSize(dimensions);
+
     }
     public Panel(){
         panel=new JPanel();
@@ -66,9 +73,11 @@ public class Panel{
     }
     public void setX(int x){
         this.x=x;
+        panel.setLocation(x,y);
     }
     public void setY(int y){
         this.y=y;
+        panel.setLocation(x,y);
     }
     public void setXSize(int xSize){
         this.xSize=xSize;

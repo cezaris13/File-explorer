@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+
 public class test{
 
     public static void main(String[] args){
@@ -21,6 +23,9 @@ public class test{
         System.out.println("temp");
         temp.println();
         Panel temp3 = new Panel(1,2,3,4);
+        System.out.println("temp3");
+        temp3.println();
+        temp3.setSize(new Dimension(423,567));
         System.out.println("temp3");
         temp3.println();
     }
