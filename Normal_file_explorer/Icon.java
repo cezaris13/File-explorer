@@ -3,6 +3,9 @@ public class Icon{
     private int width;
     private int height;
     private ImageIcon icon;
+    //modifikavimo laikas
+    //sukurimo laikas final
+    //dydis
     public Icon(){
         width = 0;
         height = 0;

@@ -12,17 +12,6 @@ public class Panel{
     JScrollPane Scrollbar;
     static String dirPath;
 
-    public void setSize(int xSize,int ySize){
-        this.xSize=xSize;
-        this.ySize=ySize;
-        panel.setSize(xSize,ySize);
-    }
-    public void setSize(Dimension dimensions){
-        xSize=(int)dimensions.getWidth();
-        ySize=(int)dimensions.getHeight();
-        panel.setSize(dimensions);
-
-    }
     public Panel(){
         panel=new JPanel();
         x=0;
@@ -37,7 +26,7 @@ public class Panel{
         xSize=0;
         ySize=0;
     }
-    public Panel(int x,int y,int xSize,int ySize){//topPanel
+    public Panel(int x,int y,int xSize,int ySize){//topPanel and filePanel
         panel=new JPanel();
         panel.setLayout(null);
         panel.setPreferredSize(new Dimension(xSize,ySize));
@@ -46,7 +35,6 @@ public class Panel{
         this.y=y;
         setSize(xSize,ySize);
     }
-
     public Panel(int x,int y,int xSize,int ySize,JTree tree){//left panel
         panel=new JPanel();
         panel.setBounds(x,y,xSize,ySize);
@@ -58,6 +46,17 @@ public class Panel{
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         panel.add(scrollbar);
+    }
+    public void setSize(int xSize,int ySize){
+        this.xSize=xSize;
+        this.ySize=ySize;
+        panel.setSize(xSize,ySize);
+    }
+    public void setSize(Dimension dimensions){
+        xSize=(int)dimensions.getWidth();
+        ySize=(int)dimensions.getHeight();
+        panel.setSize(dimensions);
+
     }
     public int getX(){
         return x;
