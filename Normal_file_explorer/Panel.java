@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
 public class Panel{
     private int x,y;
     //kazkur final panaudoti reikia : (

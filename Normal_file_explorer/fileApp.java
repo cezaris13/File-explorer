@@ -1,25 +1,28 @@
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.io.File;
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.GridLayout;
-import javax.swing.tree.DefaultMutableTreeNode;  
-import java.awt.BorderLayout;
-import java.awt.AWTEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
-import java.awt.Rectangle;
-import java.util.*;
-import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import com.formdev.flatlaf.FlatDarkLaf;
 public class fileApp {
     Icon                   fileIcon   = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png",65,65);//folder + directory icons
@@ -254,7 +257,7 @@ public class fileApp {
                                 if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
                                     try{
                                         String path = list[tmpi];
-                                        Process proc = Runtime.getRuntime().exec(getEx(path)+" "+dirPath+"/"+path);
+                                        Runtime.getRuntime().exec(getEx(path)+" "+dirPath+"/"+path);
                                         System.out.println("this is file: "+list[tmpi]);
                                     }
                                     catch(IOException ex){
@@ -306,7 +309,7 @@ public class fileApp {
         }
     }
     public static void main(String[] args) {
-        fileApp GUI= new fileApp();
+        new fileApp();
     }
     public void recursiveFiles(String dirPath,String ex,DefaultMutableTreeNode head){
         File f = new File(dirPath);

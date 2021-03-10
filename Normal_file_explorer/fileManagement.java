@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 public class fileManagement{
     void createFile(String name,String dirPath){

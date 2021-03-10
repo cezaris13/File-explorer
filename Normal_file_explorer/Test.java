@@ -1,5 +1,3 @@
-import java.awt.Dimension;
-
 public class Test{//is didziosios raides
     public static void main(String[] args){
         File tmp1 = new File();
