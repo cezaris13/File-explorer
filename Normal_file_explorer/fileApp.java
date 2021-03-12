@@ -86,7 +86,7 @@ public class fileApp {
         frame.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     currSelected="";
-                    if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                    if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
                         rightMenu.show(frame , e.getX(), e.getY());
                     }
                 }
@@ -254,7 +254,7 @@ public class fileApp {
                     final JLabel tempButton=buttons.get(i);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
-                                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
+                                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                                     try{
                                         String path = list[tmpi];
                                         Runtime.getRuntime().exec(getEx(path)+" "+dirPath+"/"+path);
@@ -264,7 +264,7 @@ public class fileApp {
                                         System.out.println("something went wrong");
                                     }
                                 }
-                                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
                                     currSelected=list[tmpi];
                                     System.out.println("right click menu File");
                                     rightFileMenu.show(tempButton , e.getX(), e.getY());
@@ -281,7 +281,7 @@ public class fileApp {
                     final JLabel tempButton=buttons.get(i);
                     buttons.get(i).addMouseListener(new MouseAdapter(){
                             public void mouseClicked(MouseEvent e){
-                                if (e.getModifiers() == MouseEvent.BUTTON1_MASK && e.getClickCount() == 2) {
+                                if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                                     Rectangle r = frame.getBounds();
                                     int x = r.width;
                                     int y = r.height+1;
@@ -294,7 +294,7 @@ public class fileApp {
                                     updateFiles(dirPath+"/"+list[tmpi]);
                                     Panel.dirPath=dirPath+"/"+list[tmpi];
                                 }
-                                if (e.getModifiers() == MouseEvent.BUTTON3_MASK && e.getClickCount() == 1) {
+                                if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
                                     currSelected=list[tmpi];
                                     System.out.println("right click menu dir");
                                     rightDirMenu.show(tempButton , e.getX(), e.getY());
