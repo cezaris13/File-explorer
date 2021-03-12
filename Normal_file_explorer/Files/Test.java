@@ -1,3 +1,6 @@
+import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 public class Test{//is didziosios raides
     public static void main(String[] args){
         File tmp1 = new File();
@@ -36,5 +39,26 @@ public class Test{//is didziosios raides
         System.out.println(tmp3.getFileSize());
         System.out.println("creation time");
         System.out.println(tmp3.getCreationTime());
+        Image test = new Image();
+        // test.PictureSize=12;
+        // test.PictureSize=12;
+        test.println();
+        System.out.println(tmp1.toString());
+        System.out.println("test1");
+        System.out.println(test.toString());
+        test.setFileDir("/home/pijus/Pictures/wallpapers");
+        test.setFileName("bsod.png");
+        try{
+            Process proc = Runtime.getRuntime().exec(test.exProgram+" "+test.getFileDir()+"/"+test.getFileName());
+        }
+        catch(IOException ex){
+            System.out.println("something went wrong");
+        }
+        try{
+            TimeUnit.SECONDS.sleep(5);
+        }
+        catch(InterruptedException e){
+
+        }
     }
 }
