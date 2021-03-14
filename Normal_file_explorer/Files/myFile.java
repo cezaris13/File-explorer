@@ -1,5 +1,8 @@
 import java.util.Date;
-public class File{
+import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+
+public class myFile{
     //vartotojas static
     private final Date creationTime;
     private int fileSize=0;//kb
@@ -7,14 +10,11 @@ public class File{
     private String fileDir;
     private String fileName;
     protected String exProgram="";
-    public File(){
-        fileSize=0;
-        fileDir="";
-        fileName="";
-        creationTime=new Date();
-        modificationTime=new Date();
+    // protected Icon;
+    public myFile(){
+        this(0,"","");
     }
-    public File(int fileSize,String fileDir,String fileName){//this()
+    public myFile(int fileSize,String fileDir,String fileName){//this()
         this.fileSize=fileSize;
         this.fileDir=fileDir;
         this.fileName=fileName;
@@ -48,9 +48,22 @@ public class File{
     public void setFileDir(String fileDir){
         this.fileDir=fileDir;
     }
-
     public void setFileName(String fileName){
         this.fileName=fileName;
+    }
+    protected void openProgram(){
+        try{
+            Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
+            try{
+                p.waitFor();
+            }
+            catch(InterruptedException ex){
+                System.out.println("something went wrong");
+            }
+        }
+        catch(IOException ex){
+            System.out.println("something went wrong");
+        }
     }
     public void println(){
         System.out.println("fileSize: "+fileSize);
@@ -60,12 +73,3 @@ public class File{
         System.out.println("creation_time: "+creationTime);
     }
 }
-//txt
-
-//docx
-//excel
-//pptx
-//pdf
-
-//image
-//

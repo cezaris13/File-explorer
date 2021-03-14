@@ -1,11 +1,46 @@
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.text.Document;
+
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+
+
+
 public class Test{//is didziosios raides
+    public static void testImages(myFile tmp,Image a){
+        a.println();
+        System.out.println(tmp.toString());
+        System.out.println("a1");
+        System.out.println(a.toString());
+        a.setFileDir("/home/pijus/Pictures/wallpapers");
+        a.setFileName("bsod.png");
+        System.out.println(a.toString());
+        a.openProgram();
+    }
+    public static void testDocument(Docum a){
+        a.println();
+        System.out.println("a1");
+        System.out.println(a.toString());
+         // a.setFileDir("/home/pijus/Documents");
+        // a.setFileName("RA.odt");
+        a.setFileDir("/home/pijus/Documents/Latex/Testas");
+        a.setFileName("testas.pdf");
+        System.out.println(a.toString());
+        a.openProgram();
+    }
+    public static void testMedia(Media a){
+        a.println();
+        System.out.println("a1");
+        System.out.println(a.toString());
+        a.setFileDir("/home/pijus/Documents/Recordings");
+        a.setFileName("simplescreenrecorder-2021-03-04_13.51.54.mkv");
+        System.out.println(a.toString());
+        a.openProgram();
+    }
     public static void main(String[] args){
-        File tmp1 = new File();
-        File tmp2 = new File(1024,"/home/pijus/Desktop","test.txt");
-        File tmp3 = new File(512,"/home/pijus","sth.txt");
+        myFile tmp1 = new myFile();
+        myFile tmp2 = new myFile(1024,"/home/pijus/Desktop","test.txt");
+        myFile tmp3 = new myFile(512,"/home/pijus","sth.txt");
         System.out.println("tmp1");
         tmp1.println();
         System.out.println("tmp2");
@@ -39,26 +74,11 @@ public class Test{//is didziosios raides
         System.out.println(tmp3.getFileSize());
         System.out.println("creation time");
         System.out.println(tmp3.getCreationTime());
-        Image test = new Image();
-        // test.PictureSize=12;
-        // test.PictureSize=12;
-        test.println();
-        System.out.println(tmp1.toString());
-        System.out.println("test1");
-        System.out.println(test.toString());
-        test.setFileDir("/home/pijus/Pictures/wallpapers");
-        test.setFileName("bsod.png");
-        try{
-            Process proc = Runtime.getRuntime().exec(test.exProgram+" "+test.getFileDir()+"/"+test.getFileName());
-        }
-        catch(IOException ex){
-            System.out.println("something went wrong");
-        }
-        try{
-            TimeUnit.SECONDS.sleep(5);
-        }
-        catch(InterruptedException e){
-
-        }
+        // Image test = new Image();
+        // testImages(tmp1, test);
+        // Docum test2 = new Docum();
+        // testDocument(test2);
+        Media test3 = new Media();
+        testMedia(test3);
     }
 }
