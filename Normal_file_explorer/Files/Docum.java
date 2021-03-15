@@ -1,3 +1,4 @@
+import java.io.File;
 public class Docum extends myFile{
     private int wordCount;
     private int pages;
@@ -24,6 +25,8 @@ public class Docum extends myFile{
         }
         wordCount=0;//change that later
         pages=0;
+        File file = new File(getFileDir()+"/"+fileName);
+        setFileSize(file.length());
     }
     public String getExProgram(){
         return exProgram;
@@ -41,8 +44,8 @@ public class Docum extends myFile{
         super.println();
         System.out.println("wordCount: "+ wordCount);
         System.out.println("pages: "+ pages);
-        System.out.println("docType: "+ docType);
         System.out.println("exProgram: "+ getExProgram());
+        System.out.println("docType: "+ docType);
 
     }
     public void setExProgram(String exProgram){
@@ -62,7 +65,8 @@ public class Docum extends myFile{
         else{
             exProgram="libreoffice";
         }
-
+        File file = new File(getFileDir()+"/"+fileName);
+        setFileSize(file.length());
 
         wordCount=0;
         pages=0;

@@ -24,14 +24,15 @@ public class Image extends myFile{
         }
         imageType=extension;
         try{
-            BufferedImage bimg = ImageIO.read(new File(getFileDir()+fileName));
+            BufferedImage bimg = ImageIO.read(new File(getFileDir()+"/"+fileName));
             PictureXSize = bimg.getWidth();
             PictureYSize = bimg.getHeight();
         }
         catch(IOException e){
-            PictureXSize=0;
-            PictureYSize=0;
+            System.out.println("something failed");
         }
+        File file = new File(fileDir+"/"+fileName);
+        setFileSize(file.length());
     }
     public void setFileName(String fileName){
         super.setFileName(fileName);
@@ -42,22 +43,22 @@ public class Image extends myFile{
         }
         imageType=extension;
         try{
-            BufferedImage bimg = ImageIO.read(new File(getFileDir()+fileName));
+            BufferedImage bimg = ImageIO.read(new File(getFileDir()+"/"+fileName));
             PictureXSize = bimg.getWidth();
             PictureYSize = bimg.getHeight();
         }
         catch(IOException e){
-            PictureXSize=0;
-            PictureYSize=0;
-            System.out.println("failed stm");
+            System.out.println("something failed");
         }
+        File file = new File(getFileDir()+"/"+fileName);
+        setFileSize(file.length());
     }
     public void println(){
         super.println();
         System.out.println("pictureXSize: "+ PictureXSize);
         System.out.println("pictureYSize: "+ PictureYSize);
-        System.out.println("imageType: "+ imageType);
         System.out.println("exProgram: "+ getExProgram());
+        System.out.println("imageType: "+ imageType);
     }
     public String getExProgram(){
         return exProgram;

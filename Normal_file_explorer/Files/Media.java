@@ -1,9 +1,11 @@
+import java.io.File;
 public class Media extends myFile{
     private int duration;
     private String mediaType;
     public Media(){
         super();
         duration=0;
+        mediaType="";
     }
     public Media(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
@@ -14,6 +16,8 @@ public class Media extends myFile{
         }
         mediaType=extension;
         exProgram="vlc";
+        File file = new File(getFileDir()+"/"+fileName);
+        setFileSize(file.length());
     }
     public int getDuration(){
         return duration;
@@ -27,8 +31,8 @@ public class Media extends myFile{
     public void println(){
         super.println();
         System.out.println("duration: "+ duration);
-        System.out.println("Mediatype: "+ mediaType);
         System.out.println("exProgram: "+ getExProgram());
+        System.out.println("Mediatype: "+ mediaType);
     }
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;
@@ -42,6 +46,8 @@ public class Media extends myFile{
         }
         exProgram="vlc";
         mediaType=extension;
+        File file = new File(getFileDir()+"/"+fileName);
+        setFileSize(file.length());
     }
     public String toString(){
         return "CreationTime:"+getCreationTime()+"\n"

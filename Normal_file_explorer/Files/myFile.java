@@ -5,7 +5,7 @@ import java.io.IOException;
 public class myFile{
     //vartotojas static
     private final Date creationTime;
-    private int fileSize=0;//kb
+    private long fileSize=0;//kb
     private Date modificationTime;
     private String fileDir;
     private String fileName;
@@ -30,7 +30,7 @@ public class myFile{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public final int getFileSize(){
+    public final long getFileSize(){
         return fileSize;
     }
     public final Date getCreationTime(){
@@ -51,6 +51,9 @@ public class myFile{
     public void setFileName(String fileName){
         this.fileName=fileName;
     }
+    public final void setFileSize(long fileSize){
+        this.fileSize=fileSize;
+    }
     protected void openProgram(){
         try{
             Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
@@ -66,10 +69,10 @@ public class myFile{
         }
     }
     public void println(){
-        System.out.println("fileSize: "+fileSize);
+        System.out.println("Creation_time: "+creationTime);
+        System.out.println("FileSize: "+fileSize);
         System.out.println("modificationTime: "+modificationTime);
         System.out.println("directory: "+fileDir);
         System.out.println("File_name: "+fileName);
-        System.out.println("creation_time: "+creationTime);
     }
 }
