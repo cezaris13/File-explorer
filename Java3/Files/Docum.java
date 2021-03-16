@@ -1,3 +1,4 @@
+package Files;
 import java.io.File;
 public class Docum extends myFile{
     private int wordCount;
@@ -39,14 +40,6 @@ public class Docum extends myFile{
     }
     public int getWordCount(){
         return wordCount;
-    }
-    public void println(){
-        super.println();
-        System.out.println("wordCount: "+ wordCount);
-        System.out.println("pages: "+ pages);
-        System.out.println("exProgram: "+ getExProgram());
-        System.out.println("docType: "+ docType);
-
     }
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;

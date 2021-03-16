@@ -1,3 +1,4 @@
+package Files;
 import java.io.IOException;
 import java.util.Date;
 public class myFile{
@@ -52,7 +53,7 @@ public class myFile{
     public final void setFileSize(long fileSize){
         this.fileSize=fileSize;
     }
-    protected void openProgram(){
+    public final void openProgram(){
         try{
             Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
             try{
@@ -66,11 +67,6 @@ public class myFile{
             System.out.println("something went wrong");
         }
     }
-    public void println(){
-        System.out.println("Creation_time: "+creationTime);
-        System.out.println("FileSize: "+fileSize);
-        System.out.println("modificationTime: "+modificationTime);
-        System.out.println("directory: "+fileDir);
-        System.out.println("File_name: "+fileName);
-    }
+    //uzkloti ir bazineje
+    //istrinti bazineje println
 }
