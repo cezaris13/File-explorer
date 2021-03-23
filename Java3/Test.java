@@ -22,7 +22,7 @@ public class Test{//is didziosios raides
         a.setFileDir("/home/pijus/Documents/Latex/Testas");
         a.setFileName("testas.pdf");
         System.out.println(a.toString());
-      //  a.openProgram();
+        // a.openProgram();
     }
     public static void testMedia(Media a){
         System.out.println("Media____________________________");
@@ -32,7 +32,7 @@ public class Test{//is didziosios raides
         a.setFileDir("/home/pijus/Documents/Recordings");
         a.setFileName("simplescreenrecorder-2021-03-04_13.51.54.mkv");
         System.out.println(a.toString());
-        //a.openProgram();
+        // a.openProgram();
     }
     public static void main(String[] args){
         myFile tmp1 = new myFile();
@@ -73,13 +73,20 @@ public class Test{//is didziosios raides
         // System.out.println("creation time");
         // System.out.println(tmp3.getCreationTime());
         }
-        Image test = new Image();
-        myFile test4 = new Image();
+        // myFile test4 = new Image();
+
         // polimorfizmas
+        Image test = new Image();
+        myFile test4;//myFile -> MyFile
+        myFile obj = new myFile();
+        System.out.println(obj.toString());
+        test4=test;
         System.out.println("Test_______________________________________");
         System.out.println(test4.toString());// uzklotas toString() metodas
         System.out.println("");
         System.out.println(tmp1.toString());// originali bazine klase
+        System.out.println("");
+        System.out.println("End of Test_______________________________________");
         //baigiasi
         testImages(tmp1, test);
         Docum test2 = new Docum();
