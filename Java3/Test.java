@@ -100,4 +100,3 @@ public class Test{//is didziosios raides
         System.out.println(test.toString());
     }
 }
-//savoka polimorfizas ir pvz

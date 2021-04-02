@@ -1,7 +1,7 @@
 package Files;
 import java.io.IOException;
 import java.util.Date;
-public class myFile{
+public class myFile extends C{
     //vartotojas static
     private final Date creationTime;
     private long fileSize=0;//kb
@@ -29,30 +29,30 @@ public class myFile{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public final long getFileSize(){
-        return fileSize;
-    }
-    public final Date getCreationTime(){
-        return creationTime;
-    }
-    public final Date getModificationTime(){
-        return modificationTime;
-    }
-    public final String getFileDir(){
-        return fileDir;
-    }
-    public final String getFileName(){
-        return fileName;
-    }
-    public void setFileDir(String fileDir){
-        this.fileDir=fileDir;
-    }
-    public void setFileName(String fileName){
-        this.fileName=fileName;
-    }
-    public final void setFileSize(long fileSize){
-        this.fileSize=fileSize;
-    }
+    // public final long getFileSize(){
+    //     return fileSize;
+    // }
+    // public final Date getCreationTime(){
+    //     return creationTime;
+    // }
+    // public final Date getModificationTime(){
+    //     return modificationTime;
+    // }
+    // public final String getFileDir(){
+    //     return fileDir;
+    // }
+    // public final String getFileName(){
+    //     return fileName;
+    // }
+    // public void setFileDir(String fileDir){
+    //     this.fileDir=fileDir;
+    // }
+    // public void setFileName(String fileName){
+    //     this.fileName=fileName;
+    // }
+    // public final void setFileSize(long fileSize){
+    //     this.fileSize=fileSize;
+    // }
     public final void openProgram(){
         try{
             Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
