@@ -1,13 +1,8 @@
 package Files;
 import java.io.IOException;
 import java.util.Date;
-public class myFile extends C{
+public class myFile extends FileFunctions{
     //vartotojas static
-    private final Date creationTime;
-    private long fileSize=0;//kb
-    private Date modificationTime;
-    private String fileDir;
-    private String fileName;
     protected String exProgram="";
     // protected Icon;
     public myFile(){
@@ -29,30 +24,6 @@ public class myFile extends C{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    // public final long getFileSize(){
-    //     return fileSize;
-    // }
-    // public final Date getCreationTime(){
-    //     return creationTime;
-    // }
-    // public final Date getModificationTime(){
-    //     return modificationTime;
-    // }
-    // public final String getFileDir(){
-    //     return fileDir;
-    // }
-    // public final String getFileName(){
-    //     return fileName;
-    // }
-    // public void setFileDir(String fileDir){
-    //     this.fileDir=fileDir;
-    // }
-    // public void setFileName(String fileName){
-    //     this.fileName=fileName;
-    // }
-    // public final void setFileSize(long fileSize){
-    //     this.fileSize=fileSize;
-    // }
     public final void openProgram(){
         try{
             Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
@@ -67,6 +38,4 @@ public class myFile extends C{
             System.out.println("something went wrong");
         }
     }
-    //uzkloti ir bazineje
-    //istrinti bazineje println
 }

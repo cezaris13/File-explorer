@@ -1,12 +1,12 @@
 package Files;
 import java.util.Date;
-public abstract class C implements B{
-    Date creationTime;
-    long fileSize;//kb
-    Date modificationTime;
-    String fileDir;
-    String fileName;
-    String exProgram;
+public abstract class FileFunctions implements ExtendedFile{
+    protected Date creationTime;
+    protected long fileSize=0;//kb
+    protected Date modificationTime;
+    protected String fileDir;
+    protected String fileName;
+    protected String exProgram="";
     public final long getFileSize(){
         return fileSize;
     }
@@ -31,4 +31,5 @@ public abstract class C implements B{
     public final void setFileSize(long fileSize){
         this.fileSize=fileSize;
     }
+    abstract void openProgram();
 }
