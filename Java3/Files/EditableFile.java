@@ -1,20 +1,12 @@
 package Files;
-import java.io.IOException;
 import java.util.Date;
-public class myFile extends FileFunctions{
-    //vartotojas static
-    protected String exProgram="";
-    // protected Icon;
-    public myFile(){
-        this(0,"","");
-    }
-    public myFile(int fileSize,String fileDir,String fileName){//this()
-        this.fileSize=fileSize;
-        this.fileDir=fileDir;
-        this.fileName=fileName;
-        creationTime=new Date();
-        modificationTime=new Date();
-    }
+import java.io.IOException;
+public abstract class EditableFile implements Editable{
+    String exProgram="";
+    String fileDir;
+    String fileName;
+    long fileSize=0;//kb
+    Date modificationTime;
     public void editFile(int fileSize){
         this.fileSize=fileSize;
         modificationTime=new Date();
@@ -24,9 +16,9 @@ public class myFile extends FileFunctions{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public final void openProgram(){
+    public void openFile(){
         try{
-            Process p=Runtime.getRuntime().exec(exProgram+" "+getFileDir()+"/"+getFileName());
+            Process p=Runtime.getRuntime().exec(exProgram+" "+fileDir+"/"+fileName);
             try{
                 p.waitFor();
             }
@@ -38,4 +30,7 @@ public class myFile extends FileFunctions{
             System.out.println("something went wrong");
         }
     }
+    public void deleteFile(){
+        System.out.println("deleting file");
+    }//todo later
 }

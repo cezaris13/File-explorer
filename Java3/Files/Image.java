@@ -3,7 +3,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
-public class Image extends myFile{
+public class Image extends MyFile{
     int PictureXSize;
     int PictureYSize;
     int orientation;//0,1,2,3-rotating clock wise

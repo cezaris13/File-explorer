@@ -1,6 +1,6 @@
 package Files;
 import java.io.File;
-public class Docum extends myFile{
+public class Docum extends MyFile{
     private int wordCount;
     private int pages;
     private String docType;

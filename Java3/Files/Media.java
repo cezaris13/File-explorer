@@ -1,6 +1,6 @@
 package Files;
 import java.io.File;
-public class Media extends myFile{
+public class Media extends MyFile{
     private int duration;
     private String mediaType;
     public Media(){
