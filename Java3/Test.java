@@ -8,9 +8,10 @@ public class Test{//is didziosios raides
         System.out.println("a1");
         System.out.println(a.toString());
         a.setFileDir("/home/pijus/Pictures/wallpapers");
-        a.setFileName("bsod.png");
+        a.setFileName("bsoda.png");
         System.out.println(a.toString());
-        // a.openFile();
+        a.openFile();
+        a.deleteFile();
     }
     public static void testDocument(Docum a){
         System.out.println("Document_________________________");
@@ -77,26 +78,26 @@ public class Test{//is didziosios raides
 
         // polimorfizmas
         Image test = new Image();
-        MyFile test4;//MyFile -> MyFile
-        MyFile obj = new MyFile();
-        System.out.println(obj.toString());
-        test4=test;
-        System.out.println("Test_______________________________________");
-        System.out.println(test4.toString());// uzklotas toString() metodas
-        System.out.println("");
-        System.out.println(tmp1.toString());// originali bazine klase
-        System.out.println("");
-        System.out.println("End of Test_______________________________________");
+        // MyFile test4;//MyFile -> MyFile
+        // MyFile obj = new MyFile();
+        // System.out.println(obj.toString());
+        // test4=test;
+        // System.out.println("Test_______________________________________");
+        // System.out.println(test4.toString());// uzklotas toString() metodas
+        // System.out.println("");
+        // System.out.println(tmp1.toString());// originali bazine klase
+        // System.out.println("");
+        // System.out.println("End of Test_______________________________________");
         //baigiasi
         testImages(tmp1, test);
-        Docum test2 = new Docum();
-        testDocument(test2);
-        Media test3 = new Media();
-        testMedia(test3);
-        test.rotateImage();
-        test.rotateImage();
-        test.rotateImage();
-        System.out.println("Rotation___________________________");
-        System.out.println(test.toString());
+        // Docum test2 = new Docum();
+        // testDocument(test2);
+        // Media test3 = new Media();
+        // testMedia(test3);
+        // test.rotateImage();
+        // test.rotateImage();
+        // test.rotateImage();
+        // System.out.println("Rotation___________________________");
+        // System.out.println(test.toString());
     }
 }
