@@ -19,9 +19,10 @@ public abstract class EditableFile implements Editable{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public void openFile(){
+    public void openFile()
+        throws IncorrectFileNameException{
         try{
-            File tmpFile = new File(fileDir+"/"+fileName);
+            File tmpFile=new File(fileDir+"/"+fileName);
             if(!tmpFile.exists()){
                 throw new FileIsMissingException("File not Found",fileName);
             }
@@ -34,17 +35,21 @@ public abstract class EditableFile implements Editable{
             }
         }
         catch(FileIsMissingException ex){
-            System.out.println("Failed to open file. "+ex+"\nFile: "+ex.getFileName());
+            System.out.println("Failed to open file. "+ex+"\n\tFile: "+ex.getFileName()+"\n");
+            if(!isCorrectFileName(ex.getFileName())){
+                throw new IncorrectFileNameException("Incorrect filename : " + ex.getFileName() , ex);
+            }
         }
         catch(IOException ex){}
     }
-    public void deleteFile(){//add stuff
-        File file = new File(fileDir+"/"+fileName);
+    public void deleteFile()
+        throws IncorrectFileNameException{//add stuff
         try{
+            File file=new File(fileDir+"/"+fileName);
             if(!file.exists()){
                 throw new FileIsMissingException("File not Found",fileName,fileDir);
             }
-            if (file.delete()) {
+            if(file.delete()) {
                 System.out.println("Deleted the file: " + file.getName());
             }
             else {
@@ -52,7 +57,21 @@ public abstract class EditableFile implements Editable{
             }
         }
         catch(FileIsMissingException ex){
-            System.out.println("Failed to delete the file. "+ex+"\nFile:"+ex.getFileName()+"\nAt: "+ex.getFileDir());
+            System.out.println("Failed to delete the file. "+ex+"\n\tFile:"+ex.getFileName()+"\n\tAt: "+ex.getFileDir()+"\n");
+            if(!isCorrectFileName(ex.getFileName())){
+                throw new IncorrectFileNameException("Incorrect filename : " + ex.getFileName() ,ex);
+            }
         }
+    }
+    public boolean isCorrectFileName(String fileName){
+        String illegalCaracters="@$%&\\/:*?\"'<>|~`#^+={}[];!";
+        for (int i=0;i<fileName.length();i++) {
+            for (int j=0;j<illegalCaracters.length();j++) {
+                if(fileName.charAt(i)==illegalCaracters.charAt(j)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

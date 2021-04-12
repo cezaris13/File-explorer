@@ -12,10 +12,10 @@ public class Docum extends MyFile{
     }
     public Docum(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         docType=extension;
         if(extension.equals("pdf")){
@@ -26,7 +26,7 @@ public class Docum extends MyFile{
         }
         wordCount=0;//change that later
         pages=0;
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
     public String getDocType(){
@@ -43,10 +43,10 @@ public class Docum extends MyFile{
     }
     public void setFileName(String fileName){
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         docType=extension;
         if(extension.equals("pdf")){
@@ -55,7 +55,7 @@ public class Docum extends MyFile{
         else{
             exProgram="libreoffice";
         }
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
         wordCount=0;
         pages=0;

@@ -10,14 +10,14 @@ public class Media extends MyFile{
     }
     public Media(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         mediaType=extension;
         exProgram="vlc";
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
     public int getDuration(){
@@ -31,14 +31,14 @@ public class Media extends MyFile{
     }
     public void setFileName(String fileName){
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j>=0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         exProgram="vlc";
         mediaType=extension;
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
     public String toString(){

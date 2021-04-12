@@ -1,4 +1,4 @@
 package Files;
 public interface Viewable {
-    void openFile();
+    void openFile() throws IncorrectFileNameException;
 }

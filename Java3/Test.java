@@ -4,10 +4,20 @@ public class Test{//is didziosios raides
         System.out.println("Image____________________________");
         System.out.println(a.toString());
         a.setFileDir("/home/pijus/Pictures/wallpapers");
-        a.setFileName("bsoda.png");
+        a.setFileName("bsod@.png");
         System.out.println(a.toString());
-        a.openFile();
-        a.deleteFile();
+        try{
+            a.openFile();
+        }
+        catch(IncorrectFileNameException ex){
+            System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
+        }
+        try{
+            a.deleteFile();
+        }
+        catch(IncorrectFileNameException ex){
+            System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
+        }
     }
     public static void testDocument(Docum a){
         System.out.println("Document_________________________");
@@ -24,7 +34,12 @@ public class Test{//is didziosios raides
         a.setFileDir("/home/pijus/Documents/Recordings");
         a.setFileName("simplescreenrecorder-2021-03-04_13.51.54.mkv");
         System.out.println(a.toString());
-        a.openFile();
+        try{
+            a.openFile();
+        }
+        catch(IncorrectFileNameException ex){
+            System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
+        }
     }
     public static void main(String[] args){
         Image test = new Image();

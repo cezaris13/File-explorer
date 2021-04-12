@@ -20,41 +20,41 @@ public class Image extends MyFile{
     public Image(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
         exProgram="gwenview";
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);//something.txt -> txt
+            extension=fileName.substring(j+1);//something.txt -> txt
         }
         imageType=extension;
         try{
-            BufferedImage bimg = ImageIO.read(new File(getFileDir()+"/"+fileName));
-            PictureXSize = bimg.getWidth();
-            PictureYSize = bimg.getHeight();
+            BufferedImage bimg=ImageIO.read(new File(getFileDir()+"/"+fileName));
+            PictureXSize=bimg.getWidth();
+            PictureYSize=bimg.getHeight();
         }
-        catch(IOException e){
-            System.out.println("something failed");
+        catch(IOException ex){
+            System.out.println("\t"+ex);
         }
-        File file = new File(fileDir+"/"+fileName);
+        File file=new File(fileDir+"/"+fileName);
         setFileSize(file.length());
         orientation=0;
     }
     public void setFileName(String fileName){
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);//something.txt -> txt
+            extension=fileName.substring(j+1);//something.txt -> txt
         }
         imageType=extension;
         try{
-            BufferedImage bimg = ImageIO.read(new File(getFileDir()+"/"+fileName));
-            PictureXSize = bimg.getWidth();
-            PictureYSize = bimg.getHeight();
+            BufferedImage bimg=ImageIO.read(new File(getFileDir()+"/"+fileName));
+            PictureXSize=bimg.getWidth();
+            PictureYSize=bimg.getHeight();
         }
-        catch(IOException e){
-            System.out.println("something failed");
+        catch(IOException ex){
+            System.out.println("\t"+ex);
         }
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
         orientation=0;
     }
