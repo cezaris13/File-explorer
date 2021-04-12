@@ -1,11 +1,21 @@
 package Files;
 public class FileIsMissingException extends Exception{
+    private String fileName="";
+    private String fileDir="";
+    public FileIsMissingException(){}
     public FileIsMissingException(String errorMessage,String fileName){
         super(errorMessage);
-        System.out.printf("Failed to open file. File %s not found\n",fileName);
+        this.fileName=fileName;
     }
-   public FileIsMissingException(String errorMessage,String fileName,String fileDir){
+    public FileIsMissingException(String errorMessage,String fileName,String fileDir){
         super(errorMessage);
-        System.out.printf("Failed to delete file File %s not found at %s\n",fileName,fileDir);
+        this.fileName=fileName;
+        this.fileDir=fileDir;
+    }
+    public String getFileName() {
+        return fileName;
+    }
+    public String getFileDir() {
+        return fileDir;
     }
 }

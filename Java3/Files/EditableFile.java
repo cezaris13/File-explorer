@@ -23,7 +23,7 @@ public abstract class EditableFile implements Editable{
         try{
             File tmpFile = new File(fileDir+"/"+fileName);
             if(!tmpFile.exists()){
-                throw new FileIsMissingException("Test",fileName);
+                throw new FileIsMissingException("File not Found",fileName);
             }
             Process p=Runtime.getRuntime().exec(exProgram+" "+fileDir+"/"+fileName);
             try{
@@ -34,17 +34,15 @@ public abstract class EditableFile implements Editable{
             }
         }
         catch(FileIsMissingException ex){
-            // System.out.println("sth failed");
+            System.out.println("Failed to open file. "+ex+"\nFile: "+ex.getFileName());
         }
-        catch(IOException ex){
-            // System.out.println("sth failed");
-        }
+        catch(IOException ex){}
     }
     public void deleteFile(){//add stuff
         File file = new File(fileDir+"/"+fileName);
         try{
             if(!file.exists()){
-                throw new FileIsMissingException("test",fileName,fileDir);
+                throw new FileIsMissingException("File not Found",fileName,fileDir);
             }
             if (file.delete()) {
                 System.out.println("Deleted the file: " + file.getName());
@@ -54,7 +52,7 @@ public abstract class EditableFile implements Editable{
             }
         }
         catch(FileIsMissingException ex){
-            // System.out.println("");
+            System.out.println("Failed to delete the file. "+ex+"\nFile:"+ex.getFileName()+"\nAt: "+ex.getFileDir());
         }
-    }//todo later
+    }
 }

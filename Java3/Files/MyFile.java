@@ -18,6 +18,9 @@ public class MyFile extends EditableFile{
     public final Date getCreationTime(){
         return creationTime;
     }
+    public String getExProgram(){
+        return exProgram;
+    }
     public final String getFileDir(){
         return fileDir;
     }

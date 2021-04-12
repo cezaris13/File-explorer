@@ -23,9 +23,6 @@ public class Media extends MyFile{
     public int getDuration(){
         return duration;
     }
-    public String getExProgram(){
-        return exProgram;
-    }
     public String getMediaType(){
         return mediaType;
     }

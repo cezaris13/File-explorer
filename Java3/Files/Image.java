@@ -58,9 +58,7 @@ public class Image extends MyFile{
         setFileSize(file.length());
         orientation=0;
     }
-    public String getExProgram(){
-        return exProgram;
-    }
+
     public String getImageType(){
         return imageType;
     }

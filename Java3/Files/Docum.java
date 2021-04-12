@@ -29,9 +29,6 @@ public class Docum extends MyFile{
         File file = new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
-    public String getExProgram(){
-        return exProgram;
-    }
     public String getDocType(){
         return docType;
     }
