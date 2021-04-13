@@ -1,7 +1,7 @@
 package Files;
 public class FileIsMissingException extends Exception{
-    private String fileName="";
-    private String fileDir="";
+    public String fileName="";
+    public String fileDir="";
     public FileIsMissingException(){}
     public FileIsMissingException(String errorMessage,String fileName){
         super(errorMessage);
@@ -12,10 +12,16 @@ public class FileIsMissingException extends Exception{
         this.fileName=fileName;
         this.fileDir=fileDir;
     }
+    public FileIsMissingException(String errorMessage, Throwable err) {
+        super(errorMessage, err);
+    }
     public String getFileName() {
         return fileName;
     }
     public String getFileDir() {
         return fileDir;
+    }
+    public FileIsMissingException(String errorMessage){
+        super(errorMessage);
     }
 }

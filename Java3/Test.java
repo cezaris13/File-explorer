@@ -4,7 +4,7 @@ public class Test{//is didziosios raides
         System.out.println("Image____________________________");
         System.out.println(a.toString());
         a.setFileDir("/home/pijus/Pictures/wallpapers");
-        a.setFileName("bsod@.png");
+        a.setFileName("bsoda.png");
         System.out.println(a.toString());
         try{
             a.openFile();
@@ -12,11 +12,17 @@ public class Test{//is didziosios raides
         catch(IncorrectFileNameException ex){
             System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
         }
+        catch(FileIsMissingException ex){
+            System.out.println("Failed to open file. "+ex+"\n\tFile: "+ex.getFileName()+"\n");
+        }
         try{
             a.deleteFile();
         }
         catch(IncorrectFileNameException ex){
-            System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
+            System.out.println("Failed to delete the file. \n\t"+ex);
+        }
+        catch(FileIsMissingException ex){
+            System.out.println("Failed to delete the file. "+ex+"\n\tFile:"+ex.getFileName()+"\n\tAt: "+ex.getFileDir()+"\n");
         }
     }
     public static void testDocument(Docum a){
@@ -39,6 +45,9 @@ public class Test{//is didziosios raides
         }
         catch(IncorrectFileNameException ex){
             System.out.println("\t"+ex+"\n\t"+ex.getMessage()+"\n");
+        }
+        catch(FileIsMissingException ex){
+            System.out.println("Failed to open file. "+ex+"\n\tFile: "+ex.getFileName()+"\n");
         }
     }
     public static void main(String[] args){

@@ -20,9 +20,12 @@ public abstract class EditableFile implements Editable{
         modificationTime=new Date();
     }
     public void openFile()
-        throws IncorrectFileNameException{
+        throws FileIsMissingException{//abu
         try{
             File tmpFile=new File(fileDir+"/"+fileName);
+            if(!isCorrectFileName(fileName)){
+                throw new IncorrectFileNameException("Incorrect filename : " + fileName);
+            }
             if(!tmpFile.exists()){
                 throw new FileIsMissingException("File not Found",fileName);
             }
@@ -34,33 +37,22 @@ public abstract class EditableFile implements Editable{
                 System.out.println("interruption error");
             }
         }
-        catch(FileIsMissingException ex){
-            System.out.println("Failed to open file. "+ex+"\n\tFile: "+ex.getFileName()+"\n");
-            if(!isCorrectFileName(ex.getFileName())){
-                throw new IncorrectFileNameException("Incorrect filename : " + ex.getFileName() , ex);
-            }
-        }
         catch(IOException ex){}
     }
     public void deleteFile()
-        throws IncorrectFileNameException{//add stuff
-        try{
-            File file=new File(fileDir+"/"+fileName);
-            if(!file.exists()){
-                throw new FileIsMissingException("File not Found",fileName,fileDir);
-            }
-            if(file.delete()) {
-                System.out.println("Deleted the file: " + file.getName());
-            }
-            else {
-                System.out.println("Failed to delete the file.");
-            }
+        throws FileIsMissingException{//add stuff
+        File file=new File(fileDir+"/"+fileName);
+        if(!isCorrectFileName(fileName)){
+            throw new IncorrectFileNameException("Incorrect filename : " + fileName);
         }
-        catch(FileIsMissingException ex){
-            System.out.println("Failed to delete the file. "+ex+"\n\tFile:"+ex.getFileName()+"\n\tAt: "+ex.getFileDir()+"\n");
-            if(!isCorrectFileName(ex.getFileName())){
-                throw new IncorrectFileNameException("Incorrect filename : " + ex.getFileName() ,ex);
-            }
+        if(!file.exists()){
+            throw new FileIsMissingException("File not Found",fileName,fileDir);
+        }
+        if(file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        }
+        else {
+            System.out.println("Failed to delete the file.");
         }
     }
     public boolean isCorrectFileName(String fileName){
