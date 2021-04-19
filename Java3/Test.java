@@ -3,9 +3,9 @@ public class Test{//is didziosios raides
     public static void testImages(MyFile a){
         System.out.println("Image____________________________");
         System.out.println(a.toString());
-        a.setFileDir("/home/pijus/Pictures/wallpapers");
-        a.setFileName("bsoda.png");
-        System.out.println(a.toString());
+        // a.setFileDir("/home/pijus/Pictures/wallpapers");
+        // a.setFileName("bsod.png");
+        // System.out.println(a.toString());
         try{
             a.openFile();
         }
@@ -15,15 +15,15 @@ public class Test{//is didziosios raides
         catch(FileIsMissingException ex){
             System.out.println("Failed to open file. "+ex+"\n\tFile: "+ex.getFileName()+"\n");
         }
-        try{
-            a.deleteFile();
-        }
-        catch(IncorrectFileNameException ex){
-            System.out.println("Failed to delete the file. \n\t"+ex);
-        }
-        catch(FileIsMissingException ex){
-            System.out.println("Failed to delete the file. "+ex+"\n\tFile:"+ex.getFileName()+"\n\tAt: "+ex.getFileDir()+"\n");
-        }
+        // try{
+        //     a.deleteFile();
+        // }
+        // catch(IncorrectFileNameException ex){
+        //     System.out.println("Failed to delete the file. \n\t"+ex);
+        // }
+        // catch(FileIsMissingException ex){
+        //     System.out.println("Failed to delete the file. "+ex+"\n\tFile:"+ex.getFileName()+"\n\tAt: "+ex.getFileDir()+"\n");
+        // }
     }
     public static void testDocument(Docum a){
         System.out.println("Document_________________________");
@@ -52,10 +52,19 @@ public class Test{//is didziosios raides
     }
     public static void main(String[] args){
         Image test = new Image();
+        test.setFileDir("/home/pijus/Pictures/wallpapers");
+        test.setFileName("bsod.png");
         testImages(test);
-        Docum test2 = new Docum();
-        testDocument(test2);
-        Media test3 = new Media();
-        testMedia(test3);
+        // Docum test2 = new Docum();
+        // testDocument(test2);
+        // Media test3 = new Media();
+        // testMedia(test3);
+        try{
+            Image tmp = (Image)test.clone();
+            testImages(tmp);
+        }
+        catch(CloneNotSupportedException ex){
+            System.out.println(ex);
+        }
     }
 }
