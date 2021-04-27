@@ -7,7 +7,8 @@ import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.*;
 public class MyFile extends EditableFile implements Cloneable{
     //vartotojas static
-    Date creationTime;
+    private Date creationTime;
+    public String exProgram;
     // protected Icon;
     public MyFile(){
         this(0,"","");
@@ -46,28 +47,48 @@ public class MyFile extends EditableFile implements Cloneable{
     public final void setFileSize(long fileSize){
         this.fileSize=fileSize;
     }
+    public void setModificationTime(Date date){
+        this.modificationTime=date;
+    }
+    public void setCreationTime(Date date){
+        this.creationTime=date;
+    }
+    public String toString(){
+        return "CreationTime:"+getCreationTime()+"\n"
+            +"FileSize: "+getFileSize()+"\n"
+            +"ModificationDate: "+getModificationTime()+"\n"
+            +"Filedir: "+getFileDir()+"\n"
+            +"Filename: "+getFileName()+"\n"
+            +"exProgram: "+exProgram+"\n";
+    }
     public Object clone() throws CloneNotSupportedException{
-        MyFile fileCopy=(MyFile)super.clone();
-        fileCopy.creationTime=new Date();
-        fileCopy.modificationTime=new Date();
-        File tempFilecopy=new File(fileCopy.fileDir+"/"+fileCopy.fileName);
-        String tempNewName=new String(fileCopy.getFileName());
-        File newFile=new File(fileCopy.fileDir+"/"+tempNewName);
-        Integer i=1;
-        String newFileName=new String();
-        while(newFile.exists()){
-            int j = tempNewName.lastIndexOf('.');
-            newFile=new File(fileCopy.fileDir+"/"+tempNewName.substring(0,j)+i.toString()+"."+tempNewName.substring(j+1));
-            newFileName=tempNewName.substring(0,j)+i.toString()+"."+tempNewName.substring(j+1);
-            i++;
-        }
-        fileCopy.fileName=newFileName;
-        try{
-            Files.copy(tempFilecopy.toPath(),newFile.toPath(),REPLACE_EXISTING);
-        }
-        catch(IOException ex){
-            System.out.println(ex);
-        }
-        return fileCopy;
+        // MyFile fileCopy=(MyFile)super.clone();
+        // fileCopy.creationTime=(Date)creationTime.clone();
+        // return fileCopy;
+        {
+        // fileCopy.fileDir=(String)super.clone();
+        // fileCopy.creationTime=new Date();
+        // fileCopy.modificationTime=new Date();
+
+        // File tempFilecopy=new File(fileCopy.fileDir+"/"+fileCopy.fileName);
+        // String tempNewName=new String(fileCopy.getFileName());
+        // File newFile=new File(fileCopy.fileDir+"/"+tempNewName);
+        // Integer i=1;
+        // String newFileName=new String();
+        // while(newFile.exists()){
+        //     int j = tempNewName.lastIndexOf('.');
+        //     newFile=new File(fileCopy.fileDir+"/"+tempNewName.substring(0,j)+i.toString()+"."+tempNewName.substring(j+1));
+        //     newFileName=tempNewName.substring(0,j)+i.toString()+"."+tempNewName.substring(j+1);
+        //     i++;
+        // }
+        // fileCopy.fileName=newFileName;
+        // try{
+        //     Files.copy(tempFilecopy.toPath(),newFile.toPath(),REPLACE_EXISTING);
+        // }
+        // catch(IOException ex){
+        //     System.out.println(ex);
+        // }
+         }
+        return super.clone();
     }
 }

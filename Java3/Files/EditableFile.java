@@ -66,4 +66,7 @@ public abstract class EditableFile implements Editable{
         }
         return true;
     }
+    protected Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
 }
