@@ -1,3 +1,4 @@
+// import Files.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -23,10 +25,12 @@ import javax.swing.JTree;
 import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import java.util.Collections;
+
 import com.formdev.flatlaf.FlatDarkLaf;
 public class fileApp {
-    Icon                   fileIcon   = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/file.png",65,65);//folder + directory icons
-    Icon                   folderIcon = new Icon("/home/pijus/Desktop/Java/Normal_file_explorer/folder.png",65,65);
+    Icon                   fileIcon   = new Icon("/home/pijus/Desktop/Programming_languages/Java/Normal_file_explorer/file.png",65,65);//folder + directory icons
+    Icon                   folderIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/Normal_file_explorer/folder.png",65,65);
     Panel                  filePanel;
     Panel                  topPanel;
     Panel                  leftMenu=new Panel();
@@ -41,8 +45,9 @@ public class fileApp {
     DefaultMutableTreeNode head;
     public fileApp(){
         try {
-            UIManager.setLookAndFeel( new FlatDarkLaf() );
-        } catch( Exception ex ) {
+            UIManager.setLookAndFeel(new FlatDarkLaf());
+        }
+        catch(Exception ex){
             System.err.println( "Failed to initialize LaF" );
         }
         frame = new JFrame("my file explorer");
@@ -51,7 +56,7 @@ public class fileApp {
         frame.setMinimumSize(new Dimension(600, 500));
         topPanel = new Panel(0,0,600,30);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        Panel.dirPath = "/home/pijus/Desktop";
+        Panel.dirPath = "/home/pijus/Downloads";
         head = new DefaultMutableTreeNode(Panel.dirPath);
         JButton back = new JButton("go back");
         back.addActionListener(new ActionListener(){
@@ -306,9 +311,16 @@ public class fileApp {
             customLayout(buttons);
             filePanel.panel.revalidate();
             filePanel.panel.repaint();
+            // if(buttons.size()>0){
+            //     Collections.sort(buttons,new Comparator<JLabel>(){
+            //             public int compare(final JLabel object1,final JLabel object2){
+            //                 return object1.getName().compareTo(object2.getName());
+            //             }
+            //         });
+            // }
         }
     }
-    public static void main(String[] args) {
+    public static void main(String[] args){
         new fileApp();
     }
     public void recursiveFiles(String dirPath,String ex,DefaultMutableTreeNode head){
@@ -372,6 +384,7 @@ public class fileApp {
                 countx=0;
             }
             File f1= new File(Panel.dirPath+"/"+buttons.get(i).getText());
+            System.out.println(fileIcon.getHeight());
             if(f1.isFile()){
                 buttons.get(i).setBounds(countx*x+initSpace,county*y+initSpace,fileIcon.getWidth()+20,fileIcon.getHeight()+20);
             }

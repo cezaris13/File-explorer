@@ -1,5 +1,6 @@
+package Files;
 import java.io.File;
-public class Docum extends myFile{
+public class Docum extends MyFile{
     private int wordCount;
     private int pages;
     private String docType;
@@ -11,10 +12,10 @@ public class Docum extends myFile{
     }
     public Docum(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         docType=extension;
         if(extension.equals("pdf")){
@@ -25,11 +26,8 @@ public class Docum extends myFile{
         }
         wordCount=0;//change that later
         pages=0;
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
-    }
-    public String getExProgram(){
-        return exProgram;
     }
     public String getDocType(){
         return docType;
@@ -40,23 +38,15 @@ public class Docum extends myFile{
     public int getWordCount(){
         return wordCount;
     }
-    public void println(){
-        super.println();
-        System.out.println("wordCount: "+ wordCount);
-        System.out.println("pages: "+ pages);
-        System.out.println("exProgram: "+ getExProgram());
-        System.out.println("docType: "+ docType);
-
-    }
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;
     }
     public void setFileName(String fileName){
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
+        int j=fileName.lastIndexOf('.');
         String extension="";
         if (j >= 0) {
-            extension = fileName.substring(j+1);
+            extension=fileName.substring(j+1);
         }
         docType=extension;
         if(extension.equals("pdf")){
@@ -65,7 +55,7 @@ public class Docum extends myFile{
         else{
             exProgram="libreoffice";
         }
-        File file = new File(getFileDir()+"/"+fileName);
+        File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
         wordCount=0;
         pages=0;

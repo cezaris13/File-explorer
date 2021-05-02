@@ -1,34 +1,26 @@
 package Files;
 import java.io.File;
-public class Media extends MyFile{
-    private int duration;
-    private String mediaType;
-    public Media(){
+public class SimpleFile extends MyFile {
+    private String fileType="";
+    public SimpleFile(){
         super();
-        duration=0;
-        mediaType="";
+        fileType="";
     }
-    public Media(int fileSize,String fileDir, String fileName){
+    public SimpleFile(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
         int j=fileName.lastIndexOf('.');
         String extension="";
-        if (j >= 0) {
+        if (j>=0) {
             extension=fileName.substring(j+1);
         }
-        mediaType=extension;
-        exProgram="vlc";
+        fileType=extension;
+        exProgram="kate";
         File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
-    public int getDuration(){
-        return duration;
-    }
-    public String getMediaType(){
-        return mediaType;
-    }
-    public void setExProgram(String exProgram){
-        this.exProgram=exProgram;
-    }
+	public String getFileType() {
+		return fileType;
+	}
     public void setFileName(String fileName){
         super.setFileName(fileName);
         int j=fileName.lastIndexOf('.');
@@ -36,8 +28,8 @@ public class Media extends MyFile{
         if (j>=0) {
             extension=fileName.substring(j+1);
         }
-        exProgram="vlc";
-        mediaType=extension;
+        exProgram="kate";
+        fileType=extension;
         File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());
     }
@@ -47,8 +39,7 @@ public class Media extends MyFile{
             +"ModificationDate: "+getModificationTime()+"\n"
             +"Filedir: "+getFileDir()+"\n"
             +"Filename: "+getFileName()+"\n"
-            +"duration:"+duration+"\n"
             +"exProgram: "+exProgram+"\n"
-            +"mediaType: "+mediaType;
+            +"fileType: "+fileType;
     }
 }
