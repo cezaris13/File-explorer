@@ -7,13 +7,21 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 public class fileApp{
     Panel                  filePanel;
     Panel                  topPanel;
@@ -32,11 +40,36 @@ public class fileApp{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
-        topPanel=new Panel(0,0,600,30);
+        topPanel=new Panel(0,0,600,35);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
         Panel.dirPath="/home/pijus/Desktop";
+        File savedLocation=new File("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt");
+        if(savedLocation.exists()&&savedLocation.length()>0){
+            try{
+                DataInputStream dataIn = new DataInputStream(new FileInputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                int length=dataIn.readInt();
+                byte[] data=new byte[length];
+                dataIn.readFully(data);
+                Panel.dirPath=new String(data,"UTF-8");
+                System.out.println(Panel.dirPath);
+            }
+            catch(IOException ex){
+                System.out.println(ex);
+            }
+            // try{
+            //     Scanner lines=new Scanner(savedLocation);
+            //     while(lines.hasNextLine()){
+            //         Panel.dirPath=lines.nextLine();
+            //     }
+            // }
+            // catch(FileNotFoundException ex){
+            //     System.out.println(ex);
+            // }
+        }
+
         head=new DefaultMutableTreeNode(Panel.dirPath);
-        JButton back=new JButton("go back");
+        JButton back=new JButton("back");
         back.addActionListener(e ->{
             int lastSlash=Panel.dirPath.lastIndexOf('/');
             Panel.dirPath=Panel.dirPath.substring(0, lastSlash);//fix that it you have / stop
@@ -45,12 +78,51 @@ public class fileApp{
             }
             updateFiles(Panel.dirPath);
         });
-        JTextField textBox= new JTextField("directory");
+        JTextField textBox= new JTextField(Panel.dirPath,50);
         JButton goToDir=new JButton("go to dir");
         goToDir.addActionListener(e ->{
             Panel.dirPath=textBox.getText();
             updateFiles(Panel.dirPath);
 
+        });
+        JButton saveDirectory=new JButton("save directory");
+        saveDirectory.addActionListener(e ->{
+                // (new Thread(new SaveDataThread(Panel.dirPath,"/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"))).start();
+                SwingUtilities.invokeLater(new Runnable(){
+                        public void run(){
+                            try{
+                                DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                                byte[] data=Panel.dirPath.getBytes("UTF-8");
+                                System.out.println(Panel.dirPath);
+                                dataOut.writeInt(data.length);
+                                dataOut.write(data);
+                            }
+                            catch(IOException ex){
+                                System.out.println(ex);
+                            }
+                        }
+                    });
+                // try{
+                //     DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                //     byte[] data=Panel.dirPath.getBytes("UTF-8");
+                //     System.out.println(Panel.dirPath);
+                //     dataOut.writeInt(data.length);
+                //     dataOut.write(data);
+                // }
+                // catch(IOException ex){
+                //     System.out.println(ex);
+                // }
+                // try{
+                //     if(savedLocation.createNewFile()){
+                //         System.out.println("file created");
+                //     }
+                //     FileWriter writer=new FileWriter(savedLocation.getName());
+                //     writer.write(Panel.dirPath);
+                //     writer.close();
+                // }
+                // catch(IOException ex){
+                //     System.out.println(ex);
+                // }
         });
         JMenuItem newF=new JMenuItem("New file");
         JMenuItem renameFile=new JMenuItem("rename file");
@@ -94,6 +166,7 @@ public class fileApp{
         topPanel.panel.add(back);
         topPanel.panel.add(textBox);
         topPanel.panel.add(goToDir);
+        topPanel.panel.add(saveDirectory);
         recursiveFiles(Panel.dirPath,"",head);
         fileTree=new JTree(head);
         fileTree.addMouseListener(new MouseAdapter(){
