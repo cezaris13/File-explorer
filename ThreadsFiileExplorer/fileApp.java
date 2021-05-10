@@ -23,27 +23,28 @@ import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 public class fileApp{
-    Panel                  filePanel;
-    Panel                  topPanel;
-    Panel                  leftMenu=new Panel();
+    CustomPanel                  filePanel;
+    CustomPanel                  topPanel;
+    CustomPanel                  leftMenu=new CustomPanel();
     JFrame                 frame;
     JTree                  fileTree;
     String                 currSelected="";
     List<CustomJLabel>     fileList= new ArrayList<>();
     final JPopupMenu       rightMenu=new JPopupMenu("Edit");
     final JPopupMenu       rightFileMenu=new JPopupMenu("Edit file");
-    final JPopupMenu       rightDirMenu=new JPopupMenu("Edir dir");
+    final JPopupMenu       rightFolderMenu=new JPopupMenu("Edir dir");
     public FileFactory     fileFactory=new FileFactory();
     DefaultMutableTreeNode head;
+
     public fileApp(){//add folders
         frame=new JFrame("my file explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
-        topPanel=new Panel(0,0,600,35);
+        topPanel=new CustomPanel(0,0,600,35);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        Panel.dirPath="/home/pijus/Desktop";
+        CustomPanel.directory="/home/pijus/Desktop";
         File savedLocation=new File("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt");
         if(savedLocation.exists()&&savedLocation.length()>0){
             try{
@@ -51,8 +52,8 @@ public class fileApp{
                 int length=dataIn.readInt();
                 byte[] data=new byte[length];
                 dataIn.readFully(data);
-                Panel.dirPath=new String(data,"UTF-8");
-                System.out.println(Panel.dirPath);
+                CustomPanel.directory=new String(data,"UTF-8");
+                System.out.println(CustomPanel.directory);
             }
             catch(IOException ex){
                 System.out.println(ex);
@@ -60,7 +61,7 @@ public class fileApp{
             // try{
             //     Scanner lines=new Scanner(savedLocation);
             //     while(lines.hasNextLine()){
-            //         Panel.dirPath=lines.nextLine();
+            //         CustomPanel.directory=lines.nextLine();
             //     }
             // }
             // catch(FileNotFoundException ex){
@@ -68,32 +69,32 @@ public class fileApp{
             // }
         }
 
-        head=new DefaultMutableTreeNode(Panel.dirPath);
+        head=new DefaultMutableTreeNode(CustomPanel.directory);
         JButton back=new JButton("back");
         back.addActionListener(e ->{
-            int lastSlash=Panel.dirPath.lastIndexOf('/');
-            Panel.dirPath=Panel.dirPath.substring(0, lastSlash);//fix that it you have / stop
-            if(Panel.dirPath.equals("")){//cannot go back anymore
-                Panel.dirPath="/";
+            int lastSlash=CustomPanel.directory.lastIndexOf('/');
+            CustomPanel.directory=CustomPanel.directory.substring(0, lastSlash);//fix that it you have / stop
+            if(CustomPanel.directory.equals("")){//cannot go back anymore
+                CustomPanel.directory="/";
             }
-            updateFiles(Panel.dirPath);
+            updateFiles(CustomPanel.directory);
         });
-        JTextField textBox= new JTextField(Panel.dirPath,50);
-        JButton goToDir=new JButton("go to dir");
-        goToDir.addActionListener(e ->{
-            Panel.dirPath=textBox.getText();
-            updateFiles(Panel.dirPath);
+        JTextField textBox= new JTextField(CustomPanel.directory,50);
+        JButton GoToDirectory=new JButton("go to directory");
+        GoToDirectory.addActionListener(e ->{
+            CustomPanel.directory=textBox.getText();
+            updateFiles(CustomPanel.directory);
 
         });
         JButton saveDirectory=new JButton("save directory");
         saveDirectory.addActionListener(e ->{
-                // (new Thread(new SaveDataThread(Panel.dirPath,"/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"))).start();
+                // (new Thread(new SaveDataThread(CustomPanel.directory,"/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"))).start();
                 SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
                             try{
                                 DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
-                                byte[] data=Panel.dirPath.getBytes("UTF-8");
-                                System.out.println(Panel.dirPath);
+                                byte[] data=CustomPanel.directory.getBytes("UTF-8");
+                                System.out.println(CustomPanel.directory);
                                 dataOut.writeInt(data.length);
                                 dataOut.write(data);
                             }
@@ -104,8 +105,8 @@ public class fileApp{
                     });
                 // try{
                 //     DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
-                //     byte[] data=Panel.dirPath.getBytes("UTF-8");
-                //     System.out.println(Panel.dirPath);
+                //     byte[] data=CustomPanel.directory.getBytes("UTF-8");
+                //     System.out.println(CustomPanel.directory);
                 //     dataOut.writeInt(data.length);
                 //     dataOut.write(data);
                 // }
@@ -117,7 +118,7 @@ public class fileApp{
                 //         System.out.println("file created");
                 //     }
                 //     FileWriter writer=new FileWriter(savedLocation.getName());
-                //     writer.write(Panel.dirPath);
+                //     writer.write(CustomPanel.directory);
                 //     writer.close();
                 // }
                 // catch(IOException ex){
@@ -132,8 +133,8 @@ public class fileApp{
         rightMenu.add(newF);
         rightFileMenu.add(renameFile);
         rightFileMenu.add(deleteFile);
-        rightDirMenu.add(renameDirectory);
-        rightDirMenu.add(deleteDir);
+        rightFolderMenu.add(renameDirectory);
+        rightFolderMenu.add(deleteDir);
         frame.addMouseListener(new MouseAdapter(){
                 public void mouseClicked(MouseEvent e){
                     currSelected="";
@@ -143,31 +144,31 @@ public class fileApp{
                 }
             });
         newF.addActionListener(e ->{
-            new Dialog(frame,"enter file name","new file",Panel.dirPath);
-            updateFiles(Panel.dirPath);
+            new Dialog(frame,"enter file name","new file",CustomPanel.directory);
+            updateFiles(CustomPanel.directory);
         });
         renameDirectory.addActionListener(e ->{
-            new Dialog(frame,"rename directory","rename directory",Panel.dirPath,currSelected);
-            updateFiles(Panel.dirPath);
+            new Dialog(frame,"rename directory","rename directory",CustomPanel.directory,currSelected);
+            updateFiles(CustomPanel.directory);
         });
         renameFile.addActionListener(e ->{
-            new Dialog(frame,"rename file","rename file",Panel.dirPath,currSelected);
-            updateFiles(Panel.dirPath);
+            new Dialog(frame,"rename file","rename file",CustomPanel.directory,currSelected);
+            updateFiles(CustomPanel.directory);
         });
         deleteFile.addActionListener(e ->{
-            new Dialog(frame,"delete file","delete file",Panel.dirPath,currSelected);
-            updateFiles(Panel.dirPath);
+            new Dialog(frame,"delete file","delete file",CustomPanel.directory,currSelected);
+            updateFiles(CustomPanel.directory);
         });
         deleteDir.addActionListener(e ->{
-            new Dialog(frame,"delete directory","delete directory",Panel.dirPath,currSelected);
-            updateFiles(Panel.dirPath);
+            new Dialog(frame,"delete directory","delete directory",CustomPanel.directory,currSelected);
+            updateFiles(CustomPanel.directory);
         });
         frame.add(rightMenu);
         topPanel.panel.add(back);
         topPanel.panel.add(textBox);
-        topPanel.panel.add(goToDir);
+        topPanel.panel.add(GoToDirectory);
         topPanel.panel.add(saveDirectory);
-        recursiveFiles(Panel.dirPath,"",head);
+        recursiveFiles(CustomPanel.directory,"",head);
         fileTree=new JTree(head);
         fileTree.addMouseListener(new MouseAdapter(){
                 public void mouseClicked(MouseEvent e){
@@ -190,11 +191,11 @@ public class fileApp{
                     }
                 }
             });
-        Panel leftMenu=new Panel(0,topPanel.getYSize(),200,600,fileTree);
-        filePanel=new Panel(leftMenu.getXSize(),topPanel.getYSize(),420,500);
-        updateFiles(Panel.dirPath);
+        CustomPanel leftMenu=new CustomPanel(0,topPanel.getYSize(),200,600,fileTree);
+        filePanel=new CustomPanel(leftMenu.getXSize(),topPanel.getYSize(),420,500);
+        updateFiles(CustomPanel.directory);
         frame.add(rightFileMenu);
-        frame.add(rightDirMenu);
+        frame.add(rightFolderMenu);
         frame.add(leftMenu.panel);
         frame.add(filePanel.panel);
         frame.add(topPanel.panel);
@@ -212,8 +213,8 @@ public class fileApp{
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-    public void updateFiles(String dirPath){
-        File f=new File(dirPath);
+    public void updateFiles(String directory){
+        File f=new File(directory);
         if(f.exists()){
             filePanel.panel.removeAll();
             if(fileList.size()>0){
@@ -222,11 +223,11 @@ public class fileApp{
             String[] list =f.list();
             int count=0;
             for(int i=0;i<list.length;i++){
-                File f1=new File(dirPath+"/"+list[i]);
+                File f1=new File(directory+"/"+list[i]);
                 final int tmpi=i;
                 if(f1.isFile()){
                     MyFile tmpFile=new MyFile();
-                    tmpFile=fileFactory.newFile(getFileType(f1.getName()),0,dirPath,list[i]);
+                    tmpFile=fileFactory.newFile(getFileType(f1.getName()),0,directory,list[i]);
                     CustomJLabel tmp=new CustomJLabel(list[i],tmpFile.fileIcon.getIcon(), JLabel.CENTER,tmpFile);
                     tmp.setVerticalTextPosition(JLabel.BOTTOM);
                     tmp.setHorizontalTextPosition(JLabel.CENTER);
@@ -267,17 +268,17 @@ public class fileApp{
     public static void main(String[] args){
         new fileApp();
     }
-    public void recursiveFiles(String dirPath,String ex,DefaultMutableTreeNode head){
-        File f=new File(dirPath);
+    public void recursiveFiles(String directory,String ex,DefaultMutableTreeNode head){
+        File f=new File(directory);
         if(f.exists()){
             String[] list =f.list();
             int n=list.length;
             for(int i=0;i<n;i++){
-                File f1= new File(dirPath+"/"+list[i]);
-                DefaultMutableTreeNode temp=new DefaultMutableTreeNode(dirPath+"/"+list[i]);
+                File f1= new File(directory+"/"+list[i]);
+                DefaultMutableTreeNode temp=new DefaultMutableTreeNode(directory+"/"+list[i]);
                 head.add(temp);
                 if(f1.isDirectory()){
-                    recursiveFiles(dirPath+"/"+list[i],ex,temp);
+                    recursiveFiles(directory+"/"+list[i],ex,temp);
                 }
             }
         }
@@ -305,7 +306,8 @@ public class fileApp{
         }
         return "File";
     }
-    public String getTerminalProgram(String file){//fix with spaces
+    public String getTerminalProgram(String file){
+        //fix with spaces
         String extension="";
         int j=file.lastIndexOf('.');
         if(j>=0){

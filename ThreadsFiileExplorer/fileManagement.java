@@ -2,9 +2,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class fileManagement{
-    void createFile(String name,String dirPath){
+    void createFile(String name,String directory){
         try {
-            File file = new File(dirPath+"/"+name);
+            File file = new File(directory+"/"+name);
             if (file.createNewFile()) {
                 System.out.println("File created: " + name);
             }
@@ -16,8 +16,8 @@ public class fileManagement{
             e.printStackTrace();
         }
     }
-    void createDirectory(String name,String dirPath){
-        File dir = new File(dirPath+"/"+name);
+    void createDirectory(String name,String directory){
+        File dir = new File(directory+"/"+name);
         boolean create = dir.mkdir();
         if(create){
             System.out.println("created directory "+name);
@@ -26,8 +26,8 @@ public class fileManagement{
             System.out.println("failed to create directory");
         }
     }
-    void deleteFile(String name,String dirPath){
-        File file = new File(dirPath+"/"+name);
+    void deleteFile(String name,String directory){
+        File file = new File(directory+"/"+name);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
         }
@@ -35,8 +35,8 @@ public class fileManagement{
             System.out.println("Failed to delete the file.");
         }
     }
-    void deleteDirectory(String name,String dirPath) {
-        File dir = new File(dirPath+"/"+name);
+    void deleteDirectory(String name,String directory) {
+        File dir = new File(directory+"/"+name);
         if(dir.length()>0){
             System.out.println("There are files in this directory. Do you want to delete this directory? y/n");//todo with multiple files in directory
         }
@@ -48,9 +48,9 @@ public class fileManagement{
             System.out.println("failed to create directory");
         }
     }
-    void renameFile(String name,String newName, String dirPath){
-        File oldFile = new File(dirPath+"/"+name);
-        File newFile = new File(dirPath+"/"+newName);
+    void renameFile(String name,String newName, String directory){
+        File oldFile = new File(directory+"/"+name);
+        File newFile = new File(directory+"/"+newName);
         if (newFile.exists()){
             System.out.println("file exists");
             return;
@@ -60,9 +60,9 @@ public class fileManagement{
             System.out.println("failed to rename file");
         }
     }
-    void renameDirectory(String name,String newName,String dirPath){
-        File oldDir = new File(dirPath+"/"+name);
-        File newDir = new File(dirPath+"/"+newName);
+    void renameDirectory(String name,String newName,String directory){
+        File oldDir = new File(directory+"/"+name);
+        File newDir = new File(directory+"/"+newName);
         if (newDir.exists()){
             System.out.println("directory exists");
             return;

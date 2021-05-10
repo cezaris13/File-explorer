@@ -1,29 +1,29 @@
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-public class Panel{
+public class CustomPanel{
     private int x,y;
     JScrollPane scrollbar;
     private int xSize,ySize;
     JPanel panel;
     JScrollPane Scrollbar;
-    static String dirPath;
+    static String directory;
 
-    public Panel(){
+    public CustomPanel(){
         panel=new JPanel();
         x=0;
         y=0;
         xSize=0;
         ySize=0;
     }
-    public Panel(int x,int y){
+    public CustomPanel(int x,int y){
         panel=new JPanel();
         this.x=x;
         this.y=y;
         xSize=0;
         ySize=0;
     }
-    public Panel(int x,int y,int xSize,int ySize){//topPanel and filePanel
+    public CustomPanel(int x,int y,int xSize,int ySize){//topPanel and filePanel
         panel=new JPanel();
         panel.setLayout(null);
         panel.setPreferredSize(new Dimension(xSize,ySize));
@@ -32,7 +32,7 @@ public class Panel{
         this.y=y;
         setSize(xSize,ySize);
     }
-    public Panel(int x,int y,int xSize,int ySize,JTree tree){//left panel
+    public CustomPanel(int x,int y,int xSize,int ySize,JTree tree){//left panel
         panel=new JPanel();
         panel.setBounds(x,y,xSize,ySize);
         this.x=x;
@@ -82,7 +82,7 @@ public class Panel{
         this.ySize=ySize;
         setSize(xSize,ySize);
     }
-    // public Panel(int x,int y,Dimension pref){//topPanel
+    // public CustomPanel(int x,int y,Dimension pref){//topPanel
     //     panel=new JPanel();
     //     panel.setLayout(null);
     //     panel.setPreferredSize(pref);

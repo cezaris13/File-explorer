@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 public class Dialog {
     private static JDialog d;
-    Dialog(JFrame frame,String title,String DialogTitle,String dirPath){
+    Dialog(JFrame frame,String title,String DialogTitle,String directory){
         JFrame f = frame;
         d = new JDialog(f,DialogTitle,true);
         d.setLayout(null);
@@ -21,10 +21,10 @@ public class Dialog {
             public void actionPerformed(ActionEvent e){
                 fileManagement tmp = new fileManagement();
                 if(DialogTitle=="new file"){
-                    tmp.createFile(textBox.getText(),dirPath);
+                    tmp.createFile(textBox.getText(),directory);
                 }
                 if(DialogTitle=="new directory"){
-                    tmp.createDirectory(textBox.getText(),dirPath);
+                    tmp.createDirectory(textBox.getText(),directory);
                 }
                 Dialog.d.setVisible(false);
             }
@@ -40,7 +40,7 @@ public class Dialog {
         d.setLocationRelativeTo(f);
         d.setVisible(true);
     }
-    Dialog(JFrame frame,String title,String DialogTitle,String dirPath,String name){
+    Dialog(JFrame frame,String title,String DialogTitle,String directory,String name){
         JFrame f = frame;
         d = new JDialog(f,DialogTitle,true);
         d.setLayout(null);
@@ -59,16 +59,16 @@ public class Dialog {
             public void actionPerformed(ActionEvent e){
                 fileManagement tmp=new fileManagement();
                 if(DialogTitle=="rename file"){
-                    tmp.renameFile(name,textBox.getText(),dirPath);
+                    tmp.renameFile(name,textBox.getText(),directory);
                 }
                 if(DialogTitle=="rename directory"){
-                    tmp.renameDirectory(name,textBox.getText(),dirPath);
+                    tmp.renameDirectory(name,textBox.getText(),directory);
                 }
                 if(DialogTitle=="delete file"){
-                    tmp.deleteFile(name,dirPath);
+                    tmp.deleteFile(name,directory);
                 }
                 if(DialogTitle=="delete directory"){
-                    tmp.deleteDirectory(name,dirPath);
+                    tmp.deleteDirectory(name,directory);
                 }
                 Dialog.d.setVisible(false);
             }
