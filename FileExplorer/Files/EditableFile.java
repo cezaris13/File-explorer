@@ -18,22 +18,7 @@ public abstract class EditableFile implements Editable{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public void openFile(String exProgram)
-        throws FileIsMissingException{
-        try{
-            String replaceSpaces=fileName.replaceAll("\s+","\\ ");
-            System.out.println(replaceSpaces);
-            File tmpFile=new File(fileDir+"/"+replaceSpaces);
-            if(!isCorrectFileName(fileName)){
-                throw new IncorrectFileNameException("Incorrect filename : " + fileName);
-            }
-            if(!tmpFile.exists()){
-                throw new FileIsMissingException("File not Found",fileName);
-            }
-            Runtime.getRuntime().exec(exProgram+" "+fileDir+"/"+replaceSpaces);
-        }
-        catch(IOException ex){}
-    }
+   
     public void deleteFile()
         throws FileIsMissingException{//add stuff
         File file=new File(fileDir+"/"+fileName);

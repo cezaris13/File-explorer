@@ -45,10 +45,10 @@ public class fileApp{
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         CustomPanel.directory="/home/pijus/Desktop";
-        File savedLocation=new File("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt");
+        File savedLocation=new File("/home/pijus/Desktop/Programming_languages/Java/FileExplorer/save.txt");
         if(savedLocation.exists()&&savedLocation.length()>0){
             try{
-                DataInputStream dataIn = new DataInputStream(new FileInputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                DataInputStream dataIn = new DataInputStream(new FileInputStream("/home/pijus/Desktop/Programming_languages/Java/FileExplorer/save.txt"));
                 int length=dataIn.readInt();
                 byte[] data=new byte[length];
                 dataIn.readFully(data);
@@ -88,11 +88,11 @@ public class fileApp{
         });
         JButton saveDirectory=new JButton("save directory");
         saveDirectory.addActionListener(e ->{
-                // (new Thread(new SaveDataThread(CustomPanel.directory,"/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"))).start();
+                // (new Thread(new SaveDataThread(CustomPanel.directory,"/home/pijus/Desktop/Programming_languages/Java/FileExplorer/save.txt"))).start();
                 SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
                             try{
-                                DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                                DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/FileExplorer/save.txt"));
                                 byte[] data=CustomPanel.directory.getBytes("UTF-8");
                                 System.out.println(CustomPanel.directory);
                                 dataOut.writeInt(data.length);
@@ -104,7 +104,7 @@ public class fileApp{
                         }
                     });
                 // try{
-                //     DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFiileExplorer/save.txt"));
+                //     DataOutputStream dataOut = new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/FileExplorer/save.txt"));
                 //     byte[] data=CustomPanel.directory.getBytes("UTF-8");
                 //     System.out.println(CustomPanel.directory);
                 //     dataOut.writeInt(data.length);

@@ -1,8 +1,9 @@
 package Files;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MyFile extends EditableFile implements Cloneable{
+public class MyFile extends EditableFile implements Cloneable,Serializable{
     public Icon fileIcon=new Icon();
     private Date creationTime;
     public String exProgram;
