@@ -32,7 +32,7 @@ public class Docum extends MyFile{
         else{
             exProgram="libreoffice";
         }
-        wordCount=0;//change that later
+        wordCount=0;
         pages=0;
         File file=new File(getFileDir()+"/"+fileName);
         setFileSize(file.length());

@@ -6,7 +6,7 @@ import java.io.File;
 public abstract class EditableFile implements Editable{
     String exProgram;
     String fileDir;
-    String fileName;
+    String fileName="";
     long fileSize=0;//kb
     Date modificationTime;
     public void editFile(int fileSize){
@@ -18,9 +18,10 @@ public abstract class EditableFile implements Editable{
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
-    public void openFile(String exProgram)
+    public void openFile(String exProgram,String fileName)
         throws FileIsMissingException{
         try{
+            System.out.println(fileName);
             String replaceSpaces=fileName;
             System.out.println(replaceSpaces);
             File tmpFile=new File(fileDir+"/"+replaceSpaces);
@@ -52,8 +53,8 @@ public abstract class EditableFile implements Editable{
     }
     public boolean isCorrectFileName(String fileName){
         String illegalCaracters="@$%&\\/:*?\"'<>|~`#^+={}[];!";
-        for (int i=0;i<fileName.length();i++) {
-            for (int j=0;j<illegalCaracters.length();j++) {
+        for(int i=0;i<fileName.length();i++) {
+            for(int j=0;j<illegalCaracters.length();j++) {
                 if(fileName.charAt(i)==illegalCaracters.charAt(j)){
                     return false;
                 }

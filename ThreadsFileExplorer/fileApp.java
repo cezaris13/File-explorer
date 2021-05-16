@@ -1,6 +1,13 @@
 import Files.*;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.JTree;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JMenuItem;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -25,21 +32,24 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-public class fileApp{
-    String saveLocation="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/save.out";
-    String saveFiles="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/object.out";
-    CustomPanel            filePanel;
-    CustomPanel            topPanel;
-    CustomPanel            leftMenu=new CustomPanel();
-    JFrame                 frame;
-    JTree                  fileTree;
-    String                 currSelected="";
-    List<CustomJLabel>     fileList=new ArrayList<>();
-    final JPopupMenu       rightMenu=new JPopupMenu("Edit");
-    final JPopupMenu       rightFileMenu=new JPopupMenu("Edit file");
-    final JPopupMenu       rightFolderMenu=new JPopupMenu("Edir dir");
-    public FileFactory     fileFactory=new FileFactory();
-    DefaultMutableTreeNode head;
+
+public class fileApp {
+    String                    saveLocation="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/directory.out";
+    String                    saveFiles="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/files.out";
+    String                    saveFolders="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/folders.out";
+    CustomPanel               filePanel;
+    CustomPanel               topPanel;
+    CustomPanel               leftMenu=new CustomPanel();
+    JFrame                    frame;
+    JTree                     fileTree;
+    String                    currSelected="";
+    List<CustomJLabel>        fileList=new ArrayList<>();
+    List<CustomJLabelFolders> folderList=new ArrayList<>();
+    final JPopupMenu          rightMenu=new JPopupMenu("Edit");
+    final JPopupMenu          rightFileMenu=new JPopupMenu("Edit file");
+    final JPopupMenu          rightFolderMenu=new JPopupMenu("Edir folder");
+    public FileFactory        fileFactory=new FileFactory();
+    DefaultMutableTreeNode    head;
 
     public fileApp(){//add folders
         frame=new JFrame("my file explorer");
@@ -59,29 +69,27 @@ public class fileApp{
                 dataIn.readFully(data);
                 CustomPanel.directory=new String(data,"UTF-8");
                 dataIn.close();
-                ObjectInputStream objectIn= new ObjectInputStream(new FileInputStream(saveFiles));
+                ObjectInputStream filesIn= new ObjectInputStream(new FileInputStream(saveFiles));
                 try{
-                    fileList=(List<CustomJLabel>)objectIn.readObject();
+                    fileList=(List<CustomJLabel>)filesIn.readObject();
                 }
                 catch(ClassNotFoundException ex){
                     System.out.println(ex);
                 }
-                objectIn.close();
+                filesIn.close();
+                ObjectInputStream foldersIn= new ObjectInputStream(new FileInputStream(saveFolders));
+                try{
+                    folderList=(List<CustomJLabelFolders>)foldersIn.readObject();
+                }
+                catch(ClassNotFoundException ex){
+                    System.out.println(ex);
+                }
+                foldersIn.close();
             }
             catch(IOException ex){
                 System.out.println(ex);
             }
-            // try{
-            //     Scanner lines=new Scanner(savedLocation);
-            //     while(lines.hasNextLine()){
-            //         CustomPanel.directory=lines.nextLine();
-            //     }
-            // }
-            // catch(FileNotFoundException ex){
-            //     System.out.println(ex);
-            // }
         }
-
         head=new DefaultMutableTreeNode(CustomPanel.directory);
         JButton back=new JButton("back");
         back.addActionListener(e ->{
@@ -101,7 +109,6 @@ public class fileApp{
         });
         JButton saveDirectory=new JButton("save");
         saveDirectory.addActionListener(e ->{
-                // (new Thread(new SaveDataThread(CustomPanel.directory,savedLocation))).start();
                 SwingUtilities.invokeLater(new Runnable(){
                         public void run(){
                             try{
@@ -110,46 +117,32 @@ public class fileApp{
                                 dataOut.writeInt(data.length);
                                 dataOut.write(data);
                                 dataOut.close();
-                                ObjectOutputStream objectOut= new ObjectOutputStream(new FileOutputStream(saveFiles));
-                                objectOut.writeObject(fileList);
-                                objectOut.flush();
-                                objectOut.close();
+                                ObjectOutputStream filesOut= new ObjectOutputStream(new FileOutputStream(saveFiles));
+                                filesOut.writeObject(fileList);
+                                filesOut.flush();
+                                filesOut.close();
+                                ObjectOutputStream foldersOut= new ObjectOutputStream(new FileOutputStream(saveFolders));
+                                foldersOut.writeObject(folderList);
+                                foldersOut.flush();
+                                foldersOut.close();
                             }
                             catch(IOException ex){
                                 System.out.println(ex);
                             }
                         }
                     });
-                // try{
-                //     DataOutputStream dataOut =new DataOutputStream(new FileOutputStream("/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/save.txt"));
-                //     byte[] data=CustomPanel.directory.getBytes("UTF-8");
-                //     System.out.println(CustomPanel.directory);
-                //     dataOut.writeInt(data.length);
-                //     dataOut.write(data);
-                // }
-                // catch(IOException ex){
-                //     System.out.println(ex);
-                // }
-                // try{
-                //     if(savedLocation.createNewFile()){
-                //         System.out.println("file created");
-                //     }
-                //     FileWriter writer=new FileWriter(savedLocation.getName());
-                //     writer.write(CustomPanel.directory);
-                //     writer.close();
-                // }
-                // catch(IOException ex){
-                //     System.out.println(ex);
-                // }
         });
         JMenuItem newF=new JMenuItem("New file");
+        JMenuItem newD=new JMenuItem("New folder");
         JMenuItem renameFile=new JMenuItem("rename file");
         JMenuItem renameDirectory=new JMenuItem("rename directory");
         JMenuItem deleteDir=new JMenuItem("delete directory");
         JMenuItem deleteFile=new JMenuItem("delete file");
         rightMenu.add(newF);
+        rightMenu.add(newD);
         rightFileMenu.add(renameFile);
         rightFileMenu.add(deleteFile);
+        // rightFileMenu.add(deleteFile);// add copy and info
         rightFolderMenu.add(renameDirectory);
         rightFolderMenu.add(deleteDir);
         frame.addMouseListener(new MouseAdapter(){
@@ -163,7 +156,12 @@ public class fileApp{
         newF.addActionListener(e ->{
             new Dialog(frame,"enter file name","new file",CustomPanel.directory);
             updateFiles(CustomPanel.directory);
-        });
+            });
+        newD.addActionListener(e ->{
+                //System.out.println("new Directory");
+                new Dialog(frame,"enter directory name","new directory",CustomPanel.directory);
+                updateFiles(CustomPanel.directory);
+            });
         renameDirectory.addActionListener(e ->{
             new Dialog(frame,"rename directory","rename directory",CustomPanel.directory,currSelected);
             updateFiles(CustomPanel.directory);
@@ -218,12 +216,12 @@ public class fileApp{
             for(int i=0;i<fileList.size();i++){
                 filePanel.panel.add(fileList.get(i));
                 String name=fileList.get(i).file.getFileName();
-                 final CustomJLabel tempButton=fileList.get(i);
-                 fileList.get(i).addMouseListener(new MouseAdapter(){
+                final CustomJLabel tempButton=fileList.get(i);
+                fileList.get(i).addMouseListener(new MouseAdapter(){
                         public void mouseClicked(MouseEvent e){
                             if(e.getButton()==MouseEvent.BUTTON1&&e.getClickCount()==2){
                                 try{
-                                    tempButton.file.openFile(tempButton.file.exProgram);
+                                    tempButton.file.openFile(tempButton.file.exProgram,tempButton.file.getFileName());
                                 }
                                 catch(FileIsMissingException ex){
                                     System.out.println(ex);
@@ -236,7 +234,33 @@ public class fileApp{
                         }
                         });
             }
-            customLayout(fileList);
+            for(int i=0;i<folderList.size();i++){
+                final int tmpi=i;
+                filePanel.panel.add(folderList.get(i));
+                final CustomJLabelFolders tempButton=folderList.get(i);
+                folderList.get(i).addMouseListener(new MouseAdapter(){
+                        public void mouseClicked(MouseEvent e){
+                            if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+                                Rectangle r = frame.getBounds();
+                                int x = r.width;
+                                int y = r.height+1;
+                                int cx = frame.getLocation().x;
+                                int cy = frame.getLocation().y;
+                                frame.setSize(x,y);
+                                frame.setSize(x,y-1);
+                                frame.setLocation(cx,cy);
+                                System.out.println(tempButton.getName());
+                                updateFiles(CustomPanel.directory+"/"+tempButton.getName());
+                                CustomPanel.directory=CustomPanel.directory+"/"+tempButton.getName();
+                            }
+                            if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
+                                currSelected=tempButton.getName();
+                                rightFolderMenu.show(tempButton , e.getX(), e.getY());
+                            }
+                        }
+                    });
+            }
+            customLayout(fileList,folderList);
         }
         frame.add(rightFileMenu);
         frame.add(rightFolderMenu);
@@ -248,7 +272,7 @@ public class fileApp{
                 public void componentResized(ComponentEvent componentEvent){
                     int xx=componentEvent.getComponent().getSize().width;
                     int yy=componentEvent.getComponent().getSize().height;
-                    customLayout(fileList);
+                    customLayout(fileList,folderList);
                     leftMenu.setSize(leftMenu.getXSize(),yy-30);
                     topPanel.setSize(xx,30);
                 }
@@ -263,6 +287,9 @@ public class fileApp{
             filePanel.panel.removeAll();
             if(fileList.size()>0){
                 fileList.clear();
+            }
+            if(folderList.size()>0){
+                folderList.clear();
             }
             String[] list =f.list();
             int count=0;
@@ -282,7 +309,7 @@ public class fileApp{
                         public void mouseClicked(MouseEvent e){
                             if(e.getButton()==MouseEvent.BUTTON1&&e.getClickCount()==2){
                                 try{
-                                    tempButton.file.openFile(tempButton.file.exProgram);
+                                    tempButton.file.openFile(tempButton.file.exProgram,tempButton.file.getFileName());
                                 }
                                 catch(FileIsMissingException ex){
                                     System.out.println(ex);
@@ -297,7 +324,43 @@ public class fileApp{
                     count++;
                 }
             }
-            customLayout(fileList);
+            count=0;
+            for(int i=0;i<list.length;i++){
+                File f1=new File(directory+"/"+list[i]);
+                final int tmpi=i;
+                if(f1.isDirectory()){
+                    Icon temp=new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/folder.png",65,65);
+                    CustomJLabelFolders tmp=new CustomJLabelFolders(list[i],temp.getIcon(), JLabel.CENTER);
+                    tmp.setVerticalTextPosition(JLabel.BOTTOM);
+                    tmp.setHorizontalTextPosition(JLabel.CENTER);
+                    folderList.add(tmp);
+                    filePanel.panel.add(tmp);
+                    final CustomJLabelFolders tempButton=folderList.get(count);
+                    folderList.get(count).addMouseListener(new MouseAdapter(){
+                        public void mouseClicked(MouseEvent e){
+                            if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
+                                Rectangle r = frame.getBounds();
+                                int x = r.width;
+                                int y = r.height+1;
+                                int cx = frame.getLocation().x;
+                                int cy = frame.getLocation().y;
+                                frame.setSize(x,y);
+                                frame.setSize(x,y-1);
+                                frame.setLocation(cx,cy);
+                                updateFiles(directory+"/"+list[tmpi]);
+                                CustomPanel.directory=directory+"/"+list[tmpi];
+                            }
+                            if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
+                                currSelected=list[tmpi];
+                                System.out.println("right click menu dir");
+                                rightFolderMenu.show(tempButton , e.getX(), e.getY());
+                            }
+                        }
+                        });
+                    count++;
+                }
+            }
+            customLayout(fileList,folderList);
             filePanel.panel.revalidate();
             filePanel.panel.repaint();
             if(fileList.size()>0){
@@ -377,7 +440,7 @@ public class fileApp{
         }
         return "kate";
     }
-    public void customLayout(List<CustomJLabel> fileList){
+    public void customLayout(List<CustomJLabel> fileList,List<CustomJLabelFolders> folderList){
         int space=20;
         Rectangle r=frame.getBounds();
         int x=r.width/space;
@@ -392,6 +455,14 @@ public class fileApp{
         int county=0;
         int initSpace=25;
         filePanel.panel.setLayout(null);
+        for(int i=0;i<folderList.size();i++){
+            if(x*(countx+1)>x*(space-3)){
+                county++;
+                countx=0;
+            }
+            folderList.get(i).setBounds(countx*x+initSpace,county*y+initSpace,folderList.get(i).folderIcon.getWidth()+20,folderList.get(i).folderIcon.getHeight()+20);
+            countx++;
+        }
         for(int i=0;i<fileList.size();i++){
             if(x*(countx+1)>x*(space-3)){
                 county++;
