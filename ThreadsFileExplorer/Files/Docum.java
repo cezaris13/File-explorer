@@ -50,7 +50,9 @@ public class Docum extends MyFile{
      * file name-should not include fullPath to the file)
      * changes document type variable
      * changes filesize variable
-     * @param file size(int),file directory(String),file name(String)
+     * @param fileSize-file size
+     * @param fileDir-file directory
+     * @param fileName - file name
      * */
     public Docum(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
@@ -76,6 +78,7 @@ public class Docum extends MyFile{
      * Method void setExProgram(String exProgram)
      *
      * Changes execution program
+     * @param exProgram - execution program
      *  */
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;
@@ -86,7 +89,6 @@ public class Docum extends MyFile{
      * sets new fileName, and changes Docum type variable,
      * ads execution program and changes fileSize variable
      * word count and page count is set to 0
-     * @throws IOException
      *  */
     public void setFileName(String fileName){
         super.setFileName(fileName);

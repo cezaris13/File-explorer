@@ -48,7 +48,9 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
      * assigns fileIcon new icon(txt file icon)
      * file name-should not include fullPath to the file)
      * creates Modification date and creation date
-     * @param file size(int),file directory(String),file name(String)
+     * @param fileSize(int),
+     * @param fileDir(String),
+     * @param fileName(String)
      * */
     public MyFile(int fileSize,String fileDir,String fileName){//this()
         this.fileSize=fileSize;
@@ -118,6 +120,7 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
      * Method String setFileDir(String fileDir)
      *
      * sets new File directory
+     * @param fileDir - file directory
      *  */
     public void setFileDir(String fileDir){
         this.fileDir=fileDir;
@@ -126,6 +129,7 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
      * Method String setFileName(String fileName)
      *
      * sets new fileName
+     * @param fileName - file Name
      *  */
     public void setFileName(String fileName){
         this.fileName=fileName;
@@ -134,6 +138,7 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
      * Method String setFileSize()
      *
      * sets file Size
+     * @param fileSize - file size
      *  */
     public final void setFileSize(long fileSize){
         this.fileSize=fileSize;
@@ -143,6 +148,7 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
      *
      * changes modification time
      *
+     * @param date - modification date
      *  */
     public void setModificationTime(Date date){
         this.modificationTime=date;

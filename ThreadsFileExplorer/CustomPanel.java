@@ -34,7 +34,8 @@ public class CustomPanel{
        *
        * creates JPanel object and resizes it to given sizes
        *
-       * @param x(int)- x coordinate of panel, y(int)- y coordinate of panel
+       * @param x- x coordinate of panel
+       * @param y(int)- y coordinate of panel
        * */
     public CustomPanel(int x,int y){
         panel=new JPanel();
@@ -48,7 +49,10 @@ public class CustomPanel{
        *
        * creates JPanel object and resizes it to given sizes
        *
-       * @param x(int)- x coordinate of panel, y(int)- y coordinate of panel,xSize(int)- x size of panel,ySize(int)- y size of panel
+       * @param x(int)- x coordinate of panel,
+      * @param y(int)- y coordinate of panel,
+      * @param xSize(int)- x size of panel,
+      * @param ySize(int)- y size of panel
        * */
     public CustomPanel(int x,int y,int xSize,int ySize){//topPanel and filePanel
         panel=new JPanel();
@@ -64,7 +68,11 @@ public class CustomPanel{
        *
        * creates JPanel object and adds to it JTree variable(file list)
        *
-       * @param x(int)- x coordinate of panel, y(int)- y coordinate of panel,xSize(int)- x size of panel,ySize(int)- y size of panel,tree(JTree)- JTree Object containing fileList
+       * @param x(int)- x coordinate of panel
+       * @param y(int)- y coordinate of panel
+       * @param xSize(int)- x size of panel
+       * @param ySize(int)- y size of panel
+       * @param tree(JTree)- JTree Object containing fileList
        * */
     public CustomPanel(int x,int y,int xSize,int ySize,JTree tree){//left panel
         panel=new JPanel();
@@ -82,6 +90,8 @@ public class CustomPanel{
      * Method void setSize(int xSize,int ySize)
      *
      * Changes Panel dimension,xSize and ySize variables
+     * @param xSize - x panel size
+     * @param ySize - y panel size
      *  */
     public void setSize(int xSize,int ySize){
         this.xSize=xSize;
@@ -92,28 +102,54 @@ public class CustomPanel{
      * Method void setSize(Dimension dimensions)
      *
      * Changes Panel dimension,xSize and ySize variables
+     * @param dimensions - panel dimensions
      *  */
     public void setSize(Dimension dimensions){
         xSize=(int)dimensions.getWidth();
         ySize=(int)dimensions.getHeight();
         panel.setSize(dimensions);
     }
+    /**
+     *
+     * @return x(int)
+     */
     public int getX(){
         return x;
     }
+    /**
+     *
+     * @return y(int)
+     */
     public int getY(){
         return y;
     }
+    /**
+     *
+     * @return xSize(int)
+     */
     public int getXSize(){
         return xSize;
     }
+    /**
+     *
+     * @return ySize(int)
+     */
     public int getYSize(){
         return ySize;
     }
+    /**
+     *
+     * @param x - panel x coordinate
+     */
     public void setX(int x){
         this.x=x;
         panel.setLocation(x,y);
     }
+
+    /**
+     *
+     * @param y - panel y coordinate
+     */
     public void setY(int y){
         this.y=y;
         panel.setLocation(x,y);
@@ -122,6 +158,7 @@ public class CustomPanel{
      * Method void setXSize(int xSize)
      *
      * Changes panel xsize variable
+     * @param xSize - x panel size
      *  */
     public void setXSize(int xSize){
         this.xSize=xSize;
@@ -131,6 +168,7 @@ public class CustomPanel{
      * Method void setYSize(Int ySize)
      *
      * Changes panel Ysize variable
+     * @param ySize - y panel size
      *  */
     public void setYSize(int ySize){
         this.ySize=ySize;

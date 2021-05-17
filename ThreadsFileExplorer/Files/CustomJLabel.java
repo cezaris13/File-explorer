@@ -13,6 +13,10 @@ public class CustomJLabel extends JLabel implements Serializable {
     /**
      * Creates New CustomJLabel with given name,icon, alignment and MyFile object
      * name- file name(it should not include fullPath to the file)
+     * @param name - file name
+     * @param icon - file icon
+     * @param horizontalAlignment - JLabel allignment
+     * @param file - MyFile object type
      * */
     public CustomJLabel(String name,ImageIcon icon,int horizontalAlignment,MyFile file){
         super(name,icon,horizontalAlignment);

@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.File;
 /**
  * EditableFile abstract class implements Editable interface
- *
- * @throws IOException, FileIsMissingException,IncorrectFileNameException,CloneNotSupportedException
- *
  *  */
 public abstract class EditableFile implements Editable{
     String exProgram;
@@ -47,7 +44,6 @@ public abstract class EditableFile implements Editable{
      * else throws exception
      *
      * @param exProgram(String) fileName(String)
-     * @throws IOException, FileIsMissingException,IncorrectFileNameException
      *  */
     public void openFile(String exProgram,String fileName)
         throws FileIsMissingException{
@@ -96,10 +92,11 @@ public abstract class EditableFile implements Editable{
      * Method isCorrectFileName(String fileName)
      *
      * this method checks if given file name is valid
-     * Invalid characters: @$%&\\/:*?\"'<>|~`#^+={}[];!
+     * Invalid characters: @$%\\/:*?\"'>|~`#^+={}[];!
      * if yes- returns true
      * else returns false
-     *
+     * @param fileName - file name
+     * @return Boolean
      *  */
     public boolean isCorrectFileName(String fileName){
         String illegalCaracters="@$%&\\/:*?\"'<>|~`#^+={}[];!";

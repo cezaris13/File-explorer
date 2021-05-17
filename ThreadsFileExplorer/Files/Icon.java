@@ -30,6 +30,10 @@ public class Icon implements Serializable{
        * changes height and width to image height and width
        * changes picture width and height to 0
        * creates empty ImageIcon object
+       *
+       * @param dir- icon directory
+       * @param width- icon width
+       * @param height- icon height
        * */
     public Icon(String dir,int width,int height){
         icon = new ImageIcon(dir);

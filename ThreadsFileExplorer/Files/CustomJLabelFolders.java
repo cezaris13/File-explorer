@@ -13,7 +13,10 @@ public class CustomJLabelFolders extends JLabel implements Serializable {
      /**
      * Creates New CustomJLabelFolders with given name,icon, alignment
      * name- folder name(it should not include fullPath to the file)
-     * */
+      * @param name - file name
+      * @param icon - file icon
+      * @param horizontalAlignment - JLabel allignment
+      * */
     public CustomJLabelFolders(String name,ImageIcon icon,int horizontalAlignment){
         super(name,icon,horizontalAlignment);
         this.folderIcon=new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/folder.png",65,65);

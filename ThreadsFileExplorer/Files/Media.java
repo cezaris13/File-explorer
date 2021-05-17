@@ -46,7 +46,9 @@ public class Media extends MyFile{
      * file name-should not include fullPath to the file)
      * changes execution program and media type variables
      * changes filesize variable
-     * @param file size(int),file directory(String),file name(String)
+     * @param fileSize(int)
+     * @param fileDir(String)
+     * @param fileName(String)
      * */
     public Media(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
@@ -85,6 +87,7 @@ public class Media extends MyFile{
      * Method void setExProgram(String exProgram)
      *
      * Changes execution program
+     * @param exProgram- execution program
      *  */
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;

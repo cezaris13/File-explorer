@@ -6,13 +6,12 @@ import java.io.File;
 /**
  * Image extends MyFile and it is used for image(jpg,png) file types
  *
- * @throws IOException
  *  */
 public class Image extends MyFile{
     /**
      * Image class has additional variables:
      * PictureXSize and PictureYSize - image x and y size
-     * oriantation- image orientation
+     * orientation- image orientation
      * imageType- type of image(png,jpg) */
     int PictureXSize;
     int PictureYSize;
@@ -58,7 +57,9 @@ public class Image extends MyFile{
      * file name-should not include fullPath to the file)
      * changes image type variables
      * changes filesize variable
-     * @param file size(int),file directory(String),file name(String)
+     * @param fileSize-file size
+     * @param fileDir- file directory,
+     * @param fileName-file name
      * */
     public Image(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
@@ -88,7 +89,6 @@ public class Image extends MyFile{
      * sets new fileName, and changes Image type variable,
      * ads execution program and changes fileSize variable
      * orientation is set to 0
-     * @throws IOException
      *  */
     public void setFileName(String fileName){
         super.setFileName(fileName);
@@ -121,16 +121,12 @@ public class Image extends MyFile{
         return imageType;
     }
 
-    public void rotateImage(){
-        int tmp=PictureXSize;
-        PictureXSize=PictureYSize;
-        PictureYSize=tmp;
-        orientation=(orientation+1==4?0:orientation+1);
-    }
     /**
      * Method void setExProgram(String exProgram)
      *
      * Changes execution program
+     *
+     * @param exProgram- execution program
      *  */
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;

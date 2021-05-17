@@ -5,7 +5,6 @@ import java.io.IOException;
  *     create file/directory
  *     delete file/directory
  *     rename file/directory
- * @throws IOException
  *  */
 public class fileManagement{
     /**

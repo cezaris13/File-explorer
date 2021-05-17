@@ -39,7 +39,9 @@ public class SimpleFile extends MyFile {
      * assigns fileIcon new icon(txt file icon)
      * file name- should not include fullPath to the file)
      * finds extension of file
-     * @param file size(int),file directory(String),file name(String)
+     * @param fileSize- file size
+     * @param fileDir- file directory,
+     * @param fileName-file name
      * */
     public SimpleFile(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
@@ -67,7 +69,7 @@ public class SimpleFile extends MyFile {
      * Method setFileName(String fileName)
      *
      * Changes File name and sets extension, file size, execution program acordingly
-     * @param file Name(String)
+     * @param fileName(String)- file name
      *  */
     public void setFileName(String fileName){
         super.setFileName(fileName);

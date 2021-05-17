@@ -6,7 +6,9 @@ public interface Viewable {
     /**
      * openfile method takes execution program, and file name
      * and opens given file
-     * @param Execution program(String), file name(String)
+     * @param exProgram(String)
+     * @param fileName(String)
+     * @throws FileIsMissingException - file is missing
      * */
     void openFile(String exProgram,String fileName) throws FileIsMissingException;
 }
