@@ -2,22 +2,53 @@ package Files;
 import java.util.Date;
 import java.io.IOException;
 import java.io.File;
-
+/**
+ * EditableFile abstract class implements Editable interface
+ *
+ * @throws IOException, FileIsMissingException,IncorrectFileNameException,CloneNotSupportedException
+ *
+ *  */
 public abstract class EditableFile implements Editable{
     String exProgram;
     String fileDir;
     String fileName="";
     long fileSize=0;//kb
     Date modificationTime;
+    /**
+     * Method editFile(int fileSize)
+     *
+     * this method changes fileSize and modification time
+     *
+     * @param fileSize(int)
+     *  */
     public void editFile(int fileSize){
         this.fileSize=fileSize;
         modificationTime=new Date();
     }
+    /**
+     * Method editFile(int fileSize,String fileDir)
+     *
+     * this method changes fileSize, file directory and modification time
+     *
+     * @param fileSize(int). fileDir(String)
+     *  */
     public void editFile(int fileSize, String fileDir){
         this.fileSize=fileSize;
         this.fileDir=fileDir;
         modificationTime=new Date();
     }
+    /**
+     * Method openFile(String exProgram, String fileName)
+     *
+     *
+     * this method tries to open file using given execution program and its fileName
+     * checks if correct file name and if file exists
+     * if yes- tries to open
+     * else throws exception
+     *
+     * @param exProgram(String) fileName(String)
+     * @throws IOException, FileIsMissingException,IncorrectFileNameException
+     *  */
     public void openFile(String exProgram,String fileName)
         throws FileIsMissingException{
         try{
@@ -35,6 +66,16 @@ public abstract class EditableFile implements Editable{
         }
         catch(IOException ex){}
     }
+    /**
+     * Method deleteFile()
+     *
+     *
+     * this method tries to delete file
+     * checks if correct file name and if file exists
+     * if yes- tries to delete
+     * else throws exception
+     *
+     *  */
     public void deleteFile()
         throws FileIsMissingException{
         File file=new File(fileDir+"/"+fileName);
@@ -51,6 +92,15 @@ public abstract class EditableFile implements Editable{
             System.out.println("Failed to delete the file.");
         }
     }
+    /**
+     * Method isCorrectFileName(String fileName)
+     *
+     * this method checks if given file name is valid
+     * Invalid characters: @$%&\\/:*?\"'<>|~`#^+={}[];!
+     * if yes- returns true
+     * else returns false
+     *
+     *  */
     public boolean isCorrectFileName(String fileName){
         String illegalCaracters="@$%&\\/:*?\"'<>|~`#^+={}[];!";
         for(int i=0;i<fileName.length();i++) {

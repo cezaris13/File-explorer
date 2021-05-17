@@ -1,7 +1,24 @@
 import javax.swing.*;
 import java.awt.event.*;
+/**
+ * Dialog class consists of JDialog variable
+ *
+ * it is used as a additional menu
+ *possible options:
+ *   new File/folder menu
+ *   rename File/folder menu
+ *   delete File/folder menu
+ *
+ *  */
 public class Dialog {
     private static JDialog d;
+    /**
+     * Constructor Dialog(JFrame frame,String title,String DialogTitle,String directory)
+     *
+     * This constructor creates new JDialog and adds to given JFrame object
+     *
+     * this is used to as a deleteFile/folder dialog window
+     *  */
     Dialog(JFrame frame,String title,String DialogTitle,String directory){
         JFrame f = frame;
         d = new JDialog(f,DialogTitle,true);
@@ -40,6 +57,13 @@ public class Dialog {
         d.setLocationRelativeTo(f);
         d.setVisible(true);
     }
+ /**
+     * Constructor Dialog(JFrame frame,String title,String DialogTitle,String directory,String name)
+     *
+     * This constructor creates new JDialog and adds to given JFrame object
+     *
+     * this is used to as a (Rename/create)File/folder dialog window
+     *  */
     Dialog(JFrame frame,String title,String DialogTitle,String directory,String name){
         JFrame f = frame;
         d = new JDialog(f,DialogTitle,true);
