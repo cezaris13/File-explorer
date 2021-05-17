@@ -8,6 +8,5 @@ public interface Viewable {
      * and opens given file
      * @param Execution program(String), file name(String)
      * */
-
-    void openFile(String exProgram,String fileName) throws IncorrectFileNameException,FileIsMissingException;
+    void openFile(String exProgram,String fileName) throws FileIsMissingException;
 }

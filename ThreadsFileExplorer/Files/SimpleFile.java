@@ -18,7 +18,7 @@ public class SimpleFile extends MyFile {
         fileType="";
     }
     /**
-     * Constructor SimpleFile(Sting fileName)
+     * Constructor SimpleFile(String fileName)
      *
      * Creates New empty SimpleFile with given file name
      * assigns file name value to fileName variable(from MyFile class)

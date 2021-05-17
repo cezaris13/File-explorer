@@ -1,23 +1,17 @@
 package Files;
+/**
+ * FileFactory class implements method-factory design pattern */
 public class FileFactory{
-    public MyFile newFile(String type,String fileName){
-        if(type==null){
-            return  null;
-        }
-        else if(type=="Image"){
-            return new Image(fileName);
-        }
-        else if(type=="Document"){
-            return new Docum(fileName);
-        }
-        else if(type=="Media"){
-            return new Media(fileName);
-        }
-        else if(type=="File"){
-            return new SimpleFile(fileName);
-        }
-        return  null;
-    }
+    /* Method newfile(String type,intfileSize,String fileDir,String fileName)
+     *
+     * takes given variables and returns one of the following classes:
+     *  Image
+     *  Docum
+     *  Media
+     *  SimpleFile
+     * @param type(String)-file type,fileSize(int),fileDir(String),fileName(String)
+     * @return MyFile variable
+     * */
     public MyFile newFile(String type,int fileSize,String fileDir,String fileName){
         if(type==null){
             return  null;

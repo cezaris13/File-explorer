@@ -3,12 +3,30 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
+/**
+ * Image extends MyFile and it is used for image(jpg,png) file types
+ *
+ * @throws IOException
+ *  */
 public class Image extends MyFile{
+    /**
+     * Image class has additional variables:
+     * PictureXSize and PictureYSize - image x and y size
+     * oriantation- image orientation
+     * imageType- type of image(png,jpg) */
     int PictureXSize;
     int PictureYSize;
-    int orientation;//0,1,2,3-rotating clock wise
-    //prideti icon(myFile.java)
+    int orientation;
     private String imageType;
+    /**
+       * Constructor Image()
+       *
+       * Creates empty Image object
+       * changes picture x and y size to 0
+       * changes image orientation to 0
+       * changes execution program to "gwenview"
+       * and image type to empty string
+       * */
     public Image(){
         super();
         imageType="";
@@ -17,11 +35,31 @@ public class Image extends MyFile{
         exProgram="gwenview";
         orientation=0;
     }
+    /**
+     * Constructor Image(String fileName)
+     *
+     * Creates New empty Image with given file name
+     * assigns file name value to fileName variable
+     * assigns fileIcon new icon(image file icon)
+     * file name- should not include fullPath to the file)
+     * @param fileName(String)
+     * */
     public Image(String fileName){
         this(0,"","");
         this.fileName=fileName;
         fileIcon = new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/image.png",65,65);
     }
+    /**
+     * Constructor Image(int fileSize, String fileDir, String fileName)
+     *
+     * Creates new Image with given file size,directory, name
+     * assigns file name value to fileName variable(Same with fileDir,fileSize)
+     * assigns fileIcon new icon(image file icon)
+     * file name-should not include fullPath to the file)
+     * changes image type variables
+     * changes filesize variable
+     * @param file size(int),file directory(String),file name(String)
+     * */
     public Image(int fileSize,String fileDir, String fileName){
         super(fileSize,fileDir,fileName);
         fileIcon = new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/image.png",65,65);
@@ -44,6 +82,14 @@ public class Image extends MyFile{
         setFileSize(file.length());
         orientation=0;
     }
+    /**
+     * Method String setFileName(String fileName)
+     *
+     * sets new fileName, and changes Image type variable,
+     * ads execution program and changes fileSize variable
+     * orientation is set to 0
+     * @throws IOException
+     *  */
     public void setFileName(String fileName){
         super.setFileName(fileName);
         int j=fileName.lastIndexOf('.');
@@ -64,20 +110,38 @@ public class Image extends MyFile{
         setFileSize(file.length());
         orientation=0;
     }
-
+    /**
+     * Method String getImageType()
+     *
+     * returns image type
+     *
+     * @return Image type(String)
+     *  */
     public String getImageType(){
         return imageType;
     }
+
     public void rotateImage(){
         int tmp=PictureXSize;
         PictureXSize=PictureYSize;
         PictureYSize=tmp;
         orientation=(orientation+1==4?0:orientation+1);
-        //add actual image orientation
     }
+    /**
+     * Method void setExProgram(String exProgram)
+     *
+     * Changes execution program
+     *  */
     public void setExProgram(String exProgram){
         this.exProgram=exProgram;
     }
+    /**
+     * Method toString()
+     * returns a string consisting of all Image
+     * variables description
+     *
+     * @return String of variables
+     *  */
     public String toString(){
         return "CreationTime:"+getCreationTime()+"\n"
             +"FileSize: "+getFileSize()+"\n"

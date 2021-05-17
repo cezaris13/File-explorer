@@ -36,7 +36,7 @@ public abstract class EditableFile implements Editable{
         catch(IOException ex){}
     }
     public void deleteFile()
-        throws FileIsMissingException{//add stuff
+        throws FileIsMissingException{
         File file=new File(fileDir+"/"+fileName);
         if(!isCorrectFileName(fileName)){
             throw new IncorrectFileNameException("Incorrect filename : " + fileName);

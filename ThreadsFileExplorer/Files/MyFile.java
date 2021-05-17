@@ -2,7 +2,11 @@ package Files;
 
 import java.io.Serializable;
 import java.util.Date;
-
+/**
+ * Base file Class, it is used to store basic file data:
+ * file size, file name, file directory, creation time, modification time,
+ * execution program
+ *  */
 public class MyFile extends EditableFile implements Cloneable,Serializable{
     /**
      * fileIcon- An Icon class object which saves info about specific file type icon
@@ -24,7 +28,7 @@ public class MyFile extends EditableFile implements Cloneable,Serializable{
         fileIcon = new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/file.png",65,65);
     }
     /**
-     * Constructor MyFile(Sting fileName)
+     * Constructor MyFile(String fileName)
      *
      * Creates New empty MyFile with given file name
      * assigns file name value to fileName variable
