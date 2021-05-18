@@ -211,7 +211,7 @@ public class fileApp {
         if(fileList.size()==0){
             updateFiles(CustomPanel.directory);
         }
-        else{
+        else{//issaugoti nereik objektus
             filePanel.panel.removeAll();
             for(int i=0;i<fileList.size();i++){
                 filePanel.panel.add(fileList.get(i));
