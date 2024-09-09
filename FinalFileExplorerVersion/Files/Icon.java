@@ -3,44 +3,49 @@ package Files;
 import java.io.Serializable;
 
 import javax.swing.ImageIcon;
+
 /**
  * Class Icon is used to store information about specific icon
- *  */
-public class Icon implements Serializable{
+ */
+public class Icon implements Serializable {
     private int width;
     private int height;
     private ImageIcon icon;
-     /**
-       * Constructor Icon()
-       *
-       * Creates empty Icon object
-       * changes picture width and height to 0
-       * creates empty ImageIcon object
-       * */
-    public Icon(){
+
+    /**
+     * Constructor Icon()
+     *
+     * Creates empty Icon object
+     * changes picture width and height to 0
+     * creates empty ImageIcon object
+     */
+    public Icon() {
         width = 0;
         height = 0;
         icon = new ImageIcon();
     }
+
     /**
-       * Constructor Icon(String dir, int width,int height)
-       *
-       * Creates Icon object
-       * adds specific icon to icon variable and scales it using given height and width
-       * changes height and width to image height and width
-       * changes picture width and height to 0
-       * creates empty ImageIcon object
-       *
-       * @param dir- icon directory
-       * @param width- icon width
-       * @param height- icon height
-       * */
-    public Icon(String dir,int width,int height){
+     * Constructor Icon(String dir, int width,int height)
+     *
+     * Creates Icon object
+     * adds specific icon to icon variable and scales it using given height and
+     * width
+     * changes height and width to image height and width
+     * changes picture width and height to 0
+     * creates empty ImageIcon object
+     *
+     * @param dir-    icon directory
+     * @param width-  icon width
+     * @param height- icon height
+     */
+    public Icon(String dir, int width, int height) {
         icon = new ImageIcon(dir);
-        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height,  java.awt.Image.SCALE_SMOOTH));
-        this.width   = icon.getImage().getWidth(null);
-        this.height  = icon.getImage().getHeight(null);
+        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH));
+        this.width = icon.getImage().getWidth(null);
+        this.height = icon.getImage().getHeight(null);
     }
+
     /**
      * Method int getWidth()
      *
@@ -48,10 +53,11 @@ public class Icon implements Serializable{
      *
      * @return width(int)
      *
-     *  */
-    public int getWidth(){
+     */
+    public int getWidth() {
         return width;
     }
+
     /**
      * Method int getHeight()
      *
@@ -59,10 +65,11 @@ public class Icon implements Serializable{
      *
      * @return height(int)
      *
-     *  */
-    public int getHeight(){
+     */
+    public int getHeight() {
         return height;
     }
+
     /**
      * Method ImageIcon getIcon()
      *
@@ -70,8 +77,8 @@ public class Icon implements Serializable{
      *
      * @return icon(ImageIcon)
      *
-     *  */
-    public ImageIcon getIcon(){
+     */
+    public ImageIcon getIcon() {
         return icon;
     }
 }

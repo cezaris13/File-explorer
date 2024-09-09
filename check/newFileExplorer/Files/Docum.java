@@ -2,80 +2,89 @@ package Files;
 
 import java.io.File;
 
-public class Docum extends MyFile{
+public class Docum extends MyFile {
     private int wordCount;
     private int pages;
     private String docType;
-    public Docum(){
+
+    public Docum() {
         super();
-        wordCount=0;
-        pages=0;
-        exProgram="";
+        wordCount = 0;
+        pages = 0;
+        exProgram = "";
     }
-    public Docum(String fileName){
-        this(0,"","");
-        fileIcon   = new Icon("/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/Files/document.png",65,65);
+
+    public Docum(String fileName) {
+        this(0, "", "");
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/Files/document.png", 65,
+                65);
     }
-    public Docum(int fileSize,String fileDir, String fileName){
-        super(fileSize,fileDir,fileName);
-        fileIcon   = new Icon("/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/Files/document.png",65,65);
-        int j=fileName.lastIndexOf('.');
-        String extension="";
+
+    public Docum(int fileSize, String fileDir, String fileName) {
+        super(fileSize, fileDir, fileName);
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/Files/document.png", 65,
+                65);
+        int j = fileName.lastIndexOf('.');
+        String extension = "";
         if (j >= 0) {
-            extension=fileName.substring(j+1);
+            extension = fileName.substring(j + 1);
         }
-        docType=extension;
-        if(extension.equals("pdf")){
-            exProgram="okular";
+        docType = extension;
+        if (extension.equals("pdf")) {
+            exProgram = "okular";
+        } else {
+            exProgram = "libreoffice";
         }
-        else{
-            exProgram="libreoffice";
-        }
-        wordCount=0;//change that later
-        pages=0;
-        File file=new File(getFileDir()+"/"+fileName);
+        wordCount = 0;// change that later
+        pages = 0;
+        File file = new File(getFileDir() + "/" + fileName);
         setFileSize(file.length());
     }
-    public String getDocType(){
+
+    public String getDocType() {
         return docType;
     }
-    public int getPageCount(){
+
+    public int getPageCount() {
         return pages;
     }
-    public int getWordCount(){
+
+    public int getWordCount() {
         return wordCount;
     }
-    public void setExProgram(String exProgram){
-        this.exProgram=exProgram;
+
+    public void setExProgram(String exProgram) {
+        this.exProgram = exProgram;
     }
-    public void setFileName(String fileName){
+
+    public void setFileName(String fileName) {
         super.setFileName(fileName);
-        int j=fileName.lastIndexOf('.');
-        String extension="";
+        int j = fileName.lastIndexOf('.');
+        String extension = "";
         if (j >= 0) {
-            extension=fileName.substring(j+1);
+            extension = fileName.substring(j + 1);
         }
-        docType=extension;
-        if(extension.equals("pdf")){
-            exProgram="okular";
+        docType = extension;
+        if (extension.equals("pdf")) {
+            exProgram = "okular";
+        } else {
+            exProgram = "libreoffice";
         }
-        else{
-            exProgram="libreoffice";
-        }
-        File file=new File(getFileDir()+"/"+fileName);
+        File file = new File(getFileDir() + "/" + fileName);
         setFileSize(file.length());
-        wordCount=0;
-        pages=0;
+        wordCount = 0;
+        pages = 0;
     }
-    public String toString(){
-        return "CreationTime:"+getCreationTime()+"\n"
-            +"FileSize: "+getFileSize()+"\n"
-            +"ModificationDate: "+getModificationTime()+"\n"
-            +"Filedir: "+getFileDir()+"\n"
-            +"Filename: "+getFileName()+"\n"
-            +"wordcount:"+wordCount+"\n"
-            +"pages:"+pages+"\n"
-            +"exProgram: "+exProgram+"\n"
-            +"docType: "+docType;
+
+    public String toString() {
+        return "CreationTime:" + getCreationTime() + "\n"
+                + "FileSize: " + getFileSize() + "\n"
+                + "ModificationDate: " + getModificationTime() + "\n"
+                + "Filedir: " + getFileDir() + "\n"
+                + "Filename: " + getFileName() + "\n"
+                + "wordcount:" + wordCount + "\n"
+                + "pages:" + pages + "\n"
+                + "exProgram: " + exProgram + "\n"
+                + "docType: " + docType;
     }
 }
