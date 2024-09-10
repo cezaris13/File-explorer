@@ -1,5 +1,6 @@
 package Files;
 
+import Exceptions.*;
 /**
  * editable interface extends Viewable interface by giving the access to edit
  * file(delete, edit)

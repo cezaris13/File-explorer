@@ -1,4 +1,4 @@
-package Files;
+package Exceptions;
 
 /**
  * FileIsMissingException is used to inform user that specific file, by given

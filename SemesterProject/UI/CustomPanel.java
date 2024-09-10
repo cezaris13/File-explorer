@@ -1,3 +1,4 @@
+package UI;
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.BorderLayout;

@@ -1,5 +1,6 @@
 package Files;
 
+import Exceptions.*;
 /**
  * Viewable is used to give user permission to view file
  */

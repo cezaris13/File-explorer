@@ -1,4 +1,4 @@
-package Files;
+package Exceptions;
 
 /**
  * An exception class which extends FileIsMissingException class
