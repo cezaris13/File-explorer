@@ -3,7 +3,7 @@ package Files;
 /**
  * Viewable is used to give user permission to view file
  */
-public interface Viewable {
+public interface IViewable {
     /**
      * openfile method takes execution program, and file name
      * and opens given file

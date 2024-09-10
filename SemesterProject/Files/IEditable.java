@@ -5,7 +5,7 @@ package Files;
  * file(delete, edit)
  *
  */
-public interface Editable extends Viewable {
+public interface IEditable extends IViewable {
     /**
      *
      * @param fileSize - file size

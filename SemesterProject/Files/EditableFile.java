@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.io.File;
 
 /**
- * EditableFile abstract class implements Editable interface
+ * EditableFile abstract class implements IEditable interface
  */
-public abstract class EditableFile implements Editable {
+public abstract class EditableFile implements IEditable {
     String exProgram;
     String fileDir;
     String fileName = "";
