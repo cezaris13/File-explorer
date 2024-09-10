@@ -1,7 +1,9 @@
-package Files;
+
 
 import java.io.Serializable;
 import javax.swing.*;
+
+import Files.MyFile;
 
 /**
  * CustomJLabel extends JLabel by adding MyFile object,
