@@ -15,7 +15,6 @@ public class FileManagement {
      * if it fails, It is reported
      *
      * @param name(String)-file name, directory(String) file location
-     * @throws IOException
      */
     void createFile(String name, String directory) {
         try {
@@ -109,9 +108,8 @@ public class FileManagement {
             return;
         }
         boolean success = oldFile.renameTo(newFile);
-        if (!success) {
+        if (!success)
             System.out.println("failed to rename file");
-        }
     }
 
     /**
@@ -131,8 +129,7 @@ public class FileManagement {
             return;
         }
         boolean success = oldDir.renameTo(newDir);
-        if (!success) {
+        if (!success)
             System.out.println("failed to rename directory");
-        }
     }
 }

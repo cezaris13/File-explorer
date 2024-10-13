@@ -12,7 +12,7 @@ public class CustomJLabelFolders extends JLabel implements Serializable {
     /**
      * Additional icon variable to store data about the folder icon
      */
-    public Icon folderIcon = new Icon();
+    public Icon folderIcon;
 
     /**
      * Creates New CustomJLabelFolders with given name,icon, alignment

@@ -9,7 +9,6 @@ import java.io.File;
  * EditableFile abstract class implements IEditable interface
  */
 public abstract class EditableFile implements IEditable {
-    String exProgram;
     String fileDir;
     String fileName = "";
     long fileSize = 0;// kb
@@ -55,17 +54,15 @@ public abstract class EditableFile implements IEditable {
             throws FileIsMissingException {
         try {
             System.out.println(fileName);
-            String replaceSpaces = fileName;
-            System.out.println(replaceSpaces);
-            File tmpFile = new File(fileDir + "/" + replaceSpaces);
-            if (!isCorrectFileName(fileName)) {
+            File tmpFile = new File(fileDir + "/" + fileName);
+            if (isCorrectFileName(fileName))
                 throw new IncorrectFileNameException("Incorrect filename : " + fileName);
-            }
-            if (!tmpFile.exists()) {
+
+            if (!tmpFile.exists())
                 throw new FileIsMissingException("File not Found", fileName);
-            }
-            Runtime.getRuntime().exec(exProgram + " " + fileDir + "/" + replaceSpaces);
-        } catch (IOException ex) {
+
+            Runtime.getRuntime().exec(exProgram + " " + fileDir + "/" + fileName);
+        } catch (IOException ignored) {
         }
     }
 
@@ -82,12 +79,12 @@ public abstract class EditableFile implements IEditable {
     public void deleteFile()
             throws FileIsMissingException {
         File file = new File(fileDir + "/" + fileName);
-        if (!isCorrectFileName(fileName)) {
+        if (isCorrectFileName(fileName))
             throw new IncorrectFileNameException("Incorrect filename : " + fileName);
-        }
-        if (!file.exists()) {
+
+        if (!file.exists())
             throw new FileIsMissingException("File not Found", fileName, fileDir);
-        }
+
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
         } else {
@@ -107,15 +104,12 @@ public abstract class EditableFile implements IEditable {
      * @return Boolean
      */
     public boolean isCorrectFileName(String fileName) {
-        String illegalCaracters = "@$%&\\/:*?\"'<>|~`#^+={}[];!";
-        for (int i = 0; i < fileName.length(); i++) {
-            for (int j = 0; j < illegalCaracters.length(); j++) {
-                if (fileName.charAt(i) == illegalCaracters.charAt(j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        String illegalCharacters = "@$%&\\/:*?\"'<>|~`#^+={}[];!";
+        for (int i = 0; i < fileName.length(); i++)
+            for (int j = 0; j < illegalCharacters.length(); j++)
+                if (fileName.charAt(i) == illegalCharacters.charAt(j))
+                    return true;
+        return false;
     }
 
     protected Object clone() throws CloneNotSupportedException {

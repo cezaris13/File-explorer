@@ -7,7 +7,7 @@ import java.io.File;
  */
 public class Docum extends MyFile {
     /**
-     * Docum class has additionl varibles:
+     * Docum class has additional variables:
      * wordCount
      * pages
      * docType - document type(docx, odt)
@@ -18,10 +18,10 @@ public class Docum extends MyFile {
 
     /**
      * Constructor Docum()
-     *
+     * <p>
      * Creates empty Docum object
      * changes word count and pages count to 0
-     * changes execution program to empty sring
+     * changes execution program to empty string
      */
     public Docum() {
         super();
@@ -32,7 +32,7 @@ public class Docum extends MyFile {
 
     /**
      * Constructor Docum(String fileName)
-     *
+     * <p>
      * Creates New empty Docum with given file name
      * assigns file name value to fileName variable
      * assigns fileIcon new icon(image file icon)
@@ -67,9 +67,9 @@ public class Docum extends MyFile {
                 "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65);
         int j = fileName.lastIndexOf('.');
         String extension = "";
-        if (j >= 0) {
+        if (j >= 0)
             extension = fileName.substring(j + 1);
-        }
+
         docType = extension;
         if (extension.equals("pdf")) {
             exProgram = "okular";
@@ -84,7 +84,7 @@ public class Docum extends MyFile {
 
     /**
      * Method void setExProgram(String exProgram)
-     *
+     * <p>
      * Changes execution program
      *
      * @param exProgram - execution program
@@ -95,7 +95,7 @@ public class Docum extends MyFile {
 
     /**
      * Method String setFileName(String fileName)
-     *
+     * <p>
      * sets new fileName, and changes Docum type variable,
      * ads execution program and changes fileSize variable
      * word count and page count is set to 0

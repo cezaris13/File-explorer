@@ -64,9 +64,9 @@ public class Media extends MyFile {
                 65, 65);
         int j = fileName.lastIndexOf('.');
         String extension = "";
-        if (j >= 0) {
+        if (j >= 0)
             extension = fileName.substring(j + 1);
-        }
+
         mediaType = extension;
         exProgram = "vlc";
         File file = new File(getFileDir() + "/" + fileName);
@@ -116,9 +116,9 @@ public class Media extends MyFile {
         super.setFileName(fileName);
         int j = fileName.lastIndexOf('.');
         String extension = "";
-        if (j >= 0) {
+        if (j >= 0)
             extension = fileName.substring(j + 1);
-        }
+
         exProgram = "vlc";
         mediaType = extension;
         File file = new File(getFileDir() + "/" + fileName);

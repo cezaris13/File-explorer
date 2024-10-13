@@ -67,7 +67,6 @@ public class SimpleFile extends MyFile {
         exProgram = "kate";
         File file = new File(getFileDir() + "/" + fileName);
         setFileSize(file.length());
-        toString();
     }
 
     /**

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 public class Folder implements Cloneable {
     public ArrayList<MyFile> files = new ArrayList<>();
-    int filecount;
-    String folderName;
 
     public Object clone() throws CloneNotSupportedException {
         Folder folderCopy = (Folder) super.clone();
@@ -15,6 +13,5 @@ public class Folder implements Cloneable {
         }
         folderCopy.files = tmpFiles;
         return folderCopy;
-        // return super.clone();
     }
 }

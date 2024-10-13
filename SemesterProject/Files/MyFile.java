@@ -14,7 +14,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      * creationTime saves time when MyFile object was created
      * exProgram saves execution program in string
      */
-    public Icon fileIcon = new Icon();
+    public Icon fileIcon;
     private Date creationTime;
     public String exProgram;
 

@@ -77,9 +77,9 @@ public class Image extends MyFile {
         exProgram = "gwenview";
         int j = fileName.lastIndexOf('.');
         String extension = "";
-        if (j >= 0) {
+        if (j >= 0)
             extension = fileName.substring(j + 1);// something.txt -> txt
-        }
+
         imageType = extension;
         try {
             BufferedImage bimg = ImageIO.read(new File(getFileDir() + "/" + fileName));
@@ -104,9 +104,9 @@ public class Image extends MyFile {
         super.setFileName(fileName);
         int j = fileName.lastIndexOf('.');
         String extension = "";
-        if (j >= 0) {
+        if (j >= 0)
             extension = fileName.substring(j + 1);// something.txt -> txt
-        }
+
         imageType = extension;
         try {
             BufferedImage bimg = ImageIO.read(new File(getFileDir() + "/" + fileName));

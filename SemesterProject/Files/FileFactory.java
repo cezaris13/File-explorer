@@ -20,17 +20,15 @@ public class FileFactory {
      * @return MyFile variable
      */
     public MyFile newFile(String type, int fileSize, String fileDir, String fileName) {
-        if (type == null) {
+        if (type == null)
             return null;
-        } else if (type == "Image") {
-            return new Image(fileSize, fileDir, fileName);
-        } else if (type == "Document") {
-            return new Docum(fileSize, fileDir, fileName);
-        } else if (type == "Media") {
-            return new Media(fileSize, fileDir, fileName);
-        } else if (type == "File") {
-            return new SimpleFile(fileSize, fileDir, fileName);
-        }
-        return null;
+
+        return switch (type) {
+            case "Image" -> new Image(fileSize, fileDir, fileName);
+            case "Document" -> new Docum(fileSize, fileDir, fileName);
+            case "Media" -> new Media(fileSize, fileDir, fileName);
+            case "File" -> new SimpleFile(fileSize, fileDir, fileName);
+            default -> null;
+        };
     }
 }

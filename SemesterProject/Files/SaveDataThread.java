@@ -15,11 +15,12 @@ public class SaveDataThread implements Runnable {
 
     public void run() {
         try {
-            DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(fileLocation));
-            byte[] data = saveDirectory.getBytes("UTF-8");
-            System.out.println(saveDirectory);
-            dataOut.writeInt(data.length);
-            dataOut.write(data);
+            try (DataOutputStream dataOut = new DataOutputStream(new FileOutputStream(fileLocation))) {
+                byte[] data = saveDirectory.getBytes("UTF-8");
+                System.out.println(saveDirectory);
+                dataOut.writeInt(data.length);
+                dataOut.write(data);
+            }
         } catch (IOException ex) {
             System.out.println(ex);
         }
