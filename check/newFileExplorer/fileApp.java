@@ -1,4 +1,5 @@
 import Files.*;
+import Files.Panel;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
