@@ -6,5 +6,5 @@ JV=java
 CLASS=fileApp
 
 build:
-	$(JC)  $(FILES)
+	$(JC) -Xlint:unchecked  $(FILES)
 	$(JV) $(FLAGS) .:$(JAR) $(CLASS)

@@ -1,5 +1,3 @@
-package UI;
-
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -41,13 +39,13 @@ public class Dialog {
         });
         ok.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                fileManagement tmp = new fileManagement();
-                if (DialogTitle == "new file") {
+                FileManagement tmp = new FileManagement();
+                if (DialogTitle == "new file")
                     tmp.createFile(textBox.getText(), directory);
-                }
-                if (DialogTitle == "new directory") {
+
+                if (DialogTitle == "new directory")
                     tmp.createDirectory(textBox.getText(), directory);
-                }
+
                 Dialog.d.setVisible(false);
             }
         });
@@ -88,19 +86,19 @@ public class Dialog {
         });
         ok.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                fileManagement tmp = new fileManagement();
-                if (DialogTitle == "rename file") {
+                FileManagement tmp = new FileManagement();
+                if (DialogTitle == "rename file")
                     tmp.renameFile(name, textBox.getText(), directory);
-                }
-                if (DialogTitle == "rename directory") {
+
+                if (DialogTitle == "rename directory")
                     tmp.renameDirectory(name, textBox.getText(), directory);
-                }
-                if (DialogTitle == "delete file") {
+
+                if (DialogTitle == "delete file")
                     tmp.deleteFile(name, directory);
-                }
-                if (DialogTitle == "delete directory") {
+
+                if (DialogTitle == "delete directory")
                     tmp.deleteDirectory(name, directory);
-                }
+
                 Dialog.d.setVisible(false);
             }
         });
@@ -108,9 +106,9 @@ public class Dialog {
         Jtitle.setBounds(0, 10, 300, 20);
         d.add(Jtitle);
         d.add(cancel);
-        if (DialogTitle == "rename file" || DialogTitle == "rename directory") {
+        if (DialogTitle == "rename file" || DialogTitle == "rename directory")
             d.add(textBox);
-        }
+
         d.add(ok);
         d.setSize(300, 100);
         d.setResizable(false);

@@ -15,9 +15,9 @@ public class CustomPanel {
     private int x, y;
     JScrollPane scrollbar;
     private int xSize, ySize;
-    JPanel panel;
+    public JPanel panel;
     JScrollPane Scrollbar;
-    static String directory;
+    public static String directory;
 
     /**
      * Constructor CustomPanel()

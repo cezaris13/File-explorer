@@ -1,4 +1,6 @@
 import Files.*;
+import UI.*;
+import Exceptions.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
@@ -33,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 
-public class fileApp {
+public class FileApp {
     String                    saveLocation="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/directory.out";
     String                    saveFiles="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/files.out";
     String                    saveFolders="/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/folders.out";
@@ -51,7 +53,7 @@ public class fileApp {
     public FileFactory        fileFactory=new FileFactory();
     DefaultMutableTreeNode    head;
 
-    public fileApp(){//add folders
+    public FileApp(){//add folders
         frame=new JFrame("my file explorer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -281,6 +283,7 @@ public class fileApp {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
     public void updateFiles(String directory){
         File f=new File(directory);
         if(f.exists()){
@@ -372,9 +375,11 @@ public class fileApp {
             }
         }
     }
+
     public static void main(String[] args){
-        new fileApp();
+        new FileApp();
     }
+
     public void recursiveFiles(String directory,String ex,DefaultMutableTreeNode head){
         File f=new File(directory);
         if(f.exists()){
@@ -393,6 +398,7 @@ public class fileApp {
             System.out.println("Directory not found");
         }
     }
+
     public String getFileType(String file){
         String extension="";
         int j=file.lastIndexOf('.');
@@ -413,6 +419,7 @@ public class fileApp {
         }
         return "File";
     }
+
     public String getTerminalProgram(String file){
         //fix with spaces
         String extension="";
@@ -440,6 +447,7 @@ public class fileApp {
         }
         return "kate";
     }
+
     public void customLayout(List<CustomJLabel> fileList,List<CustomJLabelFolders> folderList){
         int space=20;
         Rectangle r=frame.getBounds();

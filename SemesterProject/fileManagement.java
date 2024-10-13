@@ -2,12 +2,12 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * fileManagement class is used to manage files:
+ * FileManagement class is used to manage files:
  * create file/directory
  * delete file/directory
  * rename file/directory
  */
-public class fileManagement {
+public class FileManagement {
     /**
      * Method createFile(String name,String directory)
      *
