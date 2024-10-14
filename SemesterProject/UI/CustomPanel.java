@@ -194,18 +194,4 @@ public class CustomPanel {
         this.ySize = ySize;
         setSize(xSize, ySize);
     }
-    // public CustomPanel(int x,int y,Dimension pref){//topPanel
-    // panel=new JPanel();
-    // panel.setLayout(null);
-    // panel.setPreferredSize(pref);
-    // panel.setLocation(x,y);
-    // setSize(xSize,ySize);
-    // // panel.setBackground(Color.gray);
-    // // scrollbar=new JScrollPane(panel);
-    // //
-    // scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    // //
-    // scrollbar.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    // // panel.add(scrollbar);// fix to add with buttons
-    // }
 }

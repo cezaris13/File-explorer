@@ -34,7 +34,9 @@ public class SimpleFile extends MyFile {
     public SimpleFile(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
+                                                                                                                      // path
+                                                                                                                      // here
                 65, 65);// folder + directory icons
     }
 
@@ -58,6 +60,9 @@ public class SimpleFile extends MyFile {
                                                                                                                       // +
                                                                                                                       // directory
                                                                                                                       // icons
+                                                                                                                      // absolute
+                                                                                                                      // path
+                                                                                                                      // here
         int j = fileName.lastIndexOf('.');
         String extension = "";
         if (j >= 0) {

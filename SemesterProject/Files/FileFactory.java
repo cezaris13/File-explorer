@@ -19,16 +19,15 @@ public class FileFactory {
      * @param fileName(String)
      * @return MyFile variable
      */
-    public MyFile newFile(String type, int fileSize, String fileDir, String fileName) {
+    public MyFile newFile(FileType type, int fileSize, String fileDir, String fileName) {
         if (type == null)
             return null;
 
         return switch (type) {
-            case "Image" -> new Image(fileSize, fileDir, fileName);
-            case "Document" -> new Docum(fileSize, fileDir, fileName);
-            case "Media" -> new Media(fileSize, fileDir, fileName);
-            case "File" -> new SimpleFile(fileSize, fileDir, fileName);
-            default -> null;
+            case Image -> new Image(fileSize, fileDir, fileName);
+            case Document -> new Docum(fileSize, fileDir, fileName);
+            case Media -> new Media(fileSize, fileDir, fileName);
+            case Default -> new SimpleFile(fileSize, fileDir, fileName);
         };
     }
 }

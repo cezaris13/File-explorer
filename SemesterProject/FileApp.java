@@ -113,7 +113,6 @@ public class FileApp {
         rightMenu.add(newD);
         rightFileMenu.add(renameFile);
         rightFileMenu.add(deleteFile);
-        // rightFileMenu.add(deleteFile);// add copy and info
         rightFolderMenu.add(renameDirectory);
         rightFolderMenu.add(deleteDir);
         frame.addMouseListener(new MouseAdapter() {
@@ -282,7 +281,7 @@ public class FileApp {
                 File f1 = new File(directory + "/" + list[i]);
                 final int tmpi = i;
                 if (f1.isFile()) {
-                    MyFile tmpFile = fileFactory.newFile(getFileType(f1.getName()), 0, directory, list[i]);
+                    MyFile tmpFile = fileFactory.newFile(FileType.getFileType(f1.getName()), 0, directory, list[i]);
                     CustomJLabel tmp = new CustomJLabel(list[i], tmpFile.fileIcon.getIcon(), JLabel.CENTER, tmpFile);
                     tmp.setVerticalTextPosition(JLabel.BOTTOM);
                     tmp.setHorizontalTextPosition(JLabel.CENTER);
@@ -372,20 +371,6 @@ public class FileApp {
         }
     }
 
-    public String getFileType(String file) {
-        String extension = "";
-        int j = file.lastIndexOf('.');
-        if (j >= 0)
-            extension = file.substring(j + 1);// something.txt -> txt
-
-        return switch (extension) {
-            case "png", "jpg" -> "Image";
-            case "pdf", "tex", "doc" -> "Document";
-            case "mp3", "mp4", "mkv" -> "Media";
-            default -> "File";
-        };
-    }
-
     public void customLayout(List<CustomJLabel> fileList, List<CustomJLabelFolders> folderList) {
         int space = 20;
         Rectangle r = frame.getBounds();
@@ -393,16 +378,16 @@ public class FileApp {
         int xx = r.width;
         int yy = r.height;
         int y = 85;
+        int countx = 0;
+        int county = 0;
+        int initSpace = 25;
         while (3 * x < 4 * 65 && space > 0) {// if space size + icon size is 1.33 times bigger than Files.Icon size
             space--;
             x = r.width / space;
         }
-        int countx = 0;
-        int county = 0;
-        int initSpace = 25;
         filePanel.panel.setLayout(null);
         for (CustomJLabelFolders customJLabelFolders : folderList) {
-            if (x * (countx + 1) > x * (space - 3)) {
+            if (countx + 4 > space) {
                 county++;
                 countx = 0;
             }
@@ -411,7 +396,7 @@ public class FileApp {
             countx++;
         }
         for (CustomJLabel customJLabel : fileList) {
-            if (x * (countx + 1) > x * (space - 3)) {
+            if (countx + 4 > space) {
                 county++;
                 countx = 0;
             }

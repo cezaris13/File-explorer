@@ -27,7 +27,9 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      */
     public MyFile() {
         this(0, "", "");
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
+                                                                                                                      // path
+                                                                                                                      // here
                 65, 65);
     }
 
@@ -43,7 +45,9 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      */
     public MyFile(String fileName) {
         this(0, "", "");
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
+                                                                                                                      // path
+                                                                                                                      // here
                 65, 65);
     }
 
@@ -66,7 +70,9 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
         this.fileName = fileName;
         creationTime = new Date();
         modificationTime = new Date();
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
+                                                                                                                      // path
+                                                                                                                      // here
                 65, 65);
     }
 

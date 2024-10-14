@@ -25,6 +25,8 @@ public class CustomJLabelFolders extends JLabel implements Serializable {
     public CustomJLabelFolders(String name, ImageIcon icon, int horizontalAlignment) {
         super(name, icon, horizontalAlignment);
         this.folderIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/folder.png", 65, 65);
+                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/folder.png", 65, 65); // absolute
+                                                                                                                     // path
+                                                                                                                     // here
     }
 }

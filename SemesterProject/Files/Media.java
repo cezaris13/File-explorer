@@ -40,7 +40,9 @@ public class Media extends MyFile {
     public Media(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png", // absolute
+                                                                                                                       // path
+                                                                                                                       // here
                 65, 65);
     }
 
@@ -60,7 +62,9 @@ public class Media extends MyFile {
      */
     public Media(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png", // absolute
+                                                                                                                       // path
+                                                                                                                       // here
                 65, 65);
         int j = fileName.lastIndexOf('.');
         String extension = "";

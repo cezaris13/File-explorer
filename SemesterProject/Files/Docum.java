@@ -44,12 +44,14 @@ public class Docum extends MyFile {
         this(0, "", "");
         this.fileName = fileName;
         fileIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65);
+                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65); // absolute
+        // path
+        // here
     }
 
     /**
      * Constructor Docum(int fileSize, String fileDir, String fileName)
-     *
+     * <p>
      * Creates new Docum with given file size,directory, name
      * assigns file name value to fileName variable(Same with fileDir,fileSize)
      * assigns fileIcon new icon(Document file icon)
@@ -64,7 +66,9 @@ public class Docum extends MyFile {
     public Docum(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
         fileIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65);
+                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65); // absolute
+        // path
+        // here
         int j = fileName.lastIndexOf('.');
         String extension = "";
         if (j >= 0)

@@ -52,7 +52,9 @@ public class Image extends MyFile {
     public Image(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png", // absolute
+                                                                                                                       // path
+                                                                                                                       // here
                 65, 65);
     }
 
@@ -72,7 +74,9 @@ public class Image extends MyFile {
      */
     public Image(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png",
+        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png", // absolute
+                                                                                                                       // path
+                                                                                                                       // here
                 65, 65);
         exProgram = "gwenview";
         int j = fileName.lastIndexOf('.');
