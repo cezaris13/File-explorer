@@ -21,6 +21,8 @@ public class Image extends MyFile {
     int orientation;
     private String imageType;
 
+    private String iconPath = "./Icons/image.png";
+
     /**
      * Constructor Image()
      *
@@ -52,10 +54,7 @@ public class Image extends MyFile {
     public Image(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png", // absolute
-                                                                                                                       // path
-                                                                                                                       // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -74,27 +73,9 @@ public class Image extends MyFile {
      */
     public Image(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/image.png", // absolute
-                                                                                                                       // path
-                                                                                                                       // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
         exProgram = "gwenview";
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0)
-            extension = fileName.substring(j + 1);// something.txt -> txt
-
-        imageType = extension;
-        try {
-            BufferedImage bimg = ImageIO.read(new File(getFileDir() + "/" + fileName));
-            PictureXSize = bimg.getWidth();
-            PictureYSize = bimg.getHeight();
-        } catch (IOException ex) {
-            System.out.println("\t" + ex);
-        }
-        File file = new File(fileDir + "/" + fileName);
-        setFileSize(file.length());
-        orientation = 0;
+        setImageData(fileName);
     }
 
     /**
@@ -106,12 +87,12 @@ public class Image extends MyFile {
      */
     public void setFileName(String fileName) {
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0)
-            extension = fileName.substring(j + 1);// something.txt -> txt
+        setImageData(fileName);
+    }
 
-        imageType = extension;
+
+    private void setImageData(String fileName) {
+        imageType = getFileNameExtension(fileName);
         try {
             BufferedImage bimg = ImageIO.read(new File(getFileDir() + "/" + fileName));
             PictureXSize = bimg.getWidth();
@@ -123,7 +104,6 @@ public class Image extends MyFile {
         setFileSize(file.length());
         orientation = 0;
     }
-
     /**
      * Method String getImageType()
      *

@@ -14,6 +14,8 @@ public class Media extends MyFile {
     private int duration;
     private String mediaType;
 
+    private String iconPath = "./Icons/media.png";
+
     /**
      * Constructor Media()
      *
@@ -40,10 +42,7 @@ public class Media extends MyFile {
     public Media(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png", // absolute
-                                                                                                                       // path
-                                                                                                                       // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -62,19 +61,8 @@ public class Media extends MyFile {
      */
     public Media(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/media.png", // absolute
-                                                                                                                       // path
-                                                                                                                       // here
-                65, 65);
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0)
-            extension = fileName.substring(j + 1);
-
-        mediaType = extension;
-        exProgram = "vlc";
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
+        setMediaData(fileName);
     }
 
     /**
@@ -118,15 +106,7 @@ public class Media extends MyFile {
      */
     public void setFileName(String fileName) {
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0)
-            extension = fileName.substring(j + 1);
-
-        exProgram = "vlc";
-        mediaType = extension;
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
+        setMediaData(fileName);
     }
 
     /**
@@ -146,5 +126,12 @@ public class Media extends MyFile {
                 + "duration:" + duration + "\n"
                 + "exProgram: " + exProgram + "\n"
                 + "mediaType: " + mediaType;
+    }
+
+    private void setMediaData(String fileName) {
+        mediaType = getFileNameExtension(fileName);:with
+        exProgram = "vlc";
+        File file = new File(getFileDir() + "/" + fileName);
+        setFileSize(file.length());
     }
 }

@@ -5,31 +5,21 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 
 public class Panel {
-    private int x, y;
+    private int x = 0;
+    private int y = 0;
     JScrollPane scrollbar;
-    private int xSize, ySize;
-    JPanel panel;
+    private int xSize = 0;
+    private int ySize = 0;
+    JPanel panel = new JPanel();
     JScrollPane Scrollbar;
     static String dirPath;
 
-    public Panel() {
-        panel = new JPanel();
-        x = 0;
-        y = 0;
-        xSize = 0;
-        ySize = 0;
-    }
-
     public Panel(int x, int y) {
-        panel = new JPanel();
         this.x = x;
         this.y = y;
-        xSize = 0;
-        ySize = 0;
     }
 
     public Panel(int x, int y, int xSize, int ySize) {// topPanel and filePanel
-        panel = new JPanel();
         panel.setLayout(null);
         panel.setPreferredSize(new Dimension(xSize, ySize));
         panel.setLocation(x, y);
@@ -39,7 +29,6 @@ public class Panel {
     }
 
     public Panel(int x, int y, int xSize, int ySize, JTree tree) {// left panel
-        panel = new JPanel();
         panel.setBounds(x, y, xSize, ySize);
         this.x = x;
         this.y = y;

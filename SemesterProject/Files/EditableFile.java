@@ -50,8 +50,7 @@ public abstract class EditableFile implements IEditable {
      *
      * @param exProgram(String) fileName(String)
      */
-    public void openFile(String exProgram, String fileName)
-            throws FileIsMissingException {
+    public void openFile(String exProgram, String fileName) throws FileIsMissingException {
         try {
             System.out.println(fileName);
             File tmpFile = new File(fileDir + "/" + fileName);
@@ -61,7 +60,8 @@ public abstract class EditableFile implements IEditable {
             if (!tmpFile.exists())
                 throw new FileIsMissingException("File not Found", fileName);
 
-            Runtime.getRuntime().exec(exProgram + " " + fileDir + "/" + fileName);
+            ProcessBuilder processBuilder = new ProcessBuilder(exProgram, fileDir+"/"+fileName);
+            processBuilder.start();
         } catch (IOException ignored) {
         }
     }
@@ -76,8 +76,7 @@ public abstract class EditableFile implements IEditable {
      * else throws exception
      *
      */
-    public void deleteFile()
-            throws FileIsMissingException {
+    public void deleteFile() throws FileIsMissingException {
         File file = new File(fileDir + "/" + fileName);
         if (isCorrectFileName(fileName))
             throw new IncorrectFileNameException("Incorrect filename : " + fileName);
@@ -103,7 +102,7 @@ public abstract class EditableFile implements IEditable {
      * @param fileName - file name
      * @return Boolean
      */
-    public boolean isCorrectFileName(String fileName) {
+    private boolean isCorrectFileName(String fileName) {
         String illegalCharacters = "@$%&\\/:*?\"'<>|~`#^+={}[];!";
         for (int i = 0; i < fileName.length(); i++)
             for (int j = 0; j < illegalCharacters.length(); j++)

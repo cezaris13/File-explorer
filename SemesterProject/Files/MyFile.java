@@ -18,6 +18,10 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
     private Date creationTime;
     public String exProgram;
 
+    private String iconPath = "../Icons/file.png";
+    protected int iconWidth = 65;
+    protected int iconHeight = 65;
+
     /**
      * Constructor MyFile()
      *
@@ -27,10 +31,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      */
     public MyFile() {
         this(0, "", "");
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
-                                                                                                                      // path
-                                                                                                                      // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -45,10 +46,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      */
     public MyFile(String fileName) {
         this(0, "", "");
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
-                                                                                                                      // path
-                                                                                                                      // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -64,16 +62,13 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      * @param fileDir(String),
      * @param fileName(String)
      */
-    public MyFile(int fileSize, String fileDir, String fileName) {// this()
+    public MyFile(int fileSize, String fileDir, String fileName) {
         this.fileSize = fileSize;
         this.fileDir = fileDir;
         this.fileName = fileName;
         creationTime = new Date();
         modificationTime = new Date();
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
-                                                                                                                      // path
-                                                                                                                      // here
-                65, 65);
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -207,5 +202,13 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+    public String getFileNameExtension(String fileName) {
+        int j = fileName.lastIndexOf('.');
+        if (j >= 0)
+            return fileName.substring(j + 1);
+
+        return "";
     }
 }

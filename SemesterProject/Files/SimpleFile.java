@@ -11,6 +11,7 @@ public class SimpleFile extends MyFile {
      */
     private String fileType = "";
 
+    private String iconPath = ".Icons/file.png";
     /**
      * Constructor SimpleFile()
      *
@@ -34,10 +35,7 @@ public class SimpleFile extends MyFile {
     public SimpleFile(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon("/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", // absolute
-                                                                                                                      // path
-                                                                                                                      // here
-                65, 65);// folder + directory icons
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -55,23 +53,8 @@ public class SimpleFile extends MyFile {
      */
     public SimpleFile(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon(
-                "/**//home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/file.png", 65, 65);// folder
-                                                                                                                      // +
-                                                                                                                      // directory
-                                                                                                                      // icons
-                                                                                                                      // absolute
-                                                                                                                      // path
-                                                                                                                      // here
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0) {
-            extension = fileName.substring(j + 1);
-        }
-        fileType = extension;
-        exProgram = "kate";
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
+        setSimpleFileParameters(fileName);
     }
 
     /**
@@ -92,15 +75,7 @@ public class SimpleFile extends MyFile {
      */
     public void setFileName(String fileName) {
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0) {
-            extension = fileName.substring(j + 1);
-        }
-        exProgram = "kate";
-        fileType = extension;
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
+        setSimpleFileParameters(fileName);
     }
 
     /**
@@ -119,5 +94,12 @@ public class SimpleFile extends MyFile {
                 + "Filename: " + getFileName() + "\n"
                 + "exProgram: " + exProgram + "\n"
                 + "fileType: " + fileType;
+    }
+
+    private void setSimpleFileParameters(String fileName){
+        fileType = getFileNameExtension(fileName);
+        exProgram = "kate";
+        File file = new File(getFileDir() + "/" + fileName);
+        setFileSize(file.length());
     }
 }

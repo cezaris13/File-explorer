@@ -16,6 +16,8 @@ public class Docum extends MyFile {
     private int pages;
     private String docType;
 
+    private String iconPath = "./Icons/document.png";
+
     /**
      * Constructor Docum()
      * <p>
@@ -43,10 +45,7 @@ public class Docum extends MyFile {
     public Docum(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
-        fileIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65); // absolute
-        // path
-        // here
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
@@ -65,25 +64,8 @@ public class Docum extends MyFile {
      */
     public Docum(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
-        fileIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/document.png", 65, 65); // absolute
-        // path
-        // here
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0)
-            extension = fileName.substring(j + 1);
-
-        docType = extension;
-        if (extension.equals("pdf")) {
-            exProgram = "okular";
-        } else {
-            exProgram = "libreoffice";
-        }
-        wordCount = 0;
-        pages = 0;
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
+        fileIcon = new Icon(iconPath, iconWidth, iconHeight);
+        setExtensionProgramAndSize(fileName);
     }
 
     /**
@@ -106,21 +88,21 @@ public class Docum extends MyFile {
      */
     public void setFileName(String fileName) {
         super.setFileName(fileName);
-        int j = fileName.lastIndexOf('.');
-        String extension = "";
-        if (j >= 0) {
-            extension = fileName.substring(j + 1);
-        }
-        docType = extension;
-        if (extension.equals("pdf")) {
+        setExtensionProgramAndSize(fileName);
+    }
+
+    private void setExtensionProgramAndSize(String fileName) {
+        docType = getFileNameExtension(fileName);
+
+        if (docType.equals("pdf")) {
             exProgram = "okular";
         } else {
             exProgram = "libreoffice";
         }
-        File file = new File(getFileDir() + "/" + fileName);
-        setFileSize(file.length());
         wordCount = 0;
         pages = 0;
+        File file = new File(getFileDir() + "/" + fileName);
+        setFileSize(file.length());
     }
 
     /**

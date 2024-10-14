@@ -8,11 +8,15 @@ import javax.swing.*;
  * which is used to give information about the folder icon and other data from
  * Icon class
  */
-public class CustomJLabelFolders extends JLabel implements Serializable {
+public class CustomJLabelFolders extends JLabel {
     /**
      * Additional icon variable to store data about the folder icon
      */
     public Icon folderIcon;
+
+    private String iconPath = "../Icons/folder.png";
+    private int iconWidth = 65;
+    private int iconHeight = 65;
 
     /**
      * Creates New CustomJLabelFolders with given name,icon, alignment
@@ -24,9 +28,6 @@ public class CustomJLabelFolders extends JLabel implements Serializable {
      */
     public CustomJLabelFolders(String name, ImageIcon icon, int horizontalAlignment) {
         super(name, icon, horizontalAlignment);
-        this.folderIcon = new Icon(
-                "/home/pijus/Desktop/Programming_languages/Java/FinalFileExplorerVersion/Files/folder.png", 65, 65); // absolute
-                                                                                                                     // path
-                                                                                                                     // here
+        this.folderIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 }
