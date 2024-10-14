@@ -13,10 +13,12 @@ import java.awt.BorderLayout;
  *
  */
 public class CustomPanel {
-    private int x, y;
+    private int x = 0;
+    private int y = 0;
     JScrollPane scrollbar;
-    private int xSize, ySize;
-    public JPanel panel;
+    private int xSize = 0;
+    private int ySize = 0;
+    public JPanel panel = new JPanel();
     JScrollPane Scrollbar;
     public static String directory;
 
@@ -42,12 +44,10 @@ public class CustomPanel {
      * @param x-      x coordinate of panel
      * @param y(int)- y coordinate of panel
      */
+
     public CustomPanel(int x, int y) {
-        panel = new JPanel();
         this.x = x;
         this.y = y;
-        xSize = 0;
-        ySize = 0;
     }
 
     /**
@@ -61,7 +61,6 @@ public class CustomPanel {
      * @param ySize(int)- y size of panel
      */
     public CustomPanel(int x, int y, int xSize, int ySize) {// topPanel and filePanel
-        panel = new JPanel();
         panel.setLayout(null);
         panel.setPreferredSize(new Dimension(xSize, ySize));
         panel.setLocation(x, y);
@@ -82,7 +81,6 @@ public class CustomPanel {
      * @param tree(JTree)- JTree Object containing fileList
      */
     public CustomPanel(int x, int y, int xSize, int ySize, JTree tree) {// left panel
-        panel = new JPanel();
         panel.setBounds(x, y, xSize, ySize);
         this.x = x;
         this.y = y;

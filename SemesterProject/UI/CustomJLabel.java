@@ -1,7 +1,6 @@
 
 package UI;
 
-import java.io.Serializable;
 import javax.swing.*;
 
 import Files.MyFile;
@@ -11,7 +10,7 @@ import Files.MyFile;
  * which is used to give information about the icon of the file and other data
  * from MyFile class
  */
-public class CustomJLabel extends JLabel implements Serializable {
+public class CustomJLabel extends JLabel {
     /**
      * Additional file variable to store data about the file
      */

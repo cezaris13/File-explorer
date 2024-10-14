@@ -311,7 +311,7 @@ public class FileApp {
                 File f1 = new File(directory + "/" + list[i]);
                 final int tmpi = i;
                 if (f1.isDirectory()) {
-                    Icon temp = new Icon("/home/pijus/IdeaProjects/FIleExplorer/src/Files/folder.png", 65, 65);
+                    Icon temp = new Icon("./Icons/folder.png", 65, 65);
                     CustomJLabelFolders tmp = new CustomJLabelFolders(list[i], temp.getIcon(), JLabel.CENTER);
                     tmp.setVerticalTextPosition(JLabel.BOTTOM);
                     tmp.setHorizontalTextPosition(JLabel.CENTER);

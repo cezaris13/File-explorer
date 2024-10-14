@@ -13,7 +13,7 @@ import java.util.Objects;
  *
  */
 public class Dialog {
-    private static JDialog d;
+    private static JDialog jDialog;
 
     /**
      * Constructor Dialog(JFrame frame,String title,String DialogTitle,String
@@ -23,38 +23,11 @@ public class Dialog {
      *
      * this is used to as a deleteFile/folder dialog window
      */
-    Dialog(JFrame frame, String title, String DialogTitle, String directory) {
-        d = new JDialog(frame, DialogTitle, true);
-        d.setLayout(null);
-        JButton ok = new JButton("OK");
-        ok.setBounds(40, 70, 100, 20);
-        JButton cancel = new JButton("Cancel");
-        cancel.setBounds(150, 70, 100, 20);
-        JTextField textBox = new JTextField("");
-        textBox.setBounds(50, 40, 200, 20);
-        cancel.addActionListener(e -> Dialog.d.setVisible(false));
-        ok.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                FileManagement tmp = new FileManagement();
-                if (Objects.equals(DialogTitle, "new file"))
-                    tmp.createFile(textBox.getText(), directory);
-
-                if (Objects.equals(DialogTitle, "new directory"))
-                    tmp.createDirectory(textBox.getText(), directory);
-
-                Dialog.d.setVisible(false);
-            }
-        });
-        JLabel Jtitle = new JLabel(title, SwingConstants.CENTER);
-        Jtitle.setBounds(0, 10, 300, 20);
-        d.add(Jtitle);
-        d.add(cancel);
-        d.add(textBox);
-        d.add(ok);
-        d.setSize(300, 100);
-        d.setResizable(false);
-        d.setLocationRelativeTo(frame);
-        d.setVisible(true);
+    Dialog(JFrame frame, String title, String dialogTitle, String directory) {
+        JTextField textBox = getTextBox();
+        jDialog = getDialog(frame, dialogTitle, "", title, directory, textBox);
+        jDialog.add(textBox);
+        jDialog.setVisible(true);
     }
 
     /**
@@ -65,44 +38,67 @@ public class Dialog {
      *
      * this is used to as a (Rename/create)File/folder dialog window
      */
-    Dialog(JFrame frame, String title, String DialogTitle, String directory, String name) {
-        JFrame f = frame;
-        d = new JDialog(f, DialogTitle, true);
-        d.setLayout(null);
-        JButton ok = new JButton("OK");
-        ok.setBounds(40, 70, 100, 20);
-        JButton cancel = new JButton("Cancel");
-        cancel.setBounds(150, 70, 100, 20);
+    Dialog(JFrame frame, String title, String dialogTitle, String directory, String name) {
+        JTextField textBox = getTextBox();
+        jDialog = getDialog(frame, dialogTitle, name, title, directory, textBox);
+
+        if (Objects.equals(dialogTitle, "rename file") || Objects.equals(dialogTitle, "rename directory"))
+            jDialog.add(textBox);
+
+        jDialog.setVisible(true);
+    }
+
+    private JButton getOkButton(String dialogTitle, String name, String directory, JTextField textBox){
+        JButton okButton = new JButton("OK");
+        okButton.setBounds(40, 70, 100, 20);
+        okButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FileManagement tmp = new FileManagement();
+                switch(dialogTitle){
+                    case "new file" -> tmp.createFile(textBox.getText(), directory);
+                    case "new directory" -> tmp.createDirectory(textBox.getText(), directory);
+                    case "rename file" -> tmp.renameFile(name, textBox.getText(), directory);
+                    case "rename directory" -> tmp.renameDirectory(name, textBox.getText(), directory);
+                    case "delete file" -> tmp.deleteFile(name, directory);
+                    case "delete directory" -> tmp.deleteDirectory(name, directory);
+                }
+
+                jDialog.setVisible(false);
+            }
+        });
+        return okButton;
+    }
+
+    private JButton getCancelButton() {
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(150, 70, 100, 20);
+        cancelButton.addActionListener(e -> Dialog.jDialog.setVisible(false));
+        return cancelButton;
+    }
+
+    private JLabel getDialogTitle(String title){
+        JLabel dialogTitle = new JLabel(title, SwingConstants.CENTER);
+        dialogTitle.setBounds(0, 10, 300, 20);
+        return dialogTitle;
+    }
+
+    private JTextField getTextBox() {
         JTextField textBox = new JTextField("");
         textBox.setBounds(50, 40, 200, 20);
-        cancel.addActionListener(e -> Dialog.d.setVisible(false));
-        ok.addActionListener(e -> {
-            FileManagement tmp = new FileManagement();
-            if (Objects.equals(DialogTitle, "rename file"))
-                tmp.renameFile(name, textBox.getText(), directory);
+        return textBox;
+    }
 
-            if (Objects.equals(DialogTitle, "rename directory"))
-                tmp.renameDirectory(name, textBox.getText(), directory);
-
-            if (Objects.equals(DialogTitle, "delete file"))
-                tmp.deleteFile(name, directory);
-
-            if (Objects.equals(DialogTitle, "delete directory"))
-                tmp.deleteDirectory(name, directory);
-
-            Dialog.d.setVisible(false);
-        });
-        JLabel Jtitle = new JLabel(title, SwingConstants.CENTER);
-        Jtitle.setBounds(0, 10, 300, 20);
-        d.add(Jtitle);
-        d.add(cancel);
-        if (Objects.equals(DialogTitle, "rename file") || Objects.equals(DialogTitle, "rename directory"))
-            d.add(textBox);
-
-        d.add(ok);
-        d.setSize(300, 100);
-        d.setResizable(false);
-        d.setLocationRelativeTo(f);
-        d.setVisible(true);
+    private JDialog getDialog(JFrame frame, String dialogTitle, String name, String title, String directory, JTextField textBox) {
+        JDialog jDialog = new JDialog(frame, dialogTitle, true);
+        JButton okButton =  getOkButton(dialogTitle, name, directory, textBox);
+        JButton cancelButton = getCancelButton();
+        jDialog.setLayout(null);
+        jDialog.add(getDialogTitle(title));
+        jDialog.add(okButton);
+        jDialog.add(cancelButton);
+        jDialog.setSize(300, 100);
+        jDialog.setResizable(false);
+        jDialog.setLocationRelativeTo(frame);
+        return jDialog;
     }
 }
