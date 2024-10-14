@@ -16,7 +16,33 @@ public class Dialog {
     private static JDialog jDialog;
 
     /**
-     * Constructor Dialog(JFrame frame,String title,String DialogTitle,String
+     * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
+     * directory ,String name)
+     *
+     * This constructor creates new JDialog and adds to given JFrame object
+     *
+     * this is used to as a (Rename/create)File/folder dialog window
+     */
+    Dialog(JFrame frame, String title, String dialogTitle, String directory, String name) { // TODO - change dialogTitle to enum
+        jDialog = new JDialog(frame, dialogTitle, true);
+        JTextField textBox = getTextBox();
+        JButton okButton =  getOkButton(dialogTitle, name, directory, textBox);
+        JButton cancelButton = getCancelButton();
+        jDialog.setLayout(null);
+        jDialog.add(getDialogTitle(title));
+        jDialog.add(okButton);
+        jDialog.add(cancelButton);
+        jDialog.setSize(300, 100);
+        jDialog.setResizable(false);
+        jDialog.setLocationRelativeTo(frame);
+        if (!Objects.equals(dialogTitle, "rename file") && !Objects.equals(dialogTitle, "rename directory"))
+            jDialog.add(textBox);
+
+        jDialog.setVisible(true);
+    }
+
+    /**
+     * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
      * directory)
      *
      * This constructor creates new JDialog and adds to given JFrame object
@@ -24,28 +50,7 @@ public class Dialog {
      * this is used to as a deleteFile/folder dialog window
      */
     Dialog(JFrame frame, String title, String dialogTitle, String directory) {
-        JTextField textBox = getTextBox();
-        jDialog = getDialog(frame, dialogTitle, "", title, directory, textBox);
-        jDialog.add(textBox);
-        jDialog.setVisible(true);
-    }
-
-    /**
-     * Constructor Dialog(JFrame frame,String title,String DialogTitle,String
-     * directory,String name)
-     *
-     * This constructor creates new JDialog and adds to given JFrame object
-     *
-     * this is used to as a (Rename/create)File/folder dialog window
-     */
-    Dialog(JFrame frame, String title, String dialogTitle, String directory, String name) {
-        JTextField textBox = getTextBox();
-        jDialog = getDialog(frame, dialogTitle, name, title, directory, textBox);
-
-        if (Objects.equals(dialogTitle, "rename file") || Objects.equals(dialogTitle, "rename directory"))
-            jDialog.add(textBox);
-
-        jDialog.setVisible(true);
+        this(frame, title, dialogTitle, directory, "");
     }
 
     private JButton getOkButton(String dialogTitle, String name, String directory, JTextField textBox){
@@ -84,21 +89,7 @@ public class Dialog {
 
     private JTextField getTextBox() {
         JTextField textBox = new JTextField("");
-        textBox.setBounds(50, 40, 200, 20);
+        textBox.setBounds(50, 40, 200, 20); // TODO - figure out the constants
         return textBox;
-    }
-
-    private JDialog getDialog(JFrame frame, String dialogTitle, String name, String title, String directory, JTextField textBox) {
-        JDialog jDialog = new JDialog(frame, dialogTitle, true);
-        JButton okButton =  getOkButton(dialogTitle, name, directory, textBox);
-        JButton cancelButton = getCancelButton();
-        jDialog.setLayout(null);
-        jDialog.add(getDialogTitle(title));
-        jDialog.add(okButton);
-        jDialog.add(cancelButton);
-        jDialog.setSize(300, 100);
-        jDialog.setResizable(false);
-        jDialog.setLocationRelativeTo(frame);
-        return jDialog;
     }
 }
