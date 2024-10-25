@@ -13,9 +13,13 @@ import java.util.Objects;
  *
  */
 public class Dialog {
-    private static JDialog jDialog;
+    private JDialog jDialog;
     private int width = 300;
-    private int height = 100;
+    private int height = 150;
+    private int buttonWidth = 100;
+    private int buttonHeight = 20;
+    private int buttonSpacing = 10;
+    private int buttonPadding = 40;
 
     /**
      * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
@@ -57,17 +61,16 @@ public class Dialog {
 
     private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox){
         JButton okButton = new JButton("OK");
-        okButton.setBounds(40, 70, 100, 20);
+        okButton.setBounds(buttonPadding, 70, buttonWidth, buttonHeight);
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                FileManagement tmp = new FileManagement();
                 switch(dialogType){
-                    case DialogType.NewFile -> tmp.createFile(textBox.getText(), directory);
-                    case DialogType.NewDirectory -> tmp.createDirectory(textBox.getText(), directory);
-                    case DialogType.RenameFile -> tmp.renameFile(name, textBox.getText(), directory);
-                    case DialogType.RenameDirectory -> tmp.renameDirectory(name, textBox.getText(), directory);
-                    case DialogType.DeleteFile -> tmp.deleteFile(name, directory);
-                    case DialogType.DeleteDirectory -> tmp.deleteDirectory(name, directory);
+                    case DialogType.NewFile -> FileManagement.createFile(textBox.getText(), directory);
+                    case DialogType.NewDirectory -> FileManagement.createDirectory(textBox.getText(), directory);
+                    case DialogType.RenameFile -> FileManagement.renameFile(name, textBox.getText(), directory);
+                    case DialogType.RenameDirectory -> FileManagement.renameDirectory(name, textBox.getText(), directory);
+                    case DialogType.DeleteFile -> FileManagement.deleteFile(name, directory);
+                    case DialogType.DeleteDirectory -> FileManagement.deleteDirectory(name, directory);
                 }
 
                 jDialog.setVisible(false);
@@ -78,8 +81,8 @@ public class Dialog {
 
     private JButton getCancelButton() {
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(150, 70, 100, 20);
-        cancelButton.addActionListener(e -> Dialog.jDialog.setVisible(false));
+        cancelButton.setBounds(buttonPadding + buttonWidth + buttonSpacing, 70, buttonWidth, buttonHeight);
+        cancelButton.addActionListener(e -> jDialog.setVisible(false));
         return cancelButton;
     }
 
@@ -91,7 +94,7 @@ public class Dialog {
 
     private JTextField getTextBox() {
         JTextField textBox = new JTextField("");
-        textBox.setBounds(50, 40, 200, 20); // TODO - figure out the constants
+        textBox.setBounds(50, 40, 200, 20);
         return textBox;
     }
 }

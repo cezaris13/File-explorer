@@ -118,9 +118,8 @@ public class FileApp {
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 currSelected = "";
-                if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
+                if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1)
                     rightMenu.show(frame, e.getX(), e.getY());
-                }
             }
         });
         newF.addActionListener(e -> {

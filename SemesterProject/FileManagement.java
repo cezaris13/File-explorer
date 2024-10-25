@@ -16,7 +16,7 @@ public class FileManagement {
      *
      * @param name(String)-file name, directory(String) file location
      */
-    void createFile(String name, String directory) {
+   static void createFile(String name, String directory) {
         try {
             File file = new File(directory + "/" + name);
             if (file.createNewFile()) {
@@ -38,7 +38,7 @@ public class FileManagement {
      *
      * @param name(String)-folder name, directory(String) folder location
      */
-    void createDirectory(String name, String directory) {
+   static void createDirectory(String name, String directory) {
         File dir = new File(directory + "/" + name);
         boolean create = dir.mkdir();
         if (create) {
@@ -56,7 +56,7 @@ public class FileManagement {
      *
      * @param name(String)-file name, directory(String) file location
      */
-    void deleteFile(String name, String directory) {
+    static void deleteFile(String name, String directory) {
         File file = new File(directory + "/" + name);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
@@ -73,7 +73,7 @@ public class FileManagement {
      *
      * @param name(String)-folder name, directory(String) folder location
      */
-    void deleteDirectory(String name, String directory) {
+    static void deleteDirectory(String name, String directory) {
         File dir = new File(directory + "/" + name);
         if (dir.length() > 0) {
             System.out.println("There are files in this directory. Do you want to delete this directory? y/n");// todo
@@ -100,7 +100,7 @@ public class FileManagement {
      * @param name(String)-file name,newName(String) new file name,
      *                          directory(String) file location
      */
-    void renameFile(String name, String newName, String directory) {
+    static void renameFile(String name, String newName, String directory) {
         File oldFile = new File(directory + "/" + name);
         File newFile = new File(directory + "/" + newName);
         if (newFile.exists()) {
@@ -121,7 +121,7 @@ public class FileManagement {
      * @param name(String)-folder name,newName(String) new folder name,
      *                            directory(String) folder location
      */
-    void renameDirectory(String name, String newName, String directory) {
+    static void renameDirectory(String name, String newName, String directory) {
         File oldDir = new File(directory + "/" + name);
         File newDir = new File(directory + "/" + newName);
         if (newDir.exists()) {
