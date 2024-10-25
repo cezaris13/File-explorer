@@ -124,27 +124,27 @@ public class FileApp {
             }
         });
         newF.addActionListener(e -> {
-            new Dialog(frame, "enter file name", "new file", CustomPanel.directory);
+            new Dialog(frame, "enter file name", DialogType.NewFile, CustomPanel.directory);
             updateFiles(CustomPanel.directory);
         });
         newD.addActionListener(e -> {
-            new Dialog(frame, "enter directory name", "new directory", CustomPanel.directory);
+            new Dialog(frame, "enter directory name", DialogType.NewDirectory, CustomPanel.directory);
             updateFiles(CustomPanel.directory);
         });
         renameDirectory.addActionListener(e -> {
-            new Dialog(frame, "rename directory", "rename directory", CustomPanel.directory, currSelected);
+            new Dialog(frame, "rename directory", DialogType.RenameDirectory, CustomPanel.directory, currSelected);
             updateFiles(CustomPanel.directory);
         });
         renameFile.addActionListener(e -> {
-            new Dialog(frame, "rename file", "rename file", CustomPanel.directory, currSelected);
+            new Dialog(frame, "rename file", DialogType.RenameFile, CustomPanel.directory, currSelected);
             updateFiles(CustomPanel.directory);
         });
         deleteFile.addActionListener(e -> {
-            new Dialog(frame, "delete file", "delete file", CustomPanel.directory, currSelected);
+            new Dialog(frame, "delete file", DialogType.DeleteFile, CustomPanel.directory, currSelected);
             updateFiles(CustomPanel.directory);
         });
         deleteDir.addActionListener(e -> {
-            new Dialog(frame, "delete directory", "delete directory", CustomPanel.directory, currSelected);
+            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, CustomPanel.directory, currSelected);
             updateFiles(CustomPanel.directory);
         });
         frame.add(rightMenu);

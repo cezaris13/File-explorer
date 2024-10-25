@@ -14,6 +14,8 @@ import java.util.Objects;
  */
 public class Dialog {
     private static JDialog jDialog;
+    private int width = 300;
+    private int height = 100;
 
     /**
      * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
@@ -23,19 +25,19 @@ public class Dialog {
      *
      * this is used to as a (Rename/create)File/folder dialog window
      */
-    Dialog(JFrame frame, String title, String dialogTitle, String directory, String name) { // TODO - change dialogTitle to enum
-        jDialog = new JDialog(frame, dialogTitle, true);
+    Dialog(JFrame frame, String title, DialogType dialogType, String directory, String name) {
+        jDialog = new JDialog(frame, dialogType.name(), true);
         JTextField textBox = getTextBox();
-        JButton okButton =  getOkButton(dialogTitle, name, directory, textBox);
+        JButton okButton =  getOkButton(dialogType, name, directory, textBox);
         JButton cancelButton = getCancelButton();
         jDialog.setLayout(null);
         jDialog.add(getDialogTitle(title));
         jDialog.add(okButton);
         jDialog.add(cancelButton);
-        jDialog.setSize(300, 100);
+        jDialog.setSize(width, height);
         jDialog.setResizable(false);
         jDialog.setLocationRelativeTo(frame);
-        if (!Objects.equals(dialogTitle, "rename file") && !Objects.equals(dialogTitle, "rename directory"))
+        if (dialogType != DialogType.RenameFile && dialogType != DialogType.RenameDirectory)
             jDialog.add(textBox);
 
         jDialog.setVisible(true);
@@ -49,23 +51,23 @@ public class Dialog {
      *
      * this is used to as a deleteFile/folder dialog window
      */
-    Dialog(JFrame frame, String title, String dialogTitle, String directory) {
-        this(frame, title, dialogTitle, directory, "");
+    Dialog(JFrame frame, String title, DialogType dialogType, String directory) {
+        this(frame, title, dialogType, directory, "");
     }
 
-    private JButton getOkButton(String dialogTitle, String name, String directory, JTextField textBox){
+    private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox){
         JButton okButton = new JButton("OK");
         okButton.setBounds(40, 70, 100, 20);
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 FileManagement tmp = new FileManagement();
-                switch(dialogTitle){
-                    case "new file" -> tmp.createFile(textBox.getText(), directory);
-                    case "new directory" -> tmp.createDirectory(textBox.getText(), directory);
-                    case "rename file" -> tmp.renameFile(name, textBox.getText(), directory);
-                    case "rename directory" -> tmp.renameDirectory(name, textBox.getText(), directory);
-                    case "delete file" -> tmp.deleteFile(name, directory);
-                    case "delete directory" -> tmp.deleteDirectory(name, directory);
+                switch(dialogType){
+                    case DialogType.NewFile -> tmp.createFile(textBox.getText(), directory);
+                    case DialogType.NewDirectory -> tmp.createDirectory(textBox.getText(), directory);
+                    case DialogType.RenameFile -> tmp.renameFile(name, textBox.getText(), directory);
+                    case DialogType.RenameDirectory -> tmp.renameDirectory(name, textBox.getText(), directory);
+                    case DialogType.DeleteFile -> tmp.deleteFile(name, directory);
+                    case DialogType.DeleteDirectory -> tmp.deleteDirectory(name, directory);
                 }
 
                 jDialog.setVisible(false);
