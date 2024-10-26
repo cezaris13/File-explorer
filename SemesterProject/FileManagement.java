@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * FileManagement class is used to manage files:
@@ -131,5 +132,22 @@ public class FileManagement {
         boolean success = oldDir.renameTo(newDir);
         if (!success)
             System.out.println("failed to rename directory");
+    }
+
+    static void recursiveFiles(String directory, String ex, DefaultMutableTreeNode head) {
+        File f = new File(directory);
+        if (!f.exists()) {
+            System.out.println("Directory not found");
+            return;
+        }
+
+        String[] list = f.list();
+        for (String s : list) {
+            File f1 = new File(directory + "/" + s);
+            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + "/" + s);
+            head.add(temp);
+            if (f1.isDirectory())
+                recursiveFiles(directory + "/" + s, ex, temp);
+        }
     }
 }

@@ -35,7 +35,6 @@ public class FileApp {
     String saveFiles = "/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/files.out";
     String saveFolders = "/home/pijus/Desktop/Programming_languages/Java/ThreadsFileExplorer/folders.out";
     CustomPanel filePanel;
-    CustomPanel topPanel;
     CustomPanel leftMenu = new CustomPanel();
     JFrame frame;
     FileTree fileTree = new FileTree();
@@ -49,58 +48,16 @@ public class FileApp {
 
     public FileApp() {// add folders
         frame = new JFrame("my file explorer");
+
+        JRightMenu rightMenu1 = new JRightMenu(frame, RightMenuOptions.Edit);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(600, 500));
-        topPanel = new CustomPanel(0, 0, 600, 35);
-        topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+        checkIfSavedFileExists();
 
         CustomPanel.directory = "/Users/pijus/Desktop"; // fix here
-        File savedLocation = new File(saveLocation);
-        if (savedLocation.exists() && savedLocation.length() > 0) {
-            try {
-                DataInputStream dataIn = new DataInputStream(
-                        new BufferedInputStream(new FileInputStream(saveLocation)));
-                int length = dataIn.readInt();
-                byte[] data = new byte[length];
-                dataIn.readFully(data);
-                CustomPanel.directory = new String(data, "UTF-8");
-                dataIn.close();
-                ObjectInputStream filesIn = new ObjectInputStream(new FileInputStream(saveFiles));
-                try {
-                    fileList = (List<CustomJLabel>) filesIn.readObject();
-                } catch (ClassNotFoundException ex) {
-                    System.out.println(ex);
-                }
-                filesIn.close();
-                ObjectInputStream foldersIn = new ObjectInputStream(new FileInputStream(saveFolders));
-                try {
-                    folderList = (List<CustomJLabelFolders>) foldersIn.readObject();
-                } catch (ClassNotFoundException ex) {
-                    System.out.println(ex);
-                }
-                foldersIn.close();
-            } catch (IOException ex) {
-                System.out.println(ex);
-            }
-        }
-        JButton back = new JButton("back");
-        back.addActionListener(e -> {
-            int lastSlash = CustomPanel.directory.lastIndexOf('/');
-            CustomPanel.directory = CustomPanel.directory.substring(0, lastSlash);// fix that it you have / stop
-            if (CustomPanel.directory.isEmpty()) // cannot go back anymore
-                CustomPanel.directory = "/";
-
-            updateFiles(CustomPanel.directory);
-        });
-        JTextField textBox = new JTextField(CustomPanel.directory, 50);
-        JButton GoToDirectory = new JButton("go to directory");
-        GoToDirectory.addActionListener(e -> {
-            CustomPanel.directory = textBox.getText();
-            updateFiles(CustomPanel.directory);
-
-        });
-        JButton saveDirectory = getjButton();
+        CustomPanel topPanel = createTopPanel();
         JMenuItem newF = new JMenuItem("New file");
         JMenuItem newD = new JMenuItem("New folder");
         JMenuItem renameFile = new JMenuItem("rename file");
@@ -145,11 +102,8 @@ public class FileApp {
             updateFiles(CustomPanel.directory);
         });
         frame.add(rightMenu);
-        topPanel.panel.add(back);
-        topPanel.panel.add(textBox);
-        topPanel.panel.add(GoToDirectory);
-        topPanel.panel.add(saveDirectory);
-        recursiveFiles(CustomPanel.directory, "", fileTree.head);
+
+        FileManagement.recursiveFiles(CustomPanel.directory, "", fileTree.head);
         CustomPanel leftMenu = new CustomPanel(0, topPanel.getYSize(), 200, 600, fileTree.fileTree);
         filePanel = new CustomPanel(leftMenu.getXSize(), topPanel.getYSize(), 420, 500);
         if (fileList.isEmpty()) {
@@ -223,7 +177,67 @@ public class FileApp {
         frame.setVisible(true);
     }
 
-    private JButton getjButton() {
+    private void checkIfSavedFileExists() {
+        File savedLocation = new File(saveLocation);
+        if (savedLocation.exists() && savedLocation.length() > 0) {
+            try {
+                DataInputStream dataIn = new DataInputStream(
+                        new BufferedInputStream(new FileInputStream(saveLocation)));
+                int length = dataIn.readInt();
+                byte[] data = new byte[length];
+                dataIn.readFully(data);
+                CustomPanel.directory = new String(data, "UTF-8");
+                dataIn.close();
+                ObjectInputStream filesIn = new ObjectInputStream(new FileInputStream(saveFiles));
+                try {
+                    fileList = (List<CustomJLabel>) filesIn.readObject();
+                } catch (ClassNotFoundException ex) {
+                    System.out.println(ex);
+                }
+                filesIn.close();
+                ObjectInputStream foldersIn = new ObjectInputStream(new FileInputStream(saveFolders));
+                try {
+                    folderList = (List<CustomJLabelFolders>) foldersIn.readObject();
+                } catch (ClassNotFoundException ex) {
+                    System.out.println(ex);
+                }
+                foldersIn.close();
+            } catch (IOException ex) {
+                System.out.println(ex);
+            }
+        }
+    }
+
+    private CustomPanel createTopPanel() {
+        CustomPanel topPanel = new CustomPanel(0, 0, 600, 35);
+        topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JTextField textBox = createDirectoryTextBox();
+        topPanel.panel.add(createBackButton());
+        topPanel.panel.add(textBox);
+        topPanel.panel.add(createGoToDirectoryButton(textBox));
+        topPanel.panel.add(createSaveDirectoryButton());
+
+        return topPanel;
+    }
+
+    private JTextField createDirectoryTextBox(){
+        return new JTextField(CustomPanel.directory, 50);
+    }
+
+    private JButton createBackButton() {
+        JButton back = new JButton("back");
+        back.addActionListener(e -> {
+            int lastSlash = CustomPanel.directory.lastIndexOf('/');
+            CustomPanel.directory = CustomPanel.directory.substring(0, lastSlash);// fix that it you have / stop
+            if (CustomPanel.directory.isEmpty()) // cannot go back anymore
+                CustomPanel.directory = "/";
+
+            updateFiles(CustomPanel.directory);
+        });
+        return back;
+    }
+
+    private JButton createSaveDirectoryButton() {
         JButton saveDirectory = new JButton("save");
         saveDirectory.addActionListener(e -> {
             SwingUtilities.invokeLater(new Runnable() {
@@ -250,6 +264,16 @@ public class FileApp {
             });
         });
         return saveDirectory;
+    }
+
+    private JButton createGoToDirectoryButton(JTextField textBox) {
+        JButton goToDirectoryButton = new JButton("go to directory");
+        goToDirectoryButton.addActionListener(e -> {
+            CustomPanel.directory = textBox.getText();
+            updateFiles(CustomPanel.directory);
+        });
+
+        return goToDirectoryButton;
     }
 
     public void updateFiles(String directory) {
@@ -339,23 +363,6 @@ public class FileApp {
 
     public static void main(String[] args) {
         new FileApp();
-    }
-
-    public void recursiveFiles(String directory, String ex, DefaultMutableTreeNode head) {
-        File f = new File(directory);
-        if (!f.exists()) {
-            System.out.println("Directory not found");
-            return;
-        }
-
-        String[] list = f.list();
-        for (String s : list) {
-            File f1 = new File(directory + "/" + s);
-            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + "/" + s);
-            head.add(temp);
-            if (f1.isDirectory())
-                recursiveFiles(directory + "/" + s, ex, temp);
-        }
     }
 
     public void customLayout(List<CustomJLabel> fileList, List<CustomJLabelFolders> folderList) {
