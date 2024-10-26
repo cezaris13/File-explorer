@@ -38,7 +38,7 @@ public class FileApp {
     CustomPanel topPanel;
     CustomPanel leftMenu = new CustomPanel();
     JFrame frame;
-    JTree fileTree;
+    FileTree fileTree = new FileTree();
     String currSelected = "";
     List<CustomJLabel> fileList = new ArrayList<>();
     List<CustomJLabelFolders> folderList = new ArrayList<>();
@@ -46,7 +46,6 @@ public class FileApp {
     final JPopupMenu rightFileMenu = new JPopupMenu("Edit file");
     final JPopupMenu rightFolderMenu = new JPopupMenu("Edir folder");
     public FileFactory fileFactory = new FileFactory();
-    DefaultMutableTreeNode head;
 
     public FileApp() {// add folders
         frame = new JFrame("my file explorer");
@@ -56,7 +55,7 @@ public class FileApp {
         topPanel = new CustomPanel(0, 0, 600, 35);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        CustomPanel.directory = "/home/pijus/Desktop";
+        CustomPanel.directory = "/Users/pijus/Desktop"; // fix here
         File savedLocation = new File(saveLocation);
         if (savedLocation.exists() && savedLocation.length() > 0) {
             try {
@@ -85,7 +84,6 @@ public class FileApp {
                 System.out.println(ex);
             }
         }
-        head = new DefaultMutableTreeNode(CustomPanel.directory);
         JButton back = new JButton("back");
         back.addActionListener(e -> {
             int lastSlash = CustomPanel.directory.lastIndexOf('/');
@@ -151,18 +149,8 @@ public class FileApp {
         topPanel.panel.add(textBox);
         topPanel.panel.add(GoToDirectory);
         topPanel.panel.add(saveDirectory);
-        recursiveFiles(CustomPanel.directory, "", head);
-        fileTree = new JTree(head);
-        fileTree.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) fileTree.getLastSelectedPathComponent();
-                    if (node == null)
-                        return;
-                }
-            }
-        });
-        CustomPanel leftMenu = new CustomPanel(0, topPanel.getYSize(), 200, 600, fileTree);
+        recursiveFiles(CustomPanel.directory, "", fileTree.head);
+        CustomPanel leftMenu = new CustomPanel(0, topPanel.getYSize(), 200, 600, fileTree.fileTree);
         filePanel = new CustomPanel(leftMenu.getXSize(), topPanel.getYSize(), 420, 500);
         if (fileList.isEmpty()) {
             updateFiles(CustomPanel.directory);
