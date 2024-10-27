@@ -129,9 +129,10 @@ public class Media extends MyFile {
     }
 
     private void setMediaData(String fileName) {
-        mediaType = getFileNameExtension(fileName);:with
+        mediaType = getFileNameExtension(fileName);
         exProgram = "vlc";
-        File file = new File(getFileDir() + "/" + fileName);
+        String separator = System.getProperty("file.separator");
+        File file = new File(getFileDir() + separator + fileName);
         setFileSize(file.length());
     }
 }

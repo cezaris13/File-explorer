@@ -101,7 +101,8 @@ public class Docum extends MyFile {
         }
         wordCount = 0;
         pages = 0;
-        File file = new File(getFileDir() + "/" + fileName);
+        String separator = System.getProperty("file.separator");
+        File file = new File(getFileDir() + separator + fileName);
         setFileSize(file.length());
     }
 

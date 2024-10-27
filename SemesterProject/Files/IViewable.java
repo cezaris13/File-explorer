@@ -14,5 +14,5 @@ public interface IViewable {
      * @param fileName(String)
      * @throws FileIsMissingException - file is missing
      */
-    void openFile(String exProgram, String fileName) throws FileIsMissingException;
+    void openFile() throws FileIsMissingException;
 }

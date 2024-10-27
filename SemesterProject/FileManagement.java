@@ -1,6 +1,13 @@
+import UI.*;
+
 import java.io.File;
 import java.io.IOException;
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * FileManagement class is used to manage files:
@@ -9,6 +16,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * rename file/directory
  */
 public class FileManagement {
+    static List<CustomJLabel> fileList = new ArrayList<>();
+    static List<CustomJLabelFolders> folderList = new ArrayList<>();
+
+    private static String separator = System.getProperty("file.separator");
     /**
      * Method createFile(String name,String directory)
      *
@@ -19,7 +30,7 @@ public class FileManagement {
      */
    static void createFile(String name, String directory) {
         try {
-            File file = new File(directory + "/" + name);
+            File file = new File(directory + separator + name);
             if (file.createNewFile()) {
                 System.out.println("File created: " + name);
             } else {
@@ -40,7 +51,7 @@ public class FileManagement {
      * @param name(String)-folder name, directory(String) folder location
      */
    static void createDirectory(String name, String directory) {
-        File dir = new File(directory + "/" + name);
+        File dir = new File(directory + separator + name);
         boolean create = dir.mkdir();
         if (create) {
             System.out.println("created directory " + name);
@@ -58,7 +69,7 @@ public class FileManagement {
      * @param name(String)-file name, directory(String) file location
      */
     static void deleteFile(String name, String directory) {
-        File file = new File(directory + "/" + name);
+        File file = new File(directory + separator + name);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
         } else {
@@ -75,7 +86,7 @@ public class FileManagement {
      * @param name(String)-folder name, directory(String) folder location
      */
     static void deleteDirectory(String name, String directory) {
-        File dir = new File(directory + "/" + name);
+        File dir = new File(directory + separator + name);
         if (dir.length() > 0) {
             System.out.println("There are files in this directory. Do you want to delete this directory? y/n");// todo
                                                                                                                // with
@@ -102,8 +113,8 @@ public class FileManagement {
      *                          directory(String) file location
      */
     static void renameFile(String name, String newName, String directory) {
-        File oldFile = new File(directory + "/" + name);
-        File newFile = new File(directory + "/" + newName);
+        File oldFile = new File(directory + separator + name);
+        File newFile = new File(directory + separator + newName);
         if (newFile.exists()) {
             System.out.println("file exists");
             return;
@@ -123,8 +134,8 @@ public class FileManagement {
      *                            directory(String) folder location
      */
     static void renameDirectory(String name, String newName, String directory) {
-        File oldDir = new File(directory + "/" + name);
-        File newDir = new File(directory + "/" + newName);
+        File oldDir = new File(directory + separator + name);
+        File newDir = new File(directory + separator + newName);
         if (newDir.exists()) {
             System.out.println("directory exists");
             return;
@@ -143,11 +154,11 @@ public class FileManagement {
 
         String[] list = f.list();
         for (String s : list) {
-            File f1 = new File(directory + "/" + s);
-            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + "/" + s);
+            File f1 = new File(directory + separator + s);
+            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + separator + s);
             head.add(temp);
             if (f1.isDirectory())
-                recursiveFiles(directory + "/" + s, ex, temp);
+                recursiveFiles(directory + separator + s, ex, temp);
         }
     }
-}
+   }

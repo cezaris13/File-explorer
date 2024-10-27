@@ -99,7 +99,8 @@ public class SimpleFile extends MyFile {
     private void setSimpleFileParameters(String fileName){
         fileType = getFileNameExtension(fileName);
         exProgram = "kate";
-        File file = new File(getFileDir() + "/" + fileName);
+        String separator = System.getProperty("file.separator");
+        File file = new File(getFileDir() + separator + fileName);
         setFileSize(file.length());
     }
 }

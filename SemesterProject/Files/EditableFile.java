@@ -13,6 +13,7 @@ public abstract class EditableFile implements IEditable {
     String fileName = "";
     long fileSize = 0;// kb
     Date modificationTime;
+    String exProgram;
 
     /**
      * Method editFile(int fileSize)
@@ -50,17 +51,19 @@ public abstract class EditableFile implements IEditable {
      *
      * @param exProgram(String) fileName(String)
      */
-    public void openFile(String exProgram, String fileName) throws FileIsMissingException {
+    public void openFile() throws FileIsMissingException {
+        String separator = System.getProperty("file.separator");
         try {
+            String absoluteFileDirectory = fileDir + separator + fileName;
             System.out.println(fileName);
-            File tmpFile = new File(fileDir + "/" + fileName);
+            File tmpFile = new File(absoluteFileDirectory);
             if (isCorrectFileName(fileName))
                 throw new IncorrectFileNameException("Incorrect filename : " + fileName);
 
             if (!tmpFile.exists())
                 throw new FileIsMissingException("File not Found", fileName);
 
-            ProcessBuilder processBuilder = new ProcessBuilder(exProgram, fileDir+"/"+fileName);
+            ProcessBuilder processBuilder = new ProcessBuilder(exProgram, absoluteFileDirectory);
             processBuilder.start();
         } catch (IOException ignored) {
         }
@@ -77,7 +80,8 @@ public abstract class EditableFile implements IEditable {
      *
      */
     public void deleteFile() throws FileIsMissingException {
-        File file = new File(fileDir + "/" + fileName);
+        String separator = System.getProperty("file.separator");
+        File file = new File(fileDir + separator + fileName);
         if (isCorrectFileName(fileName))
             throw new IncorrectFileNameException("Incorrect filename : " + fileName);
 

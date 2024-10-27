@@ -1,4 +1,6 @@
-package Files;
+package UI;
+
+import Files.Icon;
 
 import javax.swing.*;
 

@@ -93,14 +93,15 @@ public class Image extends MyFile {
 
     private void setImageData(String fileName) {
         imageType = getFileNameExtension(fileName);
+        String separator = System.getProperty("file.separator");
         try {
-            BufferedImage bimg = ImageIO.read(new File(getFileDir() + "/" + fileName));
+            BufferedImage bimg = ImageIO.read(new File(getFileDir() + separator + fileName));
             PictureXSize = bimg.getWidth();
             PictureYSize = bimg.getHeight();
         } catch (IOException ex) {
             System.out.println("\t" + ex);
         }
-        File file = new File(getFileDir() + "/" + fileName);
+        File file = new File(getFileDir() + separator + fileName);
         setFileSize(file.length());
         orientation = 0;
     }
