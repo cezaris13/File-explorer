@@ -6,7 +6,6 @@ import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
@@ -52,8 +51,8 @@ public class FileApp {
             }
 
             @Override
-            public void addMouseListener(CustomJLabelFolders customJLabelFolder, String directory, String folderName) {
-                addFolderMouseListener(customJLabelFolder, directory, folderName);
+            public void addMouseListener(CustomJLabel jLabel, String directory, String folderName) {
+                addFolderMouseListener(jLabel, directory, folderName);
             }
         }
         );
@@ -64,7 +63,7 @@ public class FileApp {
     }
 
     public void updateFiles(String directory) {
-        File f = new File(directory);
+        java.io.File f = new java.io.File(directory);
         if (!f.exists())
             return;
 
@@ -82,12 +81,12 @@ public class FileApp {
             return;
 
         for (String element : list) {
-            File f1 = new File(directory + separator + element);
+            java.io.File f1 = new java.io.File(directory + separator + element);
             if (!f1.isFile())
                 continue;
 
-            MyFile tmpFile = fileFactory.newFile(FileType.getFileType(f1.getName()), 0, directory, element);
-            CustomJLabel tmp = new CustomJLabel(element, tmpFile.fileIcon.getIcon(), JLabel.CENTER, tmpFile);
+            File tmpFile = fileFactory.newFile(FileType.getFileType(f1.getName()), directory, element);
+            CustomJLabel tmp = new CustomJLabel(element, tmpFile.icon.getIcon(), JLabel.CENTER, tmpFile);
             tmp.setVerticalTextPosition(JLabel.BOTTOM);
             tmp.setHorizontalTextPosition(JLabel.CENTER);
             FileManagement.fileList.add(tmp);
@@ -98,12 +97,11 @@ public class FileApp {
         count = 0;
 
         for (String s : list) {
-            File f1 = new File(directory + separator + s);
+            java.io.File f1 = new java.io.File(directory + separator + s);
             if (!f1.isDirectory())
                 continue;
 
-            Icon temp = new Icon("./Icons/folder.png", 65, 65);
-            CustomJLabelFolders tmp = new CustomJLabelFolders(s, temp.getIcon(), JLabel.CENTER);
+            CustomJLabel tmp = new CustomJLabel(s, new Directory().icon.getIcon(), JLabel.CENTER, new Directory());
             tmp.setVerticalTextPosition(JLabel.BOTTOM);
             tmp.setHorizontalTextPosition(JLabel.CENTER);
             FileManagement.folderList.add(tmp);
@@ -114,11 +112,11 @@ public class FileApp {
 
         CustomLayout.revalidate(fileExplorerComponents.frame, fileExplorerComponents.leftMenu, fileExplorerComponents.filePanel, FileManagement.fileList, FileManagement.folderList);
         if (!FileManagement.fileList.isEmpty())
-            FileManagement.fileList.sort(Comparator.comparing(object -> object.file.getFileName()));
+            FileManagement.fileList.sort(Comparator.comparing(object -> object.file.getName()));
     }
 
     private void checkIfSavedFileExists() {
-        File savedLocation = new File(SaveData.getSaveLocation());
+        java.io.File savedLocation = new java.io.File(SaveData.getSaveLocation());
         if (!savedLocation.exists() || savedLocation.length() == 0)
             return;
 
@@ -163,8 +161,8 @@ public class FileApp {
         });
     }
 
-    private void addFolderMouseListener(CustomJLabelFolders customJLabelFolder, String directory, String folderName) {
-        customJLabelFolder.addMouseListener(new MouseAdapter() {
+    private void addFolderMouseListener(CustomJLabel customJLabel, String directory, String folderName) {
+        customJLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                     int width = fileExplorerComponents.frame.getBounds().width;
@@ -180,7 +178,7 @@ public class FileApp {
                 if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
                     currSelected = folderName;
                     System.out.println("right click menu dir");
-                    fileExplorerComponents.rightFolderMenu.show(customJLabelFolder, e.getX(), e.getY());
+                    fileExplorerComponents.rightFolderMenu.show(customJLabel, e.getX(), e.getY());
                 }
             }
         });

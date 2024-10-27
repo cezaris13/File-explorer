@@ -9,5 +9,5 @@ public interface FileExplorerCallback {
 
     void addMouseListener(CustomJLabel jLabel, String fileName);
 
-    void addMouseListener(CustomJLabelFolders customJLabelFolder, String directory, String folderName);
+    void addMouseListener(CustomJLabel jLabel, String directory, String folderName);
 }

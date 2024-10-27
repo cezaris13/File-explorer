@@ -12,41 +12,12 @@ import java.awt.BorderLayout;
  * ScrollBar(is not used yet)
  */
 public class CustomPanel {
-    private int x;
-    private int y;
     JScrollPane scrollbar;
     private int xSize = 0;
     private int ySize = 0;
     public JPanel panel = new JPanel();
     public static String directory;
-
-    /**
-     * Constructor CustomPanel()
-     * <p>
-     * creates JPanel object and resizes it to 0 0 0 0(x,y,xSize,ySize)
-     */
-    public CustomPanel() {
-        panel = new JPanel();
-        x = 0;
-        y = 0;
-        xSize = 0;
-        ySize = 0;
-    }
-
-    /**
-     * Constructor CustomPanel(int x,int y)
-     * <p>
-     * creates JPanel object and resizes it to given sizes
-     *
-     * @param x-      x coordinate of panel
-     * @param y(int)- y coordinate of panel
-     */
-
-    public CustomPanel(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
+    
     /**
      * Constructor CustomPanel(int x,int y,int xSize,int ySize)
      * <p>
@@ -61,8 +32,6 @@ public class CustomPanel {
         panel.setLayout(null);
         panel.setPreferredSize(new Dimension(xSize, ySize));
         panel.setLocation(x, y);
-        this.x = x;
-        this.y = y;
         setSize(xSize, ySize);
     }
 
@@ -79,8 +48,6 @@ public class CustomPanel {
      */
     public CustomPanel(int x, int y, int xSize, int ySize, JTree tree) {// left panel
         panel.setBounds(x, y, xSize, ySize);
-        this.x = x;
-        this.y = y;
         setSize(xSize, ySize);
         panel.setLayout(new BorderLayout());
         scrollbar = new JScrollPane(tree);
@@ -104,33 +71,6 @@ public class CustomPanel {
     }
 
     /**
-     * Method void setSize(Dimension dimensions)
-     * <p>
-     * Changes Panel dimension,xSize and ySize variables
-     *
-     * @param dimensions - panel dimensions
-     */
-    public void setSize(Dimension dimensions) {
-        xSize = (int) dimensions.getWidth();
-        ySize = (int) dimensions.getHeight();
-        panel.setSize(dimensions);
-    }
-
-    /**
-     * @return x(int)
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * @return y(int)
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
      * @return xSize(int)
      */
     public int getXSize() {
@@ -143,21 +83,4 @@ public class CustomPanel {
     public int getYSize() {
         return ySize;
     }
-
-    /**
-     * @param x - panel x coordinate
-     */
-    public void setX(int x) {
-        this.x = x;
-        panel.setLocation(x, y);
-    }
-
-    /**
-     * @param y - panel y coordinate
-     */
-    public void setY(int y) {
-        this.y = y;
-        panel.setLocation(x, y);
-    }
-
 }

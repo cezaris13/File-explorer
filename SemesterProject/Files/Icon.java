@@ -13,19 +13,6 @@ public class Icon implements Serializable {
     private ImageIcon icon;
 
     /**
-     * Constructor Icon()
-     * <p>
-     * Creates empty Icon object
-     * changes picture width and height to 0
-     * creates empty ImageIcon object
-     */
-    public Icon() {
-        width = 0;
-        height = 0;
-        icon = new ImageIcon();
-    }
-
-    /**
      * Constructor Icon(String dir, int width,int height)
      * <p>
      * Creates Icon object

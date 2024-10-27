@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FileManagement {
     static List<CustomJLabel> fileList = new ArrayList<>();
-    static List<CustomJLabelFolders> folderList = new ArrayList<>();
+    static List<CustomJLabel> folderList = new ArrayList<>();
 
     private static final String separator = FileSystems.getDefault().getSeparator();
 

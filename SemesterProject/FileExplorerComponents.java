@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
+import java.util.List;
 
 public class FileExplorerComponents {
     public JFrame frame = new JFrame("my file explorer");
@@ -70,20 +71,34 @@ public class FileExplorerComponents {
     }
 
     private void createFilePanel() {
+        // Initialize the filePanel with dimensions based on the leftMenu and topPanel sizes
         this.filePanel = new CustomPanel(leftMenu.getXSize(), topPanel.getYSize(), 420, 500);
+
+        // Check if the file list is empty; if so, update files and exit early
         if (FileManagement.fileList.isEmpty()) {
             fileExplorerCallback.updateFiles();
             return;
         }
 
+        // Clear existing components from the panel
         filePanel.panel.removeAll();
-        for (CustomJLabel customJLabel : FileManagement.fileList) {
+
+        // Add files to the filePanel
+        addComponentsToPanel(FileManagement.fileList, false);
+
+        // Add folders to the filePanel
+        addComponentsToPanel(FileManagement.folderList, true);
+    }
+
+    private void addComponentsToPanel(List<CustomJLabel> labels, boolean isDirectory) {
+        for (CustomJLabel customJLabel : labels) {
             filePanel.panel.add(customJLabel);
-            fileExplorerCallback.addMouseListener(customJLabel, customJLabel.file.getFileName());
-        }
-        for (CustomJLabelFolders customJLabelFolders : FileManagement.folderList) {
-            filePanel.panel.add(customJLabelFolders);
-            fileExplorerCallback.addMouseListener(customJLabelFolders, CustomPanel.directory, customJLabelFolders.getName());
+            // Add mouse listeners based on whether the label represents a file or a directory
+            if (isDirectory) {
+                fileExplorerCallback.addMouseListener(customJLabel, CustomPanel.directory, customJLabel.file.getName());
+            } else {
+                fileExplorerCallback.addMouseListener(customJLabel, customJLabel.file.getName());
+            }
         }
     }
 
@@ -104,32 +119,40 @@ public class FileExplorerComponents {
     }
 
     private JButton createSaveDirectoryButton() {
-        JButton saveDirectory = new JButton("save");
-        saveDirectory.addActionListener(e -> {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    try {
-                        DataOutputStream dataOut = new DataOutputStream(
-                                new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())));
-                        byte[] data = CustomPanel.directory.getBytes(StandardCharsets.UTF_8);
-                        dataOut.writeInt(data.length);
-                        dataOut.write(data);
-                        dataOut.close();
-                        ObjectOutputStream filesOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFiles()));
-                        filesOut.writeObject(FileManagement.fileList);
-                        filesOut.flush();
-                        filesOut.close();
-                        ObjectOutputStream foldersOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFolder()));
-                        foldersOut.writeObject(FileManagement.folderList);
-                        foldersOut.flush();
-                        foldersOut.close();
-                    } catch (IOException ex) {
-                        System.out.println(ex);
-                    }
-                }
-            });
-        });
+        JButton saveDirectory = new JButton("Save");
+        saveDirectory.addActionListener(e -> SwingUtilities.invokeLater(() -> saveData()));
         return saveDirectory;
+    }
+
+    private void saveData() {
+        try {
+            saveDirectoryData();
+            saveFileData();
+            saveFolderData();
+        } catch (IOException ex) {
+            System.err.println("Error saving data: " + ex.getMessage());
+        }
+    }
+
+    private void saveDirectoryData() throws IOException {
+        try (DataOutputStream dataOut = new DataOutputStream(
+                                                             new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())))) {
+            byte[] data = CustomPanel.directory.getBytes(StandardCharsets.UTF_8);
+            dataOut.writeInt(data.length);
+            dataOut.write(data);
+        }
+    }
+
+    private void saveFileData() throws IOException {
+        try (ObjectOutputStream filesOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFiles()))) {
+            filesOut.writeObject(FileManagement.fileList);
+        }
+    }
+
+    private void saveFolderData() throws IOException {
+        try (ObjectOutputStream foldersOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFolder()))) {
+            foldersOut.writeObject(FileManagement.folderList);
+        }
     }
 
     private JButton createGoToDirectoryButton(JTextField textBox) {
