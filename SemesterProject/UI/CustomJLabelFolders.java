@@ -15,10 +15,6 @@ public class CustomJLabelFolders extends JLabel {
      */
     public Icon folderIcon;
 
-    private String iconPath = "../Icons/folder.png";
-    private int iconWidth = 65;
-    private int iconHeight = 65;
-
     /**
      * Creates New CustomJLabelFolders with given name,icon, alignment
      * name- folder name(it should not include fullPath to the file)
@@ -29,6 +25,9 @@ public class CustomJLabelFolders extends JLabel {
      */
     public CustomJLabelFolders(String name, ImageIcon icon, int horizontalAlignment) {
         super(name, icon, horizontalAlignment);
+        int iconWidth = 65;
+        int iconHeight = 65;
+        String iconPath = "../Icons/folder.png";
         this.folderIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 }

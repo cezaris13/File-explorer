@@ -10,23 +10,20 @@ import java.awt.BorderLayout;
  * Jpanel panel
  * current directory
  * ScrollBar(is not used yet)
- *
  */
 public class CustomPanel {
-    private int x = 0;
-    private int y = 0;
+    private int x;
+    private int y;
     JScrollPane scrollbar;
     private int xSize = 0;
     private int ySize = 0;
     public JPanel panel = new JPanel();
-    JScrollPane Scrollbar;
     public static String directory;
 
     /**
      * Constructor CustomPanel()
-     *
+     * <p>
      * creates JPanel object and resizes it to 0 0 0 0(x,y,xSize,ySize)
-     *
      */
     public CustomPanel() {
         panel = new JPanel();
@@ -38,7 +35,7 @@ public class CustomPanel {
 
     /**
      * Constructor CustomPanel(int x,int y)
-     *
+     * <p>
      * creates JPanel object and resizes it to given sizes
      *
      * @param x-      x coordinate of panel
@@ -52,7 +49,7 @@ public class CustomPanel {
 
     /**
      * Constructor CustomPanel(int x,int y,int xSize,int ySize)
-     *
+     * <p>
      * creates JPanel object and resizes it to given sizes
      *
      * @param x(int)-     x coordinate of panel,
@@ -71,7 +68,7 @@ public class CustomPanel {
 
     /**
      * Constructor CustomPanel(int x,int y,int xSize,int ySize, Jtree tree)
-     *
+     * <p>
      * creates JPanel object and adds to it JTree variable(file list)
      *
      * @param x(int)-      x coordinate of panel
@@ -94,7 +91,7 @@ public class CustomPanel {
 
     /**
      * Method void setSize(int xSize,int ySize)
-     *
+     * <p>
      * Changes Panel dimension,xSize and ySize variables
      *
      * @param xSize - x panel size
@@ -108,7 +105,7 @@ public class CustomPanel {
 
     /**
      * Method void setSize(Dimension dimensions)
-     *
+     * <p>
      * Changes Panel dimension,xSize and ySize variables
      *
      * @param dimensions - panel dimensions
@@ -120,7 +117,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @return x(int)
      */
     public int getX() {
@@ -128,7 +124,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @return y(int)
      */
     public int getY() {
@@ -136,7 +131,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @return xSize(int)
      */
     public int getXSize() {
@@ -144,7 +138,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @return ySize(int)
      */
     public int getYSize() {
@@ -152,7 +145,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @param x - panel x coordinate
      */
     public void setX(int x) {
@@ -161,7 +153,6 @@ public class CustomPanel {
     }
 
     /**
-     *
      * @param y - panel y coordinate
      */
     public void setY(int y) {
@@ -169,27 +160,4 @@ public class CustomPanel {
         panel.setLocation(x, y);
     }
 
-    /**
-     * Method void setXSize(int xSize)
-     *
-     * Changes panel xsize variable
-     *
-     * @param xSize - x panel size
-     */
-    public void setXSize(int xSize) {
-        this.xSize = xSize;
-        setSize(xSize, ySize);
-    }
-
-    /**
-     * Method void setYSize(Int ySize)
-     *
-     * Changes panel Ysize variable
-     *
-     * @param ySize - y panel size
-     */
-    public void setYSize(int ySize) {
-        this.ySize = ySize;
-        setSize(xSize, ySize);
-    }
 }

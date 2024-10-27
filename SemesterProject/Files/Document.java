@@ -1,13 +1,14 @@
 package Files;
 
 import java.io.File;
+import java.nio.file.FileSystems;
 
 /**
- * Docum extends MyFile and it is used for document(odt,docx) file types
+ * Document extends MyFile and it is used for document(odt,docx) file types
  */
-public class Docum extends MyFile {
+public class Document extends MyFile {
     /**
-     * Docum class has additional variables:
+     * Document class has additional variables:
      * wordCount
      * pages
      * docType - document type(docx, odt)
@@ -16,16 +17,16 @@ public class Docum extends MyFile {
     private int pages;
     private String docType;
 
-    private String iconPath = "./Icons/document.png";
+    private final String iconPath = "./Icons/document.png";
 
     /**
-     * Constructor Docum()
+     * Constructor Document()
      * <p>
-     * Creates empty Docum object
+     * Creates empty Document object
      * changes word count and pages count to 0
      * changes execution program to empty string
      */
-    public Docum() {
+    public Document() {
         super();
         wordCount = 0;
         pages = 0;
@@ -33,36 +34,35 @@ public class Docum extends MyFile {
     }
 
     /**
-     * Constructor Docum(String fileName)
+     * Constructor Document(String fileName)
      * <p>
-     * Creates New empty Docum with given file name
+     * Creates New empty Document with given file name
      * assigns file name value to fileName variable
      * assigns fileIcon new icon(image file icon)
-     * file name- should not include fullPath to the file)
+     * file name-should not include fullPath to the file)
      *
-     * @param fileName(String)
      */
-    public Docum(String fileName) {
+    public Document(String fileName) {
         this(0, "", "");
         this.fileName = fileName;
         fileIcon = new Icon(iconPath, iconWidth, iconHeight);
     }
 
     /**
-     * Constructor Docum(int fileSize, String fileDir, String fileName)
+     * Constructor Document(int fileSize, String fileDir, String fileName)
      * <p>
-     * Creates new Docum with given file size,directory, name
+     * Creates new Document with given file size,directory, name
      * assigns file name value to fileName variable(Same with fileDir,fileSize)
      * assigns fileIcon new icon(Document file icon)
      * file name-should not include fullPath to the file)
      * changes document type variable
-     * changes filesize variable
+     * changes file size variable
      *
      * @param fileSize-file size
      * @param fileDir-file  directory
      * @param fileName      - file name
      */
-    public Docum(int fileSize, String fileDir, String fileName) {
+    public Document(int fileSize, String fileDir, String fileName) {
         super(fileSize, fileDir, fileName);
         fileIcon = new Icon(iconPath, iconWidth, iconHeight);
         setExtensionProgramAndSize(fileName);
@@ -82,7 +82,7 @@ public class Docum extends MyFile {
     /**
      * Method String setFileName(String fileName)
      * <p>
-     * sets new fileName, and changes Docum type variable,
+     * sets new fileName, and changes Document type variable,
      * ads execution program and changes fileSize variable
      * word count and page count is set to 0
      */
@@ -101,14 +101,14 @@ public class Docum extends MyFile {
         }
         wordCount = 0;
         pages = 0;
-        String separator = System.getProperty("file.separator");
+        String separator = FileSystems.getDefault().getSeparator();
         File file = new File(getFileDir() + separator + fileName);
         setFileSize(file.length());
     }
 
     /**
      * Method toString()
-     * returns a string consisting of all Docum
+     * returns a string consisting of all Document
      * variables description
      *
      * @return String of variables

@@ -15,19 +15,17 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
      * exProgram saves execution program in string
      */
     public Icon fileIcon;
-    private Date creationTime;
-    public String exProgram;
+    private final Date creationTime;
 
-    private String iconPath = "../Icons/file.png";
+    private final String iconPath = "../Icons/file.png";
     protected int iconWidth = 65;
     protected int iconHeight = 65;
 
     /**
      * Constructor MyFile()
-     *
+     * <p>
      * Creates empty MyFile object
      * adds file icon
-     *
      */
     public MyFile() {
         this(0, "", "");
@@ -36,13 +34,11 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Constructor MyFile(String fileName)
-     *
+     * <p>
      * Creates New empty MyFile with given file name
      * assigns file name value to fileName variable
      * assigns fileIcon new icon(txt file icon)
      * file name- should not include fullPath to the file)
-     *
-     * @param fileName(String)
      */
     public MyFile(String fileName) {
         this(0, "", "");
@@ -51,16 +47,12 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Constructor MyFile(int fileSize, String fileDir, String fileName)
-     *
+     * <p>
      * Creates New MyFile with given file size,directory, name
      * assigns file name value to fileName variable(Same with fileDir,fileSize)
      * assigns fileIcon new icon(txt file icon)
      * file name-should not include fullPath to the file)
      * creates Modification date and creation date
-     *
-     * @param fileSize(int),
-     * @param fileDir(String),
-     * @param fileName(String)
      */
     public MyFile(int fileSize, String fileDir, String fileName) {
         this.fileSize = fileSize;
@@ -73,7 +65,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method Date getCreationtime()
-     *
+     * <p>
      * returns creation date
      *
      * @return creation time(Date)
@@ -84,7 +76,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String getExProgram()
-     *
+     * <p>
      * returns execution program
      *
      * @return exProgram(String)
@@ -95,7 +87,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String getFiledir()
-     *
+     * <p>
      * returns file directory
      *
      * @return fileDir(String)
@@ -106,7 +98,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String getFileName()
-     *
+     * <p>
      * returns file name
      *
      * @return fileName(String)
@@ -135,7 +127,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String setFileDir(String fileDir)
-     *
+     * <p>
      * sets new File directory
      *
      * @param fileDir - file directory
@@ -146,7 +138,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String setFileName(String fileName)
-     *
+     * <p>
      * sets new fileName
      *
      * @param fileName - file Name
@@ -157,7 +149,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
 
     /**
      * Method String setFileSize()
-     *
+     * <p>
      * sets file Size
      *
      * @param fileSize - file size
@@ -165,18 +157,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
     public final void setFileSize(long fileSize) {
         this.fileSize = fileSize;
     }
-
-    /**
-     * Method String setModificationTime(Date date)
-     *
-     * changes modification time
-     *
-     * @param date - modification date
-     */
-    public void setModificationTime(Date date) {
-        this.modificationTime = date;
-    }
-
+    
     /**
      * Method toString()
      * returns a string consisting of all MyFile
@@ -197,8 +178,7 @@ public class MyFile extends EditableFile implements Cloneable, Serializable {
     /**
      * Method clone()
      *
-     * @throws CloneNotSupportedException
-     *                                    returns Object type object(Clone)
+     * @throws CloneNotSupportedException returns Object type object(Clone)
      */
     public Object clone() throws CloneNotSupportedException {
         return super.clone();

@@ -1,8 +1,8 @@
 public enum DialogType {
-   NewFile,
-   NewDirectory,
-   RenameFile,
-   RenameDirectory,
-   DeleteFile,
-   DeleteDirectory
+    NewFile,
+    NewDirectory,
+    RenameFile,
+    RenameDirectory,
+    DeleteFile,
+    DeleteDirectory
 }

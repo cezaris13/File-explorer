@@ -1,6 +1,8 @@
 package Files;
 
 import Exceptions.*;
+
+import java.nio.file.FileSystems;
 import java.util.Date;
 import java.io.IOException;
 import java.io.File;
@@ -17,10 +19,8 @@ public abstract class EditableFile implements IEditable {
 
     /**
      * Method editFile(int fileSize)
-     *
+     * <p>
      * this method changes fileSize and modification time
-     *
-     * @param fileSize(int)
      */
     public void editFile(int fileSize) {
         this.fileSize = fileSize;
@@ -29,7 +29,7 @@ public abstract class EditableFile implements IEditable {
 
     /**
      * Method editFile(int fileSize,String fileDir)
-     *
+     * <p>
      * this method changes fileSize, file directory and modification time
      *
      * @param fileSize(int). fileDir(String)
@@ -42,17 +42,16 @@ public abstract class EditableFile implements IEditable {
 
     /**
      * Method openFile(String exProgram, String fileName)
-     *
-     *
+     * <p>
+     * <p>
      * this method tries to open file using given execution program and its fileName
      * checks if correct file name and if file exists
-     * if yes- tries to open
+     * if yes-tries to open
      * else throws exception
      *
-     * @param exProgram(String) fileName(String)
      */
     public void openFile() throws FileIsMissingException {
-        String separator = System.getProperty("file.separator");
+        String separator = FileSystems.getDefault().getSeparator();
         try {
             String absoluteFileDirectory = fileDir + separator + fileName;
             System.out.println(fileName);
@@ -71,16 +70,15 @@ public abstract class EditableFile implements IEditable {
 
     /**
      * Method deleteFile()
-     *
-     *
+     * <p>
+     * <p>
      * this method tries to delete file
      * checks if correct file name and if file exists
-     * if yes- tries to delete
+     * if yes-tries to delete
      * else throws exception
-     *
      */
     public void deleteFile() throws FileIsMissingException {
-        String separator = System.getProperty("file.separator");
+        String separator = FileSystems.getDefault().getSeparator();
         File file = new File(fileDir + separator + fileName);
         if (isCorrectFileName(fileName))
             throw new IncorrectFileNameException("Incorrect filename : " + fileName);
@@ -97,10 +95,10 @@ public abstract class EditableFile implements IEditable {
 
     /**
      * Method isCorrectFileName(String fileName)
-     *
+     * <p>
      * this method checks if given file name is valid
      * Invalid characters: @$%\\/:*?\"'>|~`#^+={}[];!
-     * if yes- returns true
+     * if yes-returns true
      * else returns false
      *
      * @param fileName - file name

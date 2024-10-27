@@ -8,13 +8,13 @@ import javax.swing.ImageIcon;
  * Class Icon is used to store information about specific icon
  */
 public class Icon implements Serializable {
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private ImageIcon icon;
 
     /**
      * Constructor Icon()
-     *
+     * <p>
      * Creates empty Icon object
      * changes picture width and height to 0
      * creates empty ImageIcon object
@@ -27,7 +27,7 @@ public class Icon implements Serializable {
 
     /**
      * Constructor Icon(String dir, int width,int height)
-     *
+     * <p>
      * Creates Icon object
      * adds specific icon to icon variable and scales it using given height and
      * width
@@ -48,11 +48,10 @@ public class Icon implements Serializable {
 
     /**
      * Method int getWidth()
-     *
+     * <p>
      * returns image width
      *
      * @return width(int)
-     *
      */
     public int getWidth() {
         return width;
@@ -60,11 +59,10 @@ public class Icon implements Serializable {
 
     /**
      * Method int getHeight()
-     *
+     * <p>
      * returns image height
      *
      * @return height(int)
-     *
      */
     public int getHeight() {
         return height;
@@ -72,11 +70,10 @@ public class Icon implements Serializable {
 
     /**
      * Method ImageIcon getIcon()
-     *
+     * <p>
      * returns image icon
      *
      * @return icon(ImageIcon)
-     *
      */
     public ImageIcon getIcon() {
         return icon;

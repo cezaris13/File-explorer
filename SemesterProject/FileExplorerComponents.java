@@ -3,7 +3,6 @@ import UI.*;
 import java.awt.*;
 import javax.swing.JButton;
 import javax.swing.JTextField;
-import javax.swing.JMenuItem;
 import javax.swing.JFrame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -11,12 +10,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 import javax.swing.JPopupMenu;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.io.IOException;
 import java.io.DataOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.FileOutputStream;
 import java.io.BufferedOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 
 public class FileExplorerComponents {
     public JFrame frame = new JFrame("my file explorer");
@@ -24,12 +24,13 @@ public class FileExplorerComponents {
     public JPopupMenu rightFileMenu = new JPopupMenu("Edit file");
     public JPopupMenu rightFolderMenu = new JPopupMenu("Edit folder");
     public CustomPanel leftMenu;
+    public JRightMenu jRightMenu;
 
-    private FileExplorerCallback fileExplorerCallback;
     private JButton backButton;
     private CustomPanel topPanel;
-    private JPopupMenu rightMenu = new JPopupMenu("Edit");
-    private FileTree fileTree = new FileTree();
+    private final FileExplorerCallback fileExplorerCallback;
+    private JPopupMenu rightMenu;
+    private final FileTree fileTree = new FileTree();
 
     public FileExplorerComponents(FileExplorerCallback fileExplorerCallback) {
         this.fileExplorerCallback = fileExplorerCallback;
@@ -38,9 +39,11 @@ public class FileExplorerComponents {
 
     public void setupComponents() {
         frame.setMinimumSize(new Dimension(600, 500));
-        createRightMenu();
-        createFileRightMenu();
-        createFolderRightMenu();
+        this.jRightMenu = new JRightMenu(frame, fileExplorerCallback);
+
+        rightFileMenu = jRightMenu.createFileRightMenu();
+        rightFolderMenu = jRightMenu.createFolderRightMenu();
+        rightMenu = jRightMenu.createRightMenu();
 
         backButton = createBackButton();
         topPanel = createTopPanel();
@@ -54,7 +57,7 @@ public class FileExplorerComponents {
 
     private JButton createBackButton() {
         JButton back = new JButton("back");
-        String separator = System.getProperty("file.separator");
+        String separator = FileSystems.getDefault().getSeparator();
         back.addActionListener(e -> {
             int lastSlash = CustomPanel.directory.lastIndexOf(separator);
             CustomPanel.directory = CustomPanel.directory.substring(0, lastSlash);// fix that it you have / stop
@@ -96,7 +99,7 @@ public class FileExplorerComponents {
         return topPanel;
     }
 
-    private JTextField createDirectoryTextBox(){
+    private JTextField createDirectoryTextBox() {
         return new JTextField(CustomPanel.directory, 50);
     }
 
@@ -108,7 +111,7 @@ public class FileExplorerComponents {
                     try {
                         DataOutputStream dataOut = new DataOutputStream(
                                 new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())));
-                        byte[] data = CustomPanel.directory.getBytes("UTF-8");
+                        byte[] data = CustomPanel.directory.getBytes(StandardCharsets.UTF_8);
                         dataOut.writeInt(data.length);
                         dataOut.write(data);
                         dataOut.close();
@@ -139,7 +142,7 @@ public class FileExplorerComponents {
         return goToDirectoryButton;
     }
 
-   private void createJFrame() {
+    private void createJFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(rightMenu);
@@ -170,51 +173,5 @@ public class FileExplorerComponents {
         frame.setSize(1050, 650);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-    private void createFolderRightMenu() {
-        JMenuItem renameDirectory = new JMenuItem("rename directory");
-        JMenuItem deleteDir = new JMenuItem("delete directory");
-        rightFolderMenu.add(renameDirectory);
-        rightFolderMenu.add(deleteDir);
-        renameDirectory.addActionListener(e -> {
-            new Dialog(frame, "rename directory", DialogType.RenameDirectory, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
-            fileExplorerCallback.updateFiles();
-        });
-        deleteDir.addActionListener(e -> {
-            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
-            fileExplorerCallback.updateFiles();
-        });
-    }
-
-    private void createFileRightMenu() {
-        JMenuItem renameFile = new JMenuItem("rename file");
-        JMenuItem deleteFile = new JMenuItem("delete file");
-        rightFileMenu.add(renameFile);
-        rightFileMenu.add(deleteFile);
-
-        renameFile.addActionListener(e -> {
-            new Dialog(frame, "rename file", DialogType.RenameFile, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
-            fileExplorerCallback.updateFiles();
-        });
-        deleteFile.addActionListener(e -> {
-            new Dialog(frame, "delete file", DialogType.DeleteFile, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
-            fileExplorerCallback.updateFiles();
-        });
-    }
-
-    private void createRightMenu() {
-        JMenuItem newF = new JMenuItem("New file");
-        JMenuItem newD = new JMenuItem("New folder");
-        rightMenu.add(newF);
-        rightMenu.add(newD);
-        newF.addActionListener(e -> {
-            new Dialog(frame, "enter file name", DialogType.NewFile, CustomPanel.directory);
-            fileExplorerCallback.updateFiles();
-        });
-        newD.addActionListener(e -> {
-            new Dialog(frame, "enter directory name", DialogType.NewDirectory, CustomPanel.directory);
-            fileExplorerCallback.updateFiles();
-        });
     }
 }

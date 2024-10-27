@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.File;
+import java.nio.file.FileSystems;
 
 /**
  * Image extends MyFile and it is used for image(jpg,png) file types
@@ -21,7 +22,7 @@ public class Image extends MyFile {
     int orientation;
     private String imageType;
 
-    private String iconPath = "./Icons/image.png";
+    private final String iconPath = "./Icons/image.png";
 
     /**
      * Constructor Image()
@@ -49,7 +50,6 @@ public class Image extends MyFile {
      * assigns fileIcon new icon(image file icon)
      * file name- should not include fullPath to the file)
      *
-     * @param fileName(String)
      */
     public Image(String fileName) {
         this(0, "", "");
@@ -93,11 +93,11 @@ public class Image extends MyFile {
 
     private void setImageData(String fileName) {
         imageType = getFileNameExtension(fileName);
-        String separator = System.getProperty("file.separator");
+        String separator = FileSystems.getDefault().getSeparator();
         try {
-            BufferedImage bimg = ImageIO.read(new File(getFileDir() + separator + fileName));
-            PictureXSize = bimg.getWidth();
-            PictureYSize = bimg.getHeight();
+            BufferedImage bufferedImage = ImageIO.read(new File(getFileDir() + separator + fileName));
+            PictureXSize = bufferedImage.getWidth();
+            PictureYSize = bufferedImage.getHeight();
         } catch (IOException ex) {
             System.out.println("\t" + ex);
         }

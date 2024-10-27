@@ -10,8 +10,6 @@ public interface IViewable {
      * openfile method takes execution program, and file name
      * and opens given file
      *
-     * @param exProgram(String)
-     * @param fileName(String)
      * @throws FileIsMissingException - file is missing
      */
     void openFile() throws FileIsMissingException;

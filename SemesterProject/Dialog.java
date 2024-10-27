@@ -4,35 +4,34 @@ import java.util.Objects;
 
 /**
  * Dialog class consists of JDialog variable
- *
+ * <p>
  * it is used as a additional menu
  * possible options:
  * new File/folder menu
  * rename File/folder menu
  * delete File/folder menu
- *
  */
 public class Dialog {
-    private JDialog jDialog;
-    private int width = 300;
-    private int height = 150;
-    private int buttonWidth = 100;
-    private int buttonHeight = 20;
-    private int buttonSpacing = 10;
-    private int buttonPadding = 40;
+    private final JDialog jDialog;
+    private final int width = 300;
+    private final int height = 150;
+    private final int buttonWidth = 100;
+    private final int buttonHeight = 20;
+    private final int buttonSpacing = 10;
+    private final int buttonPadding = 40;
 
     /**
      * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
      * directory ,String name)
-     *
+     * <p>
      * This constructor creates new JDialog and adds to given JFrame object
-     *
+     * <p>
      * this is used to as a (Rename/create)File/folder dialog window
      */
     Dialog(JFrame frame, String title, DialogType dialogType, String directory, String name) {
         jDialog = new JDialog(frame, dialogType.name(), true);
         JTextField textBox = getTextBox();
-        JButton okButton =  getOkButton(dialogType, name, directory, textBox);
+        JButton okButton = getOkButton(dialogType, name, directory, textBox);
         JButton cancelButton = getCancelButton();
         jDialog.setLayout(null);
         jDialog.add(getDialogTitle(title));
@@ -50,27 +49,28 @@ public class Dialog {
     /**
      * Constructor Dialog(JFrame frame, String title, String dialogTitle, String
      * directory)
-     *
+     * <p>
      * This constructor creates new JDialog and adds to given JFrame object
-     *
+     * <p>
      * this is used to as a deleteFile/folder dialog window
      */
     Dialog(JFrame frame, String title, DialogType dialogType, String directory) {
         this(frame, title, dialogType, directory, "");
     }
 
-    private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox){
+    private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox) {
         JButton okButton = new JButton("OK");
         okButton.setBounds(buttonPadding, 70, buttonWidth, buttonHeight);
         okButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                switch(dialogType){
-                    case DialogType.NewFile -> FileManagement.createFile(textBox.getText(), directory);
-                    case DialogType.NewDirectory -> FileManagement.createDirectory(textBox.getText(), directory);
-                    case DialogType.RenameFile -> FileManagement.renameFile(name, textBox.getText(), directory);
-                    case DialogType.RenameDirectory -> FileManagement.renameDirectory(name, textBox.getText(), directory);
-                    case DialogType.DeleteFile -> FileManagement.deleteFile(name, directory);
-                    case DialogType.DeleteDirectory -> FileManagement.deleteDirectory(name, directory);
+                switch (dialogType) {
+                    case NewFile -> FileManagement.createFile(textBox.getText(), directory);
+                    case NewDirectory -> FileManagement.createDirectory(textBox.getText(), directory);
+                    case RenameFile -> FileManagement.renameFile(name, textBox.getText(), directory);
+                    case RenameDirectory ->
+                            FileManagement.renameDirectory(name, textBox.getText(), directory);
+                    case DeleteFile -> FileManagement.deleteFile(name, directory);
+                    case DeleteDirectory -> FileManagement.deleteDirectory(name, directory);
                 }
 
                 jDialog.setVisible(false);
@@ -86,7 +86,7 @@ public class Dialog {
         return cancelButton;
     }
 
-    private JLabel getDialogTitle(String title){
+    private JLabel getDialogTitle(String title) {
         JLabel dialogTitle = new JLabel(title, SwingConstants.CENTER);
         dialogTitle.setBounds(0, 10, 300, 20);
         return dialogTitle;

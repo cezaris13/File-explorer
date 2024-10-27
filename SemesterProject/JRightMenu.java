@@ -1,76 +1,67 @@
-// import UI.CustomPanel;
+import UI.CustomPanel;
 
-// import javax.swing.JFrame;
-// import javax.swing.JMenuItem;
-// import javax.swing.JPopupMenu;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
-// public class JRightMenu {
-//     public JPopupMenu rightMenu;
-//     private UpdateFilesCallback updateFilesCallback;
-//     private JFrame frame;
+public class JRightMenu {
+    private final FileExplorerCallback fileExplorerCallback;
+    private final JFrame frame;
 
-//     public JRightMenu(JFrame frame, UpdateFilesCallback updateFilesCallback, RightMenuOptions rightMenuOption){
-//         this.frame = frame;
-//         this.updateFilesCallback = updateFilesCallback;
-//         switch(rightMenuOption) {
-//             case Edit -> createRightEditMenu();
-//             case EditFile -> createRightFileEditMenu();
-//             case EditFolder -> createRightFolderEditMenu();
-//         }
-//     }
+    public JRightMenu(JFrame frame, FileExplorerCallback fileExplorerCallback) {
+        this.frame = frame;
+        this.fileExplorerCallback = fileExplorerCallback;
+    }
 
-//     private void createRightEditMenu() {
-//         rightMenu = new JPopupMenu("Edit");
-//         JMenuItem newFileMenuItem = new JMenuItem("New file");
-//         JMenuItem newFolderMenuItem = new JMenuItem("New folder");
-//         rightMenu.add(newFileMenuItem);
-//         rightMenu.add(newFolderMenuItem);
+    public JPopupMenu createFolderRightMenu() {
+        JPopupMenu rightMenu = new JPopupMenu();
+        JMenuItem renameDirectoryMenuItem = new JMenuItem("rename directory");
+        JMenuItem deleteDirectoryMenuItem = new JMenuItem("delete directory");
+        rightMenu.add(renameDirectoryMenuItem);
+        rightMenu.add(deleteDirectoryMenuItem);
+        renameDirectoryMenuItem.addActionListener(e -> {
+            new Dialog(frame, "rename directory", DialogType.RenameDirectory, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
+            fileExplorerCallback.updateFiles();
+        });
+        deleteDirectoryMenuItem.addActionListener(e -> {
+            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
+            fileExplorerCallback.updateFiles();
+        });
+        return rightMenu;
+    }
 
-//         newFileMenuItem.addActionListener(e -> {
-//             new Dialog(frame, "enter file name", DialogType.NewFile, CustomPanel.directory);
-//             updateFilesCallback.updateFiles();
-//         });
-//         newFolderMenuItem.addActionListener(e -> {
-//             new Dialog(frame, "enter directory name", DialogType.NewDirectory, CustomPanel.directory);
-//              updateFilesCallback.updateFiles();
-//         });
-//     }
+    public JPopupMenu createFileRightMenu() {
+        JPopupMenu rightMenu = new JPopupMenu();
+        JMenuItem renameFileMenuItem = new JMenuItem("rename file");
+        JMenuItem deleteFileMenuItem = new JMenuItem("delete file");
+        rightMenu.add(renameFileMenuItem);
+        rightMenu.add(deleteFileMenuItem);
 
-//     private void createRightFileEditMenu() {
-//         rightMenu = new JPopupMenu("Edit");
-//         JMenuItem renameFileMenuItem = new JMenuItem("Rename file");
-//         JMenuItem deleteFileMenuItem = new JMenuItem("Delete file");
-//         rightMenu.add(renameFileMenuItem);
-//         rightMenu.add(deleteFileMenuItem);
+        renameFileMenuItem.addActionListener(e -> {
+            new Dialog(frame, "rename file", DialogType.RenameFile, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
+            fileExplorerCallback.updateFiles();
+        });
+        deleteFileMenuItem.addActionListener(e -> {
+            new Dialog(frame, "delete file", DialogType.DeleteFile, CustomPanel.directory, fileExplorerCallback.getCurrentDirectory());
+            fileExplorerCallback.updateFiles();
+        });
+        return rightMenu;
+    }
 
-//         deleteFileMenuItem.addActionListener(e -> {
-//             // new Dialog(frame, "delete file", DialogType.DeleteFile, CustomPanel.directory, currSelected);
-//             updateFilesCallback.updateFiles();
-//         });
-
-//         renameFileMenuItem.addActionListener(e -> {
-//             // new Dialog(frame, "rename file", DialogType.RenameFile, CustomPanel.directory, currSelected);
-//             updateFilesCallback.updateFiles();
-//         });
-
-//     }
-
-//     private void createRightFolderEditMenu() {
-//         rightMenu = new JPopupMenu("Edit");
-//         JMenuItem deleteFolderMenuItem = new JMenuItem("Delete directory");
-//         JMenuItem renameFolderMenuItem = new JMenuItem("Rename directory");
-//         rightMenu.add(renameFolderMenuItem);
-//         rightMenu.add(deleteFolderMenuItem);
-
-//         renameFolderMenuItem.addActionListener(e -> {
-//             // new Dialog(frame, "rename directory", DialogType.RenameDirectory, CustomPanel.directory, currSelected);
-//             updateFilesCallback.updateFiles();
-//         });
-
-//         deleteFolderMenuItem.addActionListener(e -> {
-//             // new Dialog(frame, "delete directory", DialogType.DeleteDirectory, CustomPanel.directory, currSelected);
-//             updateFilesCallback.updateFiles();
-//         });
-
-//     }
-// }
+    public JPopupMenu createRightMenu() {
+        JPopupMenu rightMenu = new JPopupMenu();
+        JMenuItem newFileMenuItem = new JMenuItem("New file");
+        JMenuItem newDirectoryMenuItem = new JMenuItem("New folder");
+        rightMenu.add(newFileMenuItem);
+        rightMenu.add(newDirectoryMenuItem);
+        newFileMenuItem.addActionListener(e -> {
+            new Dialog(frame, "enter file name", DialogType.NewFile, CustomPanel.directory);
+            fileExplorerCallback.updateFiles();
+        });
+        newFileMenuItem.addActionListener(e -> {
+            new Dialog(frame, "enter directory name", DialogType.NewDirectory, CustomPanel.directory);
+            fileExplorerCallback.updateFiles();
+        });
+        return rightMenu;
+    }
+}

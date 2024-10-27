@@ -3,10 +3,8 @@ import UI.*;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.tree.DefaultMutableTreeNode;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -19,16 +17,17 @@ public class FileManagement {
     static List<CustomJLabel> fileList = new ArrayList<>();
     static List<CustomJLabelFolders> folderList = new ArrayList<>();
 
-    private static String separator = System.getProperty("file.separator");
+    private static final String separator = FileSystems.getDefault().getSeparator();
+
     /**
      * Method createFile(String name,String directory)
-     *
+     * <p>
      * This method tries to create file;
      * if it fails, It is reported
      *
      * @param name(String)-file name, directory(String) file location
      */
-   static void createFile(String name, String directory) {
+    static void createFile(String name, String directory) {
         try {
             File file = new File(directory + separator + name);
             if (file.createNewFile()) {
@@ -44,13 +43,13 @@ public class FileManagement {
 
     /**
      * Method createDirectory(String name,String directory)
-     *
+     * <p>
      * This method tries to create folder;
      * if it fails, It is reported
      *
      * @param name(String)-folder name, directory(String) folder location
      */
-   static void createDirectory(String name, String directory) {
+    static void createDirectory(String name, String directory) {
         File dir = new File(directory + separator + name);
         boolean create = dir.mkdir();
         if (create) {
@@ -62,7 +61,7 @@ public class FileManagement {
 
     /**
      * Method deleteFile(String name,String directory)
-     *
+     * <p>
      * This method tries to delete file;
      * if it fails, It is reported
      *
@@ -79,7 +78,7 @@ public class FileManagement {
 
     /**
      * Method deleteDirectory(String name,String directory)
-     *
+     * <p>
      * This method tries to delete folder;
      * if it fails, It is reported
      *
@@ -87,14 +86,9 @@ public class FileManagement {
      */
     static void deleteDirectory(String name, String directory) {
         File dir = new File(directory + separator + name);
-        if (dir.length() > 0) {
-            System.out.println("There are files in this directory. Do you want to delete this directory? y/n");// todo
-                                                                                                               // with
-                                                                                                               // multiple
-                                                                                                               // files
-                                                                                                               // in
-                                                                                                               // directory
-        }
+        if (dir.length() > 0)
+            System.out.println("There are files in this directory. Do you want to delete this directory? y/n");
+
         boolean del = dir.delete();
         if (del) {
             System.out.println("deleted directory: " + name);
@@ -105,7 +99,7 @@ public class FileManagement {
 
     /**
      * Method renameFile(String name,String newName,String directory)
-     *
+     * <p>
      * This method tries to rename file;
      * if it fails, It is reported
      *
@@ -126,7 +120,7 @@ public class FileManagement {
 
     /**
      * Method renameDirectory(String name,String newName,String directory)
-     *
+     * <p>
      * This method tries to rename folder;
      * if it fails, It is reported
      *
@@ -153,6 +147,9 @@ public class FileManagement {
         }
 
         String[] list = f.list();
+        if (list == null)
+            return;
+
         for (String s : list) {
             File f1 = new File(directory + separator + s);
             DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + separator + s);
@@ -161,4 +158,4 @@ public class FileManagement {
                 recursiveFiles(directory + separator + s, ex, temp);
         }
     }
-   }
+}

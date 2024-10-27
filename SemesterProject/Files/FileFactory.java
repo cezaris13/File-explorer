@@ -5,7 +5,7 @@ package Files;
  */
 public class FileFactory {
     /**
-     * Method newfile(String type,intfileSize,String fileDir,String fileName)
+     * Method newfile(String type,int fileSize,String fileDir,String fileName)
      *
      * takes given variables and returns one of the following classes:
      * Image
@@ -14,9 +14,6 @@ public class FileFactory {
      * SimpleFile
      *
      * @param type(String)-    file type,
-     * @param fileSize(int)
-     * @param fileDir(String),
-     * @param fileName(String)
      * @return MyFile variable
      */
     public MyFile newFile(FileType type, int fileSize, String fileDir, String fileName) {
@@ -25,7 +22,7 @@ public class FileFactory {
 
         return switch (type) {
             case Image -> new Image(fileSize, fileDir, fileName);
-            case Document -> new Docum(fileSize, fileDir, fileName);
+            case Document -> new Document(fileSize, fileDir, fileName);
             case Media -> new Media(fileSize, fileDir, fileName);
             case Default -> new SimpleFile(fileSize, fileDir, fileName);
         };
