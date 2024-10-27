@@ -316,13 +316,13 @@ public class FileExplorerComponents {
             okButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     switch (dialogType) {
-                        case DialogType.NewFile -> FileManagement.createFile(textBox.getText(), directory);
-                        case DialogType.NewDirectory -> FileManagement.createDirectory(textBox.getText(), directory);
-                        case DialogType.RenameFile -> FileManagement.renameFile(name, textBox.getText(), directory);
-                        case DialogType.RenameDirectory ->
+                        case NewFile -> FileManagement.createFile(textBox.getText(), directory);
+                        case NewDirectory -> FileManagement.createDirectory(textBox.getText(), directory);
+                        case RenameFile -> FileManagement.renameFile(name, textBox.getText(), directory);
+                        case RenameDirectory ->
                                 FileManagement.renameDirectory(name, textBox.getText(), directory);
-                        case DialogType.DeleteFile -> FileManagement.deleteFile(name, directory);
-                        case DialogType.DeleteDirectory -> FileManagement.deleteDirectory(name, directory);
+                        case DeleteFile -> FileManagement.deleteFile(name, directory);
+                        case DeleteDirectory -> FileManagement.deleteDirectory(name, directory);
                     }
 
                     jDialog.setVisible(false);

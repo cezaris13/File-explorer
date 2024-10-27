@@ -171,11 +171,11 @@ public class FileApp {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                     int width = fileExplorerComponents.frame.getBounds().width;
-                    int height = fileExplorerComponents.frame.getBounds().height + 1;
+                    int height = fileExplorerComponents.frame.getBounds().height;
                     int x = fileExplorerComponents.frame.getLocation().x;
                     int y = fileExplorerComponents.frame.getLocation().y;
+                    fileExplorerComponents.frame.setSize(width, height + 1);
                     fileExplorerComponents.frame.setSize(width, height);
-                    fileExplorerComponents.frame.setSize(width, height - 1);
                     fileExplorerComponents.frame.setLocation(x, y);
                     updateFiles(directory + separator + folderName);
                     CustomPanel.directory = directory + separator + folderName;
