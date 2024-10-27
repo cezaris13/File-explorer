@@ -120,7 +120,7 @@ public class FileApp {
         java.io.File saveFolder = new java.io.File(SaveData.getSaveDirectory());
         if (!saveFolder.exists())
             saveFolder.mkdirs();
-        
+
         java.io.File savedLocation = new java.io.File(SaveData.getSaveLocation());
         if (!savedLocation.exists() || savedLocation.length() == 0)
             return;

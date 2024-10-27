@@ -322,7 +322,7 @@ private int x,y;
       <w>273</w>
       <h>35</h>
     </coordinates>
-    <panel_attributes>Dialog
+    <panel_attributes>UI.FileExplorerComponents.Dialog
 --
 -d:JDialog
 --

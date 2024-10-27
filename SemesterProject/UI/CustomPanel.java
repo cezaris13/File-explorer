@@ -1,6 +1,7 @@
 package UI;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 
@@ -82,5 +83,15 @@ public class CustomPanel {
      */
     public int getYSize() {
         return ySize;
+    }
+
+    public static class FileTree {
+        public JTree fileTree;
+        public DefaultMutableTreeNode head;
+    
+        public FileTree() {
+            head = new DefaultMutableTreeNode(directory);
+            fileTree = new JTree(head);
+        }
     }
 }

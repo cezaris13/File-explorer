@@ -1,7 +1,5 @@
 package Files;
 
-import java.security.KeyStoreException;
-
 /**
  * Base file Class, it is used to store basic file data:
  * file size, file name, file directory, creation time, modification time,

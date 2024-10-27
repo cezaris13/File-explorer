@@ -1,4 +1,4 @@
-import UI.*;
+package UI;
 
 public interface FileExplorerCallback {
     void updateFiles();

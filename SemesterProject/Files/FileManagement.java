@@ -1,3 +1,5 @@
+package Files;
+
 import UI.*;
 
 import java.io.File;
@@ -14,8 +16,8 @@ import java.util.List;
  * rename file/directory
  */
 public class FileManagement {
-    static List<CustomJLabel> fileList = new ArrayList<>();
-    static List<CustomJLabel> folderList = new ArrayList<>();
+    public static List<CustomJLabel> fileList = new ArrayList<>();
+    public static List<CustomJLabel> folderList = new ArrayList<>();
 
     private static final String separator = FileSystems.getDefault().getSeparator();
 
@@ -27,7 +29,7 @@ public class FileManagement {
      *
      * @param name(String)-file name, directory(String) file location
      */
-    static void createFile(String name, String directory) {
+    public static void createFile(String name, String directory) {
         try {
             File file = new File(directory + separator + name);
             if (file.createNewFile()) {
@@ -49,7 +51,7 @@ public class FileManagement {
      *
      * @param name(String)-folder name, directory(String) folder location
      */
-    static void createDirectory(String name, String directory) {
+    public static void createDirectory(String name, String directory) {
         File dir = new File(directory + separator + name);
         boolean create = dir.mkdir();
         if (create) {
@@ -67,7 +69,7 @@ public class FileManagement {
      *
      * @param name(String)-file name, directory(String) file location
      */
-    static void deleteFile(String name, String directory) {
+    public static void deleteFile(String name, String directory) {
         File file = new File(directory + separator + name);
         if (file.delete()) {
             System.out.println("Deleted the file: " + file.getName());
@@ -84,7 +86,7 @@ public class FileManagement {
      *
      * @param name(String)-folder name, directory(String) folder location
      */
-    static void deleteDirectory(String name, String directory) {
+    public static void deleteDirectory(String name, String directory) {
         File dir = new File(directory + separator + name);
         if (dir.length() > 0)
             System.out.println("There are files in this directory. Do you want to delete this directory? y/n");
@@ -106,7 +108,7 @@ public class FileManagement {
      * @param name(String)-file name,newName(String) new file name,
      *                          directory(String) file location
      */
-    static void renameFile(String name, String newName, String directory) {
+    public static void renameFile(String name, String newName, String directory) {
         File oldFile = new File(directory + separator + name);
         File newFile = new File(directory + separator + newName);
         if (newFile.exists()) {
@@ -127,7 +129,7 @@ public class FileManagement {
      * @param name(String)-folder name,newName(String) new folder name,
      *                            directory(String) folder location
      */
-    static void renameDirectory(String name, String newName, String directory) {
+    public static void renameDirectory(String name, String newName, String directory) {
         File oldDir = new File(directory + separator + name);
         File newDir = new File(directory + separator + newName);
         if (newDir.exists()) {
@@ -139,7 +141,7 @@ public class FileManagement {
             System.out.println("failed to rename directory");
     }
 
-    static void recursiveFiles(String directory, String ex, DefaultMutableTreeNode head) {
+    public static void recursiveFiles(String directory, String ex, DefaultMutableTreeNode head) {
         File f = new File(directory);
         if (!f.exists()) {
             System.out.println("Directory not found");
