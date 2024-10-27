@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.util.stream.Stream;
 
 public class CustomLayout {
-
     public static void revalidate(JFrame frame, CustomPanel leftMenu, CustomPanel filePanel, List<CustomJLabel> fileList, List<CustomJLabel> folderList) {
         int space = 20;
         Rectangle frameBounds = frame.getBounds();
@@ -36,7 +35,7 @@ public class CustomLayout {
                     customJLabel.file.icon.getWidth() + space, customJLabel.file.icon.getHeight() + space);
             countX++;
         }
-        
+
         filePanel.panel.setSize(frameWidth - leftMenu.getXSize() - space, frameHeight);
         filePanel.panel.revalidate();
         filePanel.panel.repaint();

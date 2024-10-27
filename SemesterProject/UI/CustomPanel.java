@@ -84,14 +84,4 @@ public class CustomPanel {
     public int getYSize() {
         return ySize;
     }
-
-    public static class FileTree {
-        public JTree fileTree;
-        public DefaultMutableTreeNode head;
-    
-        public FileTree() {
-            head = new DefaultMutableTreeNode(directory);
-            fileTree = new JTree(head);
-        }
-    }
 }
