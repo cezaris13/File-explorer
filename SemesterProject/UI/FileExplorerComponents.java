@@ -26,7 +26,7 @@ public class FileExplorerComponents {
     private CustomPanel topPanel;
     private final FileExplorerCallback fileExplorerCallback;
     private JPopupMenu rightMenu;
-    private final FileTree fileTree = new FileTree();
+    private FileTree fileTree;
 
     public FileExplorerComponents(FileExplorerCallback fileExplorerCallback) {
         this.fileExplorerCallback = fileExplorerCallback;
@@ -34,6 +34,7 @@ public class FileExplorerComponents {
     }
 
     public void setupComponents() {
+        fileTree = new FileTree();
         frame.setMinimumSize(new Dimension(600, 500));
         this.jRightMenu = new JRightMenu(frame, fileExplorerCallback);
 
@@ -47,8 +48,10 @@ public class FileExplorerComponents {
         createFilePanel();
 
         FileManagement.recursiveFiles(CustomPanel.directory, "", fileTree.head);
-
+        
         createJFrame();
+
+        fileTree.expandAllNodes(0, fileTree.fileTree.getRowCount());
     }
 
     private JButton createBackButton() {

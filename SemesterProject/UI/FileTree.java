@@ -11,4 +11,12 @@ public class FileTree {
         head = new DefaultMutableTreeNode(CustomPanel.directory);
         fileTree = new JTree(head);
     }
+
+    public void expandAllNodes(int startingIndex, int rowCount) {
+        for (int i = startingIndex; i < rowCount; i++)
+            fileTree.expandRow(i);
+
+        if (fileTree.getRowCount() != rowCount)
+            expandAllNodes(rowCount, fileTree.getRowCount());
+    }
 }

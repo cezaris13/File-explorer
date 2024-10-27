@@ -27,8 +27,8 @@ public class FileApp {
     }
 
     public void setupFileApp() {
+        CustomPanel.directory = System.getProperty("user.home");
         checkIfSavedFileExists();
-        CustomPanel.directory = System.getProperty("user.home") + separator + "Desktop";
         fileExplorerComponents = new FileExplorerComponents(new FileExplorerCallback() {
             @Override
             public void updateFiles() {

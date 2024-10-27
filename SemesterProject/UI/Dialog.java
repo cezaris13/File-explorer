@@ -32,7 +32,8 @@ public class Dialog {
      * <p>
      * this is used to as a (Rename/create)File/folder dialog window
      */
-    Dialog(JFrame frame, String title, DialogType dialogType, String directory, String name) {
+    Dialog(JFrame frame, String title, DialogType dialogType, String name) {
+        String directory = CustomPanel.directory;
         jDialog = new JDialog(frame, dialogType.name(), true);
         JTextField textBox = getTextBox();
         JButton okButton = getOkButton(dialogType, name, directory, textBox);
@@ -44,7 +45,8 @@ public class Dialog {
         jDialog.setSize(width, height);
         jDialog.setResizable(false);
         jDialog.setLocationRelativeTo(frame);
-        if (dialogType != DialogType.RenameFile && dialogType != DialogType.RenameDirectory)
+        System.out.println(dialogType);
+        if (dialogType != DialogType.DeleteFile && dialogType != DialogType.DeleteDirectory)
             jDialog.add(textBox);
 
         jDialog.setVisible(true);
@@ -58,8 +60,8 @@ public class Dialog {
      * <p>
      * this is used to as a deleteFile/folder dialog window
      */
-    Dialog(JFrame frame, String title, DialogType dialogType, String directory) {
-        this(frame, title, dialogType, directory, "");
+    Dialog(JFrame frame, String title, DialogType dialogType) {
+        this(frame, title, dialogType, "");
     }
 
     private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox) {

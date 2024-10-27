@@ -1,7 +1,6 @@
 package UI;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
 
@@ -18,7 +17,7 @@ public class CustomPanel {
     private int ySize = 0;
     public JPanel panel = new JPanel();
     public static String directory;
-    
+
     /**
      * Constructor CustomPanel(int x,int y,int xSize,int ySize)
      * <p>
