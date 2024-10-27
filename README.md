@@ -1,5 +1,7 @@
 # File Explorer for Object oriented programming course in Vilnius university in spring semester 2021
 File explorer project implemented Java Swing GUI.
+
+## Demo:
 ![Alt Text](Gif/Demo.gif)
 
 
