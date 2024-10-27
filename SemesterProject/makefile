@@ -8,3 +8,6 @@ CLASS = FileApp
 build:
 	$(JC) -Xlint:unchecked -Xlint:deprecation  $(FILES)
 	$(JV) $(FLAGS) .:$(JAR) $(CLASS)
+
+clean:
+	find . -name "*.class" -type f -delete
