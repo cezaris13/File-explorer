@@ -18,7 +18,6 @@ import java.io.BufferedInputStream;
 
 public class FileApp {
     FileExplorerComponents fileExplorerComponents;
-    FileFactory fileFactory;
     String currSelected = "";
 
     private final String separator = FileSystems.getDefault().getSeparator();
@@ -58,8 +57,6 @@ public class FileApp {
         }
         );
 
-        fileFactory = new FileFactory();
-
         fileExplorerComponents.setupComponents();
     }
 
@@ -76,39 +73,24 @@ public class FileApp {
             FileManagement.folderList.clear();
 
         String[] list = f.list();
-        int count = 0;
 
         if (list == null)
             return;
 
         for (String element : list) {
-            java.io.File f1 = new java.io.File(directory + separator + element);
-            if (!f1.isFile())
-                continue;
-
-            File tmpFile = fileFactory.newFile(FileType.getFileType(f1.getName()), directory, element);
-            CustomJLabel tmp = new CustomJLabel(element, tmpFile.icon.getIcon(), JLabel.CENTER, tmpFile);
+            java.io.File file = new java.io.File(directory + separator + element);
+            File fileCustom = new File(directory, element, file);
+            CustomJLabel tmp = new CustomJLabel(element, fileCustom.icon.getIcon(), JLabel.CENTER, fileCustom);
             tmp.setVerticalTextPosition(JLabel.BOTTOM);
             tmp.setHorizontalTextPosition(JLabel.CENTER);
-            FileManagement.fileList.add(tmp);
+            if (fileCustom.fileType == FileType.Directory) {
+                FileManagement.folderList.add(tmp);
+                addFolderMouseListener(tmp, directory, element);
+            } else {
+                FileManagement.fileList.add(tmp);
+                addFileMouseListener(tmp, element);
+            }
             fileExplorerComponents.filePanel.panel.add(tmp);
-            addFileMouseListener(FileManagement.fileList.get(count), element);
-            count++;
-        }
-        count = 0;
-
-        for (String s : list) {
-            java.io.File f1 = new java.io.File(directory + separator + s);
-            if (!f1.isDirectory())
-                continue;
-
-            CustomJLabel tmp = new CustomJLabel(s, new Directory().icon.getIcon(), JLabel.CENTER, new Directory());
-            tmp.setVerticalTextPosition(JLabel.BOTTOM);
-            tmp.setHorizontalTextPosition(JLabel.CENTER);
-            FileManagement.folderList.add(tmp);
-            fileExplorerComponents.filePanel.panel.add(tmp);
-            addFolderMouseListener(FileManagement.folderList.get(count), directory, s);
-            count++;
         }
 
         CustomLayout.revalidate(fileExplorerComponents.frame, fileExplorerComponents.leftMenu, fileExplorerComponents.filePanel, FileManagement.fileList, FileManagement.folderList);

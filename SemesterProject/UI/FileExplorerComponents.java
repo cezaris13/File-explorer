@@ -246,7 +246,7 @@ public class FileExplorerComponents {
                 new Dialog(frame, "enter file name", DialogType.NewFile, CustomPanel.directory);
                 fileExplorerCallback.updateFiles();
             });
-            newFileMenuItem.addActionListener(e -> {
+            newDirectoryMenuItem.addActionListener(e -> {
                 new Dialog(frame, "enter directory name", DialogType.NewDirectory, CustomPanel.directory);
                 fileExplorerCallback.updateFiles();
             });

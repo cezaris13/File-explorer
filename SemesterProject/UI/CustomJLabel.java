@@ -1,9 +1,9 @@
 
 package UI;
 
-import javax.swing.*;
+import Files.File;
 
-import Files.Directory;
+import javax.swing.*;
 
 /**
  * CustomJLabel extends JLabel by adding MyFile object,
@@ -14,7 +14,7 @@ public class CustomJLabel extends JLabel {
     /**
      * Additional file variable to store data about the file
      */
-    public Directory file;
+    public File file;
 
     /**
      * Creates New CustomJLabel with given name,icon, alignment and MyFile object
@@ -25,7 +25,7 @@ public class CustomJLabel extends JLabel {
      * @param horizontalAlignment - JLabel alignment
      * @param file                - MyFile object type
      */
-    public CustomJLabel(String name, ImageIcon icon, int horizontalAlignment, Directory file) {
+    public CustomJLabel(String name, ImageIcon icon, int horizontalAlignment, File file) {
         super(name, icon, horizontalAlignment);
         this.file = file;
     }

@@ -3,6 +3,7 @@ package UI;
 import java.util.List;
 import javax.swing.JFrame;
 import java.awt.Rectangle;
+import java.util.stream.Stream;
 
 public class CustomLayout {
 
@@ -24,8 +25,9 @@ public class CustomLayout {
             cellWidth = frameBounds.width / space;
         }
         filePanel.panel.setLayout(null);
+        List<CustomJLabel> combiledJLabelList = Stream.concat(folderList.stream(), fileList.stream()).toList();
 
-        for (CustomJLabel customJLabel : folderList) {
+        for (CustomJLabel customJLabel : combiledJLabelList) {
             if (countX + 4 > space) {
                 countY++;
                 countX = 0;
@@ -34,36 +36,9 @@ public class CustomLayout {
                     customJLabel.file.icon.getWidth() + space, customJLabel.file.icon.getHeight() + space);
             countX++;
         }
-        for (CustomJLabel customJLabel : fileList) {
-            if (countX + 4 > space) {
-                countY++;
-                countX = 0;
-            }
-            customJLabel.setBounds(countX * cellWidth + initSpace, countY * initialY + initSpace,
-                    customJLabel.file.icon.getWidth() + space, customJLabel.file.icon.getHeight() + space);
-            countX++;
-        }
-
-        // countY = positionLabelsInGrid(folderList, cellWidth, initialY, initSpace, space,  countX, countY);
-        // // Position files in the grid
-        // positionLabelsInGrid(fileList, cellWidth, initialY, initSpace, space, countX, countY);
-
+        
         filePanel.panel.setSize(frameWidth - leftMenu.getXSize() - space, frameHeight);
         filePanel.panel.revalidate();
         filePanel.panel.repaint();
     }
-
-    // private static int positionLabelsInGrid(List<CustomJLabel> labels, int cellWidth, int initialY,
-    //                                         int initSpace, int space, int countX, int countY) {
-    //     for (CustomJLabel customJLabel : labels) {
-    //         if (countX + 4 > space) {
-    //             countY++;
-    //             countX = 0;
-    //         }
-    //         customJLabel.setBounds(countX * cellWidth + initSpace, countY * initialY + initSpace,
-    //                 customJLabel.file.fileIcon.getWidth() + space, customJLabel.file.fileIcon.getHeight() + space);
-    //         countX++;
-    //     }
-    //     return countY; // Return the current Y count for possible further use
-    // }
 }

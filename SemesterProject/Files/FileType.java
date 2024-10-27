@@ -4,6 +4,7 @@ public enum FileType {
     Image,
     Document,
     Media,
+    Directory,
     Default;
 
     public static FileType getFileType(String file) {
