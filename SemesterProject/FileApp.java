@@ -9,6 +9,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.io.ObjectInputStream;
@@ -116,6 +117,10 @@ public class FileApp {
     }
 
     private void checkIfSavedFileExists() {
+        java.io.File saveFolder = new java.io.File(SaveData.getSaveDirectory());
+        if (!saveFolder.exists())
+            saveFolder.mkdirs();
+        
         java.io.File savedLocation = new java.io.File(SaveData.getSaveLocation());
         if (!savedLocation.exists() || savedLocation.length() == 0)
             return;
@@ -140,7 +145,7 @@ public class FileApp {
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("Error reading saved " + listType + ": " + ex.getMessage());
         }
-        return null;
+        return new ArrayList<T>();
     }
 
     private void addFileMouseListener(CustomJLabel jLabel, String fileName) {

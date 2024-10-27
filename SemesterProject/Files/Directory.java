@@ -113,11 +113,7 @@ public class Directory implements Cloneable, Serializable {
     }
 
     @Override
-    public Directory clone() {
-        try {
-            return (Directory) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError();
-        }
+    public Directory clone() throws CloneNotSupportedException {
+        return (Directory) super.clone();
     }
 }

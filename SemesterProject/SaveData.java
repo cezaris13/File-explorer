@@ -1,7 +1,7 @@
 import java.nio.file.FileSystems;
 
 public class SaveData {
-    private static String getSaveDirectory() {
+    public static String getSaveDirectory() {
         String sep = FileSystems.getDefault().getSeparator();
         return System.getProperty("user.home") + sep + ".cache" + sep + "FileExplorer" + sep;
     }

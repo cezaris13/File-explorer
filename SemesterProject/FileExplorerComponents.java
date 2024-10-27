@@ -135,8 +135,7 @@ public class FileExplorerComponents {
     }
 
     private void saveDirectoryData() throws IOException {
-        try (DataOutputStream dataOut = new DataOutputStream(
-                                                             new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())))) {
+        try (DataOutputStream dataOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())))) {
             byte[] data = CustomPanel.directory.getBytes(StandardCharsets.UTF_8);
             dataOut.writeInt(data.length);
             dataOut.write(data);

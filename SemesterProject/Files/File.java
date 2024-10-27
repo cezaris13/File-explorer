@@ -32,4 +32,9 @@ public class File extends Directory {
 
         return "";
     }
+
+    @Override
+    public File clone() throws CloneNotSupportedException {
+        return (File) super.clone();
+    }
 }
