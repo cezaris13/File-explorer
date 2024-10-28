@@ -34,7 +34,7 @@ public class FileExplorerComponents {
     }
 
     public void setupComponents() {
-        FileTree fileTree = new FileTree();
+        FileTree fileTree = new FileTree(fileExplorerCallback.getCurrentDirectory());
         frame.setMinimumSize(new Dimension(600, 500));
         this.jRightMenu = new JRightMenu(frame, fileExplorerCallback);
 
@@ -47,7 +47,7 @@ public class FileExplorerComponents {
         leftMenu = new CustomPanel(0, topPanel.getHeight(), 200, 600, fileTree.fileTree);
         createFilePanel();
 
-        FileManagement.recursiveFiles(FileManagement.currentDirectory, fileTree.head);
+        FileManagement.recursiveFiles(fileExplorerCallback.getCurrentDirectory(), fileTree.head);
 
         createJFrame();
 
@@ -58,11 +58,13 @@ public class FileExplorerComponents {
         JButton back = new JButton("back");
         String separator = FileSystems.getDefault().getSeparator();
         back.addActionListener(e -> {
-            int lastSlash = FileManagement.currentDirectory.lastIndexOf(separator);
-            FileManagement.currentDirectory = FileManagement.currentDirectory.substring(0, lastSlash);
-            if (FileManagement.currentDirectory.isEmpty()) // cannot go back anymore
-                FileManagement.currentDirectory = separator;
+            String currentDirectory = fileExplorerCallback.getCurrentDirectory();
+            int lastSlash = currentDirectory.lastIndexOf(separator);
+            currentDirectory = currentDirectory.substring(0, lastSlash);
+            if (currentDirectory.isEmpty()) // cannot go back anymore
+                currentDirectory = separator;
 
+            fileExplorerCallback.setCurrentDirectory(currentDirectory);
             fileExplorerCallback.updateFiles();
         });
         return back;
@@ -87,7 +89,7 @@ public class FileExplorerComponents {
             filePanel.panel.add(customJLabel);
             // Add mouse listeners based on whether the label represents a file or a directory
             if (customJLabel.file.fileType == FileType.Directory)
-                fileExplorerCallback.addMouseListener(customJLabel, FileManagement.currentDirectory);
+                fileExplorerCallback.addMouseListener(customJLabel, fileExplorerCallback.getCurrentDirectory());
             else
                 fileExplorerCallback.addMouseListener(customJLabel);
         }
@@ -96,7 +98,7 @@ public class FileExplorerComponents {
     private CustomPanel createTopPanel() {
         CustomPanel topPanel = new CustomPanel(0, 0, 600, 35);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JTextField textBox = new JTextField(FileManagement.currentDirectory, 50);
+        JTextField textBox = new JTextField(fileExplorerCallback.getCurrentDirectory(), 50);
         topPanel.panel.add(backButton);
         topPanel.panel.add(textBox);
         topPanel.panel.add(createGoToDirectoryButton(textBox));
@@ -123,7 +125,7 @@ public class FileExplorerComponents {
 
     private void saveDirectoryData() throws IOException {
         try (DataOutputStream dataOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())))) {
-            byte[] data = FileManagement.currentDirectory.getBytes(StandardCharsets.UTF_8);
+            byte[] data = fileExplorerCallback.getCurrentDirectory().getBytes(StandardCharsets.UTF_8);
             dataOut.writeInt(data.length);
             dataOut.write(data);
         }
@@ -144,7 +146,7 @@ public class FileExplorerComponents {
     private JButton createGoToDirectoryButton(JTextField textBox) {
         JButton goToDirectoryButton = new JButton("go to directory");
         goToDirectoryButton.addActionListener(e -> {
-            FileManagement.currentDirectory = textBox.getText();
+            fileExplorerCallback.setCurrentDirectory(textBox.getText());
             fileExplorerCallback.updateFiles();
         });
 

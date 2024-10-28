@@ -18,11 +18,11 @@ public class JRightMenu {
         rightMenu.add(renameDirectoryMenuItem);
         rightMenu.add(deleteDirectoryMenuItem);
         renameDirectoryMenuItem.addActionListener(e -> {
-            new Dialog(frame, "rename directory", DialogType.RenameDirectory, fileExplorerCallback.getCurrentSelectedFile());
+            new Dialog(frame, "rename directory", DialogType.RenameDirectory, fileExplorerCallback.getCurrentSelectedFile(), fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         deleteDirectoryMenuItem.addActionListener(e -> {
-            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, fileExplorerCallback.getCurrentSelectedFile());
+            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, fileExplorerCallback.getCurrentSelectedFile(), fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         return rightMenu;
@@ -36,11 +36,11 @@ public class JRightMenu {
         rightMenu.add(deleteFileMenuItem);
 
         renameFileMenuItem.addActionListener(e -> {
-            new Dialog(frame, "rename file", DialogType.RenameFile, fileExplorerCallback.getCurrentSelectedFile());
+            new Dialog(frame, "rename file", DialogType.RenameFile, fileExplorerCallback.getCurrentSelectedFile(), fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         deleteFileMenuItem.addActionListener(e -> {
-            new Dialog(frame, "delete file", DialogType.DeleteFile, fileExplorerCallback.getCurrentSelectedFile());
+            new Dialog(frame, "delete file", DialogType.DeleteFile, fileExplorerCallback.getCurrentSelectedFile(), fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         return rightMenu;
@@ -53,11 +53,11 @@ public class JRightMenu {
         rightMenu.add(newFileMenuItem);
         rightMenu.add(newDirectoryMenuItem);
         newFileMenuItem.addActionListener(e -> {
-            new Dialog(frame, "enter file name", DialogType.NewFile);
+            new Dialog(frame, "enter file name", DialogType.NewFile, fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         newDirectoryMenuItem.addActionListener(e -> {
-            new Dialog(frame, "enter directory name", DialogType.NewDirectory);
+            new Dialog(frame, "enter directory name", DialogType.NewDirectory, fileExplorerCallback.getCurrentDirectory());
             fileExplorerCallback.updateFiles();
         });
         return rightMenu;

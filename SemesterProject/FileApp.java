@@ -21,6 +21,7 @@ public class FileApp {
     String currentSelectedFile = "";
     List<CustomJLabel> fileList = new ArrayList<>();
     List<CustomJLabel> folderList = new ArrayList<>();
+    String currentDirectory;
 
     private final String separator = FileSystems.getDefault().getSeparator();
 
@@ -29,12 +30,12 @@ public class FileApp {
     }
 
     public void setupFileApp() {
-        FileManagement.currentDirectory = System.getProperty("user.home");
+        currentDirectory = System.getProperty("user.home");
         checkIfSavedFileExists();
         fileExplorerComponents = new FileExplorerComponents(new FileExplorerCallback() {
             @Override
             public void updateFiles() {
-                FileApp.this.updateFiles(FileManagement.currentDirectory);
+                FileApp.this.updateFiles(currentDirectory);
             }
 
             @Override
@@ -48,6 +49,17 @@ public class FileApp {
             }
 
             @Override
+            public String getCurrentDirectory() {
+                return currentDirectory;
+            }
+
+            @Override
+            public void setCurrentDirectory(String newCurrentDirectory) {
+                currentDirectory = newCurrentDirectory;
+            }
+
+
+            @Override
             public void addMouseListener(CustomJLabel jLabel) {
                 addFileMouseListener(jLabel);
             }
@@ -56,6 +68,7 @@ public class FileApp {
             public void addMouseListener(CustomJLabel jLabel, String directory) {
                 addFolderMouseListener(jLabel, directory);
             }
+
             @Override
             public List<CustomJLabel> getFolderList() {
                 return folderList;
@@ -123,7 +136,7 @@ public class FileApp {
             int length = dataIn.readInt();
             byte[] data = new byte[length];
             dataIn.readFully(data);
-            FileManagement.currentDirectory = new String(data, StandardCharsets.UTF_8);
+            currentDirectory = new String(data, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             System.out.println("Error reading saved location data: " + ex);
         }
@@ -167,7 +180,7 @@ public class FileApp {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
                     updateFiles(directory + separator + folderName);
-                    FileManagement.currentDirectory = directory + separator + folderName;
+                    currentDirectory = directory + separator + folderName;
                 }
                 if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
                     currentSelectedFile = folderName;

@@ -32,8 +32,7 @@ public class Dialog {
      * <p>
      * this is used to as a (Rename/create)File/folder dialog window
      */
-    Dialog(JFrame frame, String title, DialogType dialogType, String name) {
-        String directory = FileManagement.currentDirectory;
+    Dialog(JFrame frame, String title, DialogType dialogType, String name, String directory) {
         jDialog = new JDialog(frame, dialogType.name(), true);
         JTextField textBox = getTextBox();
         JButton okButton = getOkButton(dialogType, name, directory, textBox);
@@ -60,8 +59,8 @@ public class Dialog {
      * <p>
      * this is used to as a deleteFile/folder dialog window
      */
-    Dialog(JFrame frame, String title, DialogType dialogType) {
-        this(frame, title, dialogType, "");
+    Dialog(JFrame frame, String title, DialogType dialogType, String directory) {
+        this(frame, title, dialogType, "", directory);
     }
 
     private JButton getOkButton(DialogType dialogType, String name, String directory, JTextField textBox) {

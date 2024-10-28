@@ -9,6 +9,10 @@ public interface FileExplorerCallback {
 
     String getCurrentSelectedFile();
 
+    String getCurrentDirectory();
+
+    void setCurrentDirectory(String newCurrentDirectory);
+
     List<CustomJLabel> getFolderList();
 
     List<CustomJLabel> getFileList();

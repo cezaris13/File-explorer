@@ -12,8 +12,6 @@ import java.nio.file.FileSystems;
  * rename file/directory
  */
 public class FileManagement {
-    public static String currentDirectory;
-
     private static final String separator = FileSystems.getDefault().getSeparator();
 
     /**
