@@ -1,20 +1,17 @@
-import Files.*;
+import Exceptions.FileIsMissingException;
+import Files.File;
+import Files.FileType;
 import UI.*;
-import Exceptions.*;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.io.ObjectInputStream;
-import java.io.FileInputStream;
-import java.io.BufferedInputStream;
 
 public class FileApp {
     FileExplorerComponents fileExplorerComponents;

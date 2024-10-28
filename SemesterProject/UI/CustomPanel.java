@@ -1,8 +1,7 @@
 package UI;
 
 import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.BorderLayout;
+import java.awt.*;
 
 /**
  * CustomPanel class is used as a group of variables

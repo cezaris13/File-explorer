@@ -1,6 +1,6 @@
 package UI;
 
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class FileTree {
