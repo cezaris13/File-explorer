@@ -2,41 +2,48 @@ package UI;
 
 import java.util.List;
 import javax.swing.JFrame;
-import java.awt.Rectangle;
+import java.util.function.IntFunction;
 import java.util.stream.Stream;
 
 public class CustomLayout {
     public static void revalidate(JFrame frame, CustomPanel leftMenu, CustomPanel filePanel, List<CustomJLabel> fileList, List<CustomJLabel> folderList) {
-        int space = 20;
-        Rectangle frameBounds = frame.getBounds();
-        int cellWidth = frameBounds.width / space;
-        int frameWidth = frameBounds.width;
-        int frameHeight = frameBounds.height;
-        int initialY = 85;
-        int countX = 0;
-        int countY = 0;
-        final int initSpace = 25;
+        List<CustomJLabel> combinedJLabelList = Stream.concat(folderList.stream(), fileList.stream()).toList();
 
+        int frameWidth = frame.getBounds().width;
+        filePanel.setWidth(frameWidth - leftMenu.getWidth());
+
+        int spacing = 20;
+        int verticalSpacing = 25;
+        int padding = 25;
+
+        // we can assume that iconWidth and height is the same for all icons.
         int iconWidth = fileList.get(0).file.iconWidth;
-        // Adjust space to ensure that cell width is not too large
-        while (3 * cellWidth < 4 * iconWidth && space > 0) {
-            space--;
-            cellWidth = frameBounds.width / space;
-        }
+        int iconHeight = fileList.get(0).file.iconHeight;
+
+        // filePanel = 2*padding + n * cellWidth + (n - 1) * spacing =>
+        // n = (filePanel - leftMenu.width -2*padding + spacing)/(cellWidth + spacing)
+        IntFunction<Integer> calculateCellsInOneLine = s -> (filePanel.panel.getWidth() - 2 * padding + s) / (iconWidth + s);
+
+        int possibleCellsInOneLine = calculateCellsInOneLine.apply(spacing);
+
+        // change spacing only if the files and folders does not fit in one line
+        // if it does not fit, reduce spacing by one until you can squeeze in another icon
+        if (possibleCellsInOneLine < combinedJLabelList.size())
+            for(; spacing >=0; spacing-- )
+                if (calculateCellsInOneLine.apply(spacing) == possibleCellsInOneLine + 1)
+                    break;
+
         filePanel.panel.setLayout(null);
-        List<CustomJLabel> combiledJLabelList = Stream.concat(folderList.stream(), fileList.stream()).toList();
 
-        for (CustomJLabel customJLabel : combiledJLabelList) {
-            if (countX + 4 > space) {
-                countY++;
-                countX = 0;
-            }
-            customJLabel.setBounds(countX * cellWidth + initSpace, countY * initialY + initSpace,
-                    customJLabel.file.icon.getWidth() + space, customJLabel.file.icon.getHeight() + space);
-            countX++;
+        possibleCellsInOneLine = calculateCellsInOneLine.apply(spacing);
+        int index = 0;
+        for (CustomJLabel customJLabel : combinedJLabelList) {
+            int cellXPosition = padding + (index % possibleCellsInOneLine) * (iconWidth + spacing);
+            int cellYPosition = padding + (index / possibleCellsInOneLine) * (iconHeight + verticalSpacing);
+            customJLabel.setBounds(cellXPosition, cellYPosition, iconWidth + spacing, iconHeight + verticalSpacing);
+            index++;
         }
 
-        filePanel.panel.setSize(frameWidth - leftMenu.getXSize() - space, frameHeight);
         filePanel.panel.revalidate();
         filePanel.panel.repaint();
     }

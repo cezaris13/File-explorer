@@ -44,7 +44,7 @@ public class FileExplorerComponents {
 
         backButton = createBackButton();
         topPanel = createTopPanel();
-        leftMenu = new CustomPanel(0, topPanel.getYSize(), 200, 600, fileTree.fileTree);
+        leftMenu = new CustomPanel(0, topPanel.getHeight(), 200, 600, fileTree.fileTree);
         createFilePanel();
 
         FileManagement.recursiveFiles(CustomPanel.directory, "", fileTree.head);
@@ -70,7 +70,7 @@ public class FileExplorerComponents {
 
     private void createFilePanel() {
         // Initialize the filePanel with dimensions based on the leftMenu and topPanel sizes
-        this.filePanel = new CustomPanel(leftMenu.getXSize(), topPanel.getYSize(), 420, 500);
+        this.filePanel = new CustomPanel(leftMenu.getWidth(), topPanel.getHeight(), 420, 500);
 
         // Check if the file list is empty; if so, update files and exit early
         if (FileManagement.fileList.isEmpty()) {
@@ -184,7 +184,7 @@ public class FileExplorerComponents {
                 int width = componentEvent.getComponent().getSize().width;
                 int height = componentEvent.getComponent().getSize().height;
                 CustomLayout.revalidate(frame, leftMenu, filePanel, FileManagement.fileList, FileManagement.folderList);
-                leftMenu.setSize(leftMenu.getXSize(), height - 30);
+                leftMenu.setHeight(height - 30);
                 topPanel.setSize(width, 30);
             }
         });

@@ -13,8 +13,6 @@ import java.awt.BorderLayout;
  */
 public class CustomPanel {
     JScrollPane scrollbar;
-    private int xSize = 0;
-    private int ySize = 0;
     public JPanel panel = new JPanel();
     public static String directory;
 
@@ -25,14 +23,14 @@ public class CustomPanel {
      *
      * @param x(int)-     x coordinate of panel,
      * @param y(int)-     y coordinate of panel,
-     * @param xSize(int)- x size of panel,
-     * @param ySize(int)- y size of panel
+     * @param width(int)- x size of panel,
+     * @param height(int)- y size of panel
      */
-    public CustomPanel(int x, int y, int xSize, int ySize) {// topPanel and filePanel
+    public CustomPanel(int x, int y, int width, int height) {// topPanel and filePanel
         panel.setLayout(null);
-        panel.setPreferredSize(new Dimension(xSize, ySize));
+        panel.setPreferredSize(new Dimension(width, height));
         panel.setLocation(x, y);
-        setSize(xSize, ySize);
+        setSize(width, height);
     }
 
     /**
@@ -42,13 +40,13 @@ public class CustomPanel {
      *
      * @param x(int)-      x coordinate of panel
      * @param y(int)-      y coordinate of panel
-     * @param xSize(int)-  x size of panel
-     * @param ySize(int)-  y size of panel
+     * @param width(int)-  x size of panel
+     * @param height(int)-  y size of panel
      * @param tree(JTree)- JTree Object containing fileList
      */
-    public CustomPanel(int x, int y, int xSize, int ySize, JTree tree) {// left panel
-        panel.setBounds(x, y, xSize, ySize);
-        setSize(xSize, ySize);
+    public CustomPanel(int x, int y, int width, int height, JTree tree) {// left panel
+        panel.setBounds(x, y, width, height);
+        setSize(width, height);
         panel.setLayout(new BorderLayout());
         scrollbar = new JScrollPane(tree);
         scrollbar.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -56,31 +54,23 @@ public class CustomPanel {
         panel.add(scrollbar);
     }
 
-    /**
-     * Method void setSize(int xSize,int ySize)
-     * <p>
-     * Changes Panel dimension,xSize and ySize variables
-     *
-     * @param xSize - x panel size
-     * @param ySize - y panel size
-     */
-    public void setSize(int xSize, int ySize) {
-        this.xSize = xSize;
-        this.ySize = ySize;
-        panel.setSize(xSize, ySize);
+    public void setSize(int width, int height) {
+        panel.setSize(width, height);
     }
 
-    /**
-     * @return xSize(int)
-     */
-    public int getXSize() {
-        return xSize;
+    public int getWidth() {
+        return panel.getWidth();
     }
 
-    /**
-     * @return ySize(int)
-     */
-    public int getYSize() {
-        return ySize;
+    public void setWidth(int width) {
+        panel.setSize(width, panel.getHeight());
+    }
+
+    public int getHeight() {
+        return panel.getHeight();
+    }
+
+    public void setHeight(int height) {
+        panel.setSize(panel.getWidth(), height);
     }
 }

@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 /**
  * UI.FileExplorerComponents.Dialog class consists of JDialog variable
  * <p>
- * it is used as a additional menu
+ * it is used as an additional menu
  * possible options:
  * new File/folder menu
  * rename File/folder menu
