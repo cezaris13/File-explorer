@@ -1,13 +1,9 @@
 package Files;
 
-import UI.*;
-
 import java.io.File;
 import java.io.IOException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.nio.file.FileSystems;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * FileManagement class is used to manage files:
@@ -16,8 +12,7 @@ import java.util.List;
  * rename file/directory
  */
 public class FileManagement {
-    public static List<CustomJLabel> fileList = new ArrayList<>();
-    public static List<CustomJLabel> folderList = new ArrayList<>();
+    public static String currentDirectory;
 
     private static final String separator = FileSystems.getDefault().getSeparator();
 
@@ -141,23 +136,23 @@ public class FileManagement {
             System.out.println("failed to rename directory");
     }
 
-    public static void recursiveFiles(String directory, String ex, DefaultMutableTreeNode head) {
+    public static void recursiveFiles(String directory, DefaultMutableTreeNode head) {
         File f = new File(directory);
         if (!f.exists()) {
             System.out.println("Directory not found");
             return;
         }
 
-        String[] list = f.list();
-        if (list == null)
+        File[] files = f.listFiles();
+        if (files == null)
             return;
 
-        for (String s : list) {
-            File f1 = new File(directory + separator + s);
-            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(directory + separator + s);
+        for (File file : files) {
+            DefaultMutableTreeNode temp = new DefaultMutableTreeNode(file.getAbsolutePath());
             head.add(temp);
-            if (f1.isDirectory())
-                recursiveFiles(directory + separator + s, ex, temp);
+
+            if (file.isDirectory())
+                recursiveFiles(file.getAbsolutePath(), temp);
         }
     }
 }

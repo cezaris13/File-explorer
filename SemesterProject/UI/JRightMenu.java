@@ -18,11 +18,11 @@ public class JRightMenu {
         rightMenu.add(renameDirectoryMenuItem);
         rightMenu.add(deleteDirectoryMenuItem);
         renameDirectoryMenuItem.addActionListener(e -> {
-            new Dialog(frame, "rename directory", DialogType.RenameDirectory, fileExplorerCallback.getCurrentDirectory());
+            new Dialog(frame, "rename directory", DialogType.RenameDirectory, fileExplorerCallback.getCurrentSelectedFile());
             fileExplorerCallback.updateFiles();
         });
         deleteDirectoryMenuItem.addActionListener(e -> {
-            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, fileExplorerCallback.getCurrentDirectory());
+            new Dialog(frame, "delete directory", DialogType.DeleteDirectory, fileExplorerCallback.getCurrentSelectedFile());
             fileExplorerCallback.updateFiles();
         });
         return rightMenu;
@@ -36,11 +36,11 @@ public class JRightMenu {
         rightMenu.add(deleteFileMenuItem);
 
         renameFileMenuItem.addActionListener(e -> {
-            new Dialog(frame, "rename file", DialogType.RenameFile, fileExplorerCallback.getCurrentDirectory());
+            new Dialog(frame, "rename file", DialogType.RenameFile, fileExplorerCallback.getCurrentSelectedFile());
             fileExplorerCallback.updateFiles();
         });
         deleteFileMenuItem.addActionListener(e -> {
-            new Dialog(frame, "delete file", DialogType.DeleteFile, fileExplorerCallback.getCurrentDirectory());
+            new Dialog(frame, "delete file", DialogType.DeleteFile, fileExplorerCallback.getCurrentSelectedFile());
             fileExplorerCallback.updateFiles();
         });
         return rightMenu;

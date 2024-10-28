@@ -3,20 +3,23 @@ package Files;
 import Exceptions.FileIsMissingException;
 import Exceptions.IncorrectFileNameException;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.FileSystems;
+import java.util.Objects;
 
 /**
  * Base file Class, it is used to store basic file data:
  * file size, file name, file directory, creation time, modification time,
  * execution program
  */
-public class File implements Cloneable, Serializable {
-    public String fileDir;
-    public String name = "";
-    public Icon icon;
+public class File implements Serializable {
+    private final String name;
+    private final String fileDir;
+
+    public ImageIcon icon;
     public FileType fileType;
     public int iconWidth = 65;
     public int iconHeight = 65;
@@ -33,28 +36,19 @@ public class File implements Cloneable, Serializable {
     public File(String fileDir, String fileName, java.io.File file) {
         this.fileDir = fileDir;
         this.name = fileName;
-        String iconPath = "";
 
-        if (file.isDirectory()) {
-            fileType = FileType.Directory;
-        } else {
-            fileType = FileType.getFileType(file.getName());
-        }
+        fileType = file.isDirectory() ? FileType.Directory : FileType.getFileType(file.getName());
 
-        switch (fileType) {
-            case Image -> iconPath = "../Icons/image.png";
-            case Document -> iconPath = "../Icons/document.png";
-            case Media -> iconPath = "../Icons/media.png";
-            case Directory -> iconPath = "../Icons/folder.png";
-            case Default -> iconPath = "../Icons/file.png";
-        }
+        String iconPath = switch (fileType) {
+            case Image -> "../Icons/image.png";
+            case Document -> "../Icons/document.png";
+            case Media -> "../Icons/media.png";
+            case Directory -> "../Icons/folder.png";
+            case Default -> "../Icons/file.png";
+        };
 
-        icon = new Icon(iconPath, iconWidth, iconHeight);
-    }
-
-    @Override
-    public File clone() throws CloneNotSupportedException {
-        return (File) super.clone();
+        icon = new ImageIcon(Objects.requireNonNull(getClass().getResource(iconPath)));
+        icon = new ImageIcon(icon.getImage().getScaledInstance(iconWidth, iconHeight, java.awt.Image.SCALE_SMOOTH));
     }
 
     /**

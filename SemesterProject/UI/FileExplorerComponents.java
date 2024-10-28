@@ -1,6 +1,7 @@
 package UI;
 
 import Files.FileManagement;
+import Files.FileType;
 
 import java.awt.*;
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.io.BufferedOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class FileExplorerComponents {
     public JFrame frame = new JFrame("my file explorer");
@@ -24,17 +26,15 @@ public class FileExplorerComponents {
 
     private JButton backButton;
     private CustomPanel topPanel;
-    private final FileExplorerCallback fileExplorerCallback;
     private JPopupMenu rightMenu;
-    private FileTree fileTree;
+    private final FileExplorerCallback fileExplorerCallback;
 
     public FileExplorerComponents(FileExplorerCallback fileExplorerCallback) {
         this.fileExplorerCallback = fileExplorerCallback;
-
     }
 
     public void setupComponents() {
-        fileTree = new FileTree();
+        FileTree fileTree = new FileTree();
         frame.setMinimumSize(new Dimension(600, 500));
         this.jRightMenu = new JRightMenu(frame, fileExplorerCallback);
 
@@ -47,8 +47,8 @@ public class FileExplorerComponents {
         leftMenu = new CustomPanel(0, topPanel.getHeight(), 200, 600, fileTree.fileTree);
         createFilePanel();
 
-        FileManagement.recursiveFiles(CustomPanel.directory, "", fileTree.head);
-        
+        FileManagement.recursiveFiles(FileManagement.currentDirectory, fileTree.head);
+
         createJFrame();
 
         fileTree.expandAllNodes(0, fileTree.fileTree.getRowCount());
@@ -58,10 +58,10 @@ public class FileExplorerComponents {
         JButton back = new JButton("back");
         String separator = FileSystems.getDefault().getSeparator();
         back.addActionListener(e -> {
-            int lastSlash = CustomPanel.directory.lastIndexOf(separator);
-            CustomPanel.directory = CustomPanel.directory.substring(0, lastSlash);// fix that it you have / stop
-            if (CustomPanel.directory.isEmpty()) // cannot go back anymore
-                CustomPanel.directory = separator;
+            int lastSlash = FileManagement.currentDirectory.lastIndexOf(separator);
+            FileManagement.currentDirectory = FileManagement.currentDirectory.substring(0, lastSlash);
+            if (FileManagement.currentDirectory.isEmpty()) // cannot go back anymore
+                FileManagement.currentDirectory = separator;
 
             fileExplorerCallback.updateFiles();
         });
@@ -73,7 +73,7 @@ public class FileExplorerComponents {
         this.filePanel = new CustomPanel(leftMenu.getWidth(), topPanel.getHeight(), 420, 500);
 
         // Check if the file list is empty; if so, update files and exit early
-        if (FileManagement.fileList.isEmpty()) {
+        if (fileExplorerCallback.getFileList().isEmpty()) {
             fileExplorerCallback.updateFiles();
             return;
         }
@@ -81,29 +81,22 @@ public class FileExplorerComponents {
         // Clear existing components from the panel
         filePanel.panel.removeAll();
 
-        // Add files to the filePanel
-        addComponentsToPanel(FileManagement.fileList, false);
+        List<CustomJLabel> combinedJLabelList = Stream.concat(fileExplorerCallback.getFolderList().stream(), fileExplorerCallback.getFileList().stream()).toList();
 
-        // Add folders to the filePanel
-        addComponentsToPanel(FileManagement.folderList, true);
-    }
-
-    private void addComponentsToPanel(List<CustomJLabel> labels, boolean isDirectory) {
-        for (CustomJLabel customJLabel : labels) {
+        for (CustomJLabel customJLabel : combinedJLabelList) {
             filePanel.panel.add(customJLabel);
             // Add mouse listeners based on whether the label represents a file or a directory
-            if (isDirectory) {
-                fileExplorerCallback.addMouseListener(customJLabel, CustomPanel.directory, customJLabel.file.getName());
-            } else {
-                fileExplorerCallback.addMouseListener(customJLabel, customJLabel.file.getName());
-            }
+            if (customJLabel.file.fileType == FileType.Directory)
+                fileExplorerCallback.addMouseListener(customJLabel, FileManagement.currentDirectory);
+            else
+                fileExplorerCallback.addMouseListener(customJLabel);
         }
     }
 
     private CustomPanel createTopPanel() {
         CustomPanel topPanel = new CustomPanel(0, 0, 600, 35);
         topPanel.panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JTextField textBox = createDirectoryTextBox();
+        JTextField textBox = new JTextField(FileManagement.currentDirectory, 50);
         topPanel.panel.add(backButton);
         topPanel.panel.add(textBox);
         topPanel.panel.add(createGoToDirectoryButton(textBox));
@@ -112,13 +105,9 @@ public class FileExplorerComponents {
         return topPanel;
     }
 
-    private JTextField createDirectoryTextBox() {
-        return new JTextField(CustomPanel.directory, 50);
-    }
-
     private JButton createSaveDirectoryButton() {
         JButton saveDirectory = new JButton("Save");
-        saveDirectory.addActionListener(e -> SwingUtilities.invokeLater(() -> saveData()));
+        saveDirectory.addActionListener(e -> SwingUtilities.invokeLater(this::saveData));
         return saveDirectory;
     }
 
@@ -134,7 +123,7 @@ public class FileExplorerComponents {
 
     private void saveDirectoryData() throws IOException {
         try (DataOutputStream dataOut = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(SaveData.getSaveLocation())))) {
-            byte[] data = CustomPanel.directory.getBytes(StandardCharsets.UTF_8);
+            byte[] data = FileManagement.currentDirectory.getBytes(StandardCharsets.UTF_8);
             dataOut.writeInt(data.length);
             dataOut.write(data);
         }
@@ -142,20 +131,20 @@ public class FileExplorerComponents {
 
     private void saveFileData() throws IOException {
         try (ObjectOutputStream filesOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFiles()))) {
-            filesOut.writeObject(FileManagement.fileList);
+            filesOut.writeObject(fileExplorerCallback.getFileList());
         }
     }
 
     private void saveFolderData() throws IOException {
         try (ObjectOutputStream foldersOut = new ObjectOutputStream(new FileOutputStream(SaveData.getSaveFolder()))) {
-            foldersOut.writeObject(FileManagement.folderList);
+            foldersOut.writeObject(fileExplorerCallback.getFolderList());
         }
     }
 
     private JButton createGoToDirectoryButton(JTextField textBox) {
         JButton goToDirectoryButton = new JButton("go to directory");
         goToDirectoryButton.addActionListener(e -> {
-            CustomPanel.directory = textBox.getText();
+            FileManagement.currentDirectory = textBox.getText();
             fileExplorerCallback.updateFiles();
         });
 
@@ -174,7 +163,7 @@ public class FileExplorerComponents {
 
         frame.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                fileExplorerCallback.updateCurrentDirectory("");
+                fileExplorerCallback.updateCurrentSelectedFile("");
                 if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1)
                     rightMenu.show(frame, e.getX(), e.getY());
             }
@@ -183,13 +172,14 @@ public class FileExplorerComponents {
             public void componentResized(ComponentEvent componentEvent) {
                 int width = componentEvent.getComponent().getSize().width;
                 int height = componentEvent.getComponent().getSize().height;
-                CustomLayout.revalidate(frame, leftMenu, filePanel, FileManagement.fileList, FileManagement.folderList);
+                CustomLayout.revalidate(filePanel, fileExplorerCallback.getFileList(), fileExplorerCallback.getFolderList(), frame.getBounds().width, leftMenu.getWidth());
+
+                topPanel.setWidth(width);
                 leftMenu.setHeight(height - 30);
-                topPanel.setSize(width, 30);
             }
         });
 
-        filePanel.setSize(500, 500);
+        filePanel.setWidth(500);
         frame.setSize(1050, 650);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

@@ -33,7 +33,7 @@ public class Dialog {
      * this is used to as a (Rename/create)File/folder dialog window
      */
     Dialog(JFrame frame, String title, DialogType dialogType, String name) {
-        String directory = CustomPanel.directory;
+        String directory = FileManagement.currentDirectory;
         jDialog = new JDialog(frame, dialogType.name(), true);
         JTextField textBox = getTextBox();
         JButton okButton = getOkButton(dialogType, name, directory, textBox);

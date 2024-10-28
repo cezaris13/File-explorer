@@ -14,7 +14,6 @@ import java.awt.BorderLayout;
 public class CustomPanel {
     JScrollPane scrollbar;
     public JPanel panel = new JPanel();
-    public static String directory;
 
     /**
      * Constructor CustomPanel(int x,int y,int xSize,int ySize)

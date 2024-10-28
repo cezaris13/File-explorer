@@ -1,5 +1,7 @@
 package UI;
 
+import Files.FileManagement;
+
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -8,7 +10,7 @@ public class FileTree {
     public DefaultMutableTreeNode head;
 
     public FileTree() {
-        head = new DefaultMutableTreeNode(CustomPanel.directory);
+        head = new DefaultMutableTreeNode(FileManagement.currentDirectory);
         fileTree = new JTree(head);
     }
 

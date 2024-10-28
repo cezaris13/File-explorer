@@ -1,13 +1,19 @@
 package UI;
 
+import java.util.List;
+
 public interface FileExplorerCallback {
     void updateFiles();
 
-    void updateCurrentDirectory(String newDirectory);
+    void updateCurrentSelectedFile(String newDirectory);
 
-    String getCurrentDirectory();
+    String getCurrentSelectedFile();
 
-    void addMouseListener(CustomJLabel jLabel, String fileName);
+    List<CustomJLabel> getFolderList();
 
-    void addMouseListener(CustomJLabel jLabel, String directory, String folderName);
+    List<CustomJLabel> getFileList();
+
+    void addMouseListener(CustomJLabel jLabel);
+
+    void addMouseListener(CustomJLabel jLabel, String directory);
 }

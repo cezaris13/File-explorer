@@ -18,7 +18,9 @@ import java.io.BufferedInputStream;
 
 public class FileApp {
     FileExplorerComponents fileExplorerComponents;
-    String currSelected = "";
+    String currentSelectedFile = "";
+    List<CustomJLabel> fileList = new ArrayList<>();
+    List<CustomJLabel> folderList = new ArrayList<>();
 
     private final String separator = FileSystems.getDefault().getSeparator();
 
@@ -27,32 +29,41 @@ public class FileApp {
     }
 
     public void setupFileApp() {
-        CustomPanel.directory = System.getProperty("user.home");
+        FileManagement.currentDirectory = System.getProperty("user.home");
         checkIfSavedFileExists();
         fileExplorerComponents = new FileExplorerComponents(new FileExplorerCallback() {
             @Override
             public void updateFiles() {
-                FileApp.this.updateFiles(CustomPanel.directory);
+                FileApp.this.updateFiles(FileManagement.currentDirectory);
             }
 
             @Override
-            public void updateCurrentDirectory(String newDirectory) {
-                currSelected = newDirectory;
+            public void updateCurrentSelectedFile(String newSelectedFile) {
+                currentSelectedFile = newSelectedFile;
             }
 
             @Override
-            public String getCurrentDirectory() {
-                return currSelected;
+            public String getCurrentSelectedFile() {
+                return currentSelectedFile;
             }
 
             @Override
-            public void addMouseListener(CustomJLabel jLabel, String fileName) {
-                addFileMouseListener(jLabel, fileName);
+            public void addMouseListener(CustomJLabel jLabel) {
+                addFileMouseListener(jLabel);
             }
 
             @Override
-            public void addMouseListener(CustomJLabel jLabel, String directory, String folderName) {
-                addFolderMouseListener(jLabel, directory, folderName);
+            public void addMouseListener(CustomJLabel jLabel, String directory) {
+                addFolderMouseListener(jLabel, directory);
+            }
+            @Override
+            public List<CustomJLabel> getFolderList() {
+                return folderList;
+            }
+
+            @Override
+            public List<CustomJLabel> getFileList() {
+                return fileList;
             }
         }
         );
@@ -66,11 +77,11 @@ public class FileApp {
             return;
 
         fileExplorerComponents.filePanel.panel.removeAll();
-        if (!FileManagement.fileList.isEmpty())
-            FileManagement.fileList.clear();
+        if (!fileList.isEmpty())
+            fileList.clear();
 
-        if (!FileManagement.folderList.isEmpty())
-            FileManagement.folderList.clear();
+        if (!folderList.isEmpty())
+            folderList.clear();
 
         String[] list = f.list();
 
@@ -80,22 +91,23 @@ public class FileApp {
         for (String element : list) {
             java.io.File file = new java.io.File(directory + separator + element);
             File fileCustom = new File(directory, element, file);
-            CustomJLabel tmp = new CustomJLabel(element, fileCustom.icon.getIcon(), JLabel.CENTER, fileCustom);
+            CustomJLabel tmp = new CustomJLabel(element, fileCustom.icon, JLabel.CENTER, fileCustom);
             tmp.setVerticalTextPosition(JLabel.BOTTOM);
             tmp.setHorizontalTextPosition(JLabel.CENTER);
             if (fileCustom.fileType == FileType.Directory) {
-                FileManagement.folderList.add(tmp);
-                addFolderMouseListener(tmp, directory, element);
+                folderList.add(tmp);
+                addFolderMouseListener(tmp, directory);
             } else {
-                FileManagement.fileList.add(tmp);
-                addFileMouseListener(tmp, element);
+                fileList.add(tmp);
+                addFileMouseListener(tmp);
             }
             fileExplorerComponents.filePanel.panel.add(tmp);
         }
 
-        CustomLayout.revalidate(fileExplorerComponents.frame, fileExplorerComponents.leftMenu, fileExplorerComponents.filePanel, FileManagement.fileList, FileManagement.folderList);
-        if (!FileManagement.fileList.isEmpty())
-            FileManagement.fileList.sort(Comparator.comparing(object -> object.file.getName()));
+        if (!fileList.isEmpty())
+            fileList.sort(Comparator.comparing(object -> object.file.getName()));
+
+        CustomLayout.revalidate(fileExplorerComponents.filePanel, fileList, folderList, fileExplorerComponents.frame.getBounds().width, fileExplorerComponents.leftMenu.getWidth());
     }
 
     private void checkIfSavedFileExists() {
@@ -111,13 +123,13 @@ public class FileApp {
             int length = dataIn.readInt();
             byte[] data = new byte[length];
             dataIn.readFully(data);
-            CustomPanel.directory = new String(data, StandardCharsets.UTF_8);
+            FileManagement.currentDirectory = new String(data, StandardCharsets.UTF_8);
         } catch (IOException ex) {
             System.out.println("Error reading saved location data: " + ex);
         }
 
-        FileManagement.fileList = deserializeList(SaveData.getSaveFiles(), "file list");
-        FileManagement.folderList = deserializeList(SaveData.getSaveFolder(), "folder list");
+        fileList = deserializeList(SaveData.getSaveFiles(), "file list");
+        folderList = deserializeList(SaveData.getSaveFolder(), "folder list");
     }
 
     @SuppressWarnings("unchecked")
@@ -130,7 +142,8 @@ public class FileApp {
         return new ArrayList<T>();
     }
 
-    private void addFileMouseListener(CustomJLabel jLabel, String fileName) {
+    private void addFileMouseListener(CustomJLabel jLabel) {
+        String fileName = jLabel.file.getName();
         jLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
@@ -141,29 +154,23 @@ public class FileApp {
                     }
                 }
                 if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
-                    currSelected = fileName;
+                    currentSelectedFile = fileName;
                     fileExplorerComponents.rightFileMenu.show(jLabel, e.getX(), e.getY());
                 }
             }
         });
     }
 
-    private void addFolderMouseListener(CustomJLabel customJLabel, String directory, String folderName) {
+    private void addFolderMouseListener(CustomJLabel customJLabel, String directory) {
+        String folderName = customJLabel.file.getName();
         customJLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1 && e.getClickCount() == 2) {
-                    int width = fileExplorerComponents.frame.getBounds().width;
-                    int height = fileExplorerComponents.frame.getBounds().height;
-                    int x = fileExplorerComponents.frame.getLocation().x;
-                    int y = fileExplorerComponents.frame.getLocation().y;
-                    fileExplorerComponents.frame.setSize(width, height + 1);
-                    fileExplorerComponents.frame.setSize(width, height);
-                    fileExplorerComponents.frame.setLocation(x, y);
                     updateFiles(directory + separator + folderName);
-                    CustomPanel.directory = directory + separator + folderName;
+                    FileManagement.currentDirectory = directory + separator + folderName;
                 }
                 if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
-                    currSelected = folderName;
+                    currentSelectedFile = folderName;
                     System.out.println("right click menu dir");
                     fileExplorerComponents.rightFolderMenu.show(customJLabel, e.getX(), e.getY());
                 }
