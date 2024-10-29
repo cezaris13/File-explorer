@@ -3,8 +3,22 @@ File explorer project implemented Java Swing GUI.
 
 Custom grid layout to show all files has been implemented.
 
+## Features
+
+- File/Folder creation, renaming and deletion using right click.
+- Navigation through the files and directories.
+- Saving current location so that on the next session it could be loaded.
+- Ability to go to the desired directory(if it exists) when clicked "Go" button in the top panel.
+
 ## Demo:
-![Alt Text](Gif/Demo.gif)
+### Custom grid layout
+![Alt Text](Gif/Resizing.gif)
+
+### Navigation
+![Alt Text](Gif/Navigating.gif)
+
+### FileCreation
+![Alt Text](Gif/FileCreation.gif)
 
 
 ## Run project
