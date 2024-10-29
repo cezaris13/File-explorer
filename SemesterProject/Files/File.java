@@ -65,7 +65,6 @@ public class File implements Serializable {
     /**
      * Method openFile(String exProgram, String fileName)
      * <p>
-     * <p>
      * this method tries to open file using given execution program and its fileName
      * checks if correct file name and if file exists
      * if yes-tries to open
